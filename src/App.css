@@ -1,11 +1,30 @@
 .App {
   text-align: center;
 }
-
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+:root {
+  --primary-color: #0C101F;
+  --secondary-color: #124985;
+  --input-border-color:#20305A;
+}
+@font-face {
+  font-family: "Adobe Fan Heiti Std";
+  src: url("./Assets/Fonts/Adobe\ Fan\ Heiti\ Std\ B/AdobeFanHeitiStd-Bold.otf") format("opentype");
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+.Center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

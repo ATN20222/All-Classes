@@ -1,0 +1,38 @@
+@media (max-width:990px) {
+    .AllClassesLogo{
+        margin-top: 50px;
+    }
+    .TwoPartsText h1{
+        font-size: 30px !important;
+    }
+}
+@media (max-width:768px) {
+    .AllClassesLogo{
+        margin-top: 100px;
+    }
+    .AllClassesLogo img{
+        width: 70% !important;
+    }
+    
+}
+@media (max-width:575px) {
+    .AllClassesLogo{
+        display: none;
+    }
+    .LeftAuthCol{
+        min-height: auto !important;
+    }
+    .RightAuthCol{
+        padding-top: 0 !important;
+    }
+    .AuthOTPInput input{
+        height: 70px;
+    }
+}
+
+@media (max-width:468px) {
+    
+    .AuthOTPInput input{
+        height: 50px;
+    }
+}
