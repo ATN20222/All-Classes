@@ -1,0 +1,28 @@
+.PageHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.PageSearch{
+    position: relative;
+}
+.PageSearch input{
+    border: none;
+    outline: none;
+    box-shadow: 0px 1px 4px 0px #00000040;
+    color: var(--primary-color);
+    border-radius: 25px;
+    height: 30px;
+    padding-right: 30px;
+    padding-left: 10px;
+}
+.PageSearch svg{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    color: var(--primary-color);
+}
+.Delete svg{
+    cursor: pointer;
+    color: var(--primary-color);
+}

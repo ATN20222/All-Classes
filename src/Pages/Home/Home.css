@@ -1,0 +1,62 @@
+.PageHeader{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.PageTitle{
+    min-width: 128px;
+    height: 34px;
+    border-radius: 15px;
+    background: linear-gradient(180deg, #124985 0%, #0D172A 100%);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    margin-right: 10px;
+}
+.HomeCardsSection{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.HomeCardsSection>.container>.row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.HomeCard{
+    background: linear-gradient(180deg, #124985 0%, #0D172A 100%);
+    color: white;
+    border-radius: 20px;
+    min-height: 183px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.HomeCard .HomeCardTitle{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #D9DADB;
+    font-size: 16px;
+    font-weight: 400;
+}
+.HomeCardText{
+    color: #D9DADB;
+    font-size: 14px;
+}
+.HomeCardData{
+    flex-grow: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 30px;
+    line-height: 35px;
+}
+.SpecialHomeCard{
+    background: radial-gradient(60.23% 60.23% at 49.99% 50.01%, #D41216 0%, #D11217 19.65%, #C71418 35.5%, #B8161A 50.02%, #A3171B 63.75%, #8A171B 76.94%, #6D1518 89.52%, #511014 100%);
+
+}

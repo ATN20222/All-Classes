@@ -13,7 +13,41 @@
     .AllClassesLogo img{
         width: 70% !important;
     }
+
     
+}
+@media (max-width:668px) {
+    .SideMenuBtn{
+        display: block !important;
+    }
+    .sidebar{
+        position: absolute;
+        height: 100%;
+        left: -500px;
+        transition: all 0.5s ease-in-out;
+        z-index: 999;
+    }
+    .header{
+        padding: 0 !important;
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
+    }
+    .HeaderSearchBar input{
+        width: 100% !important;
+        padding-left: 10px;
+        padding-right:0px;
+    }
+    .dashboard-main{
+        width: 100%;
+    }
+    .MainContent{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .PageSearch input{
+        width: 100%;
+
+    }
 }
 @media (max-width:575px) {
     .AllClassesLogo{

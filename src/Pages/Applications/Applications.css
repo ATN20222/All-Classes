@@ -1,0 +1,14 @@
+.PageTitleSecondary{
+    background: radial-gradient(67.18% 67.18% at 49.99% 50.01%, #D41216 0%, #D11217 19.65%, #C71418 35.5%, #B8161A 50.02%, #A3171B 63.75%, #8A171B 76.94%, #6D1518 89.52%, #511014 100%);
+}
+.TableRecord{
+    box-shadow: 0px 1px 4px 0px #00000040;
+    border-radius: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+.TableRecord>.container>.row{
+    justify-content: space-between;
+}

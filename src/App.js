@@ -1,33 +1,41 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { useEffect, useState } from 'react';
+import './Responsive.css';
+import { useState } from 'react';
 import Login from './Pages/Auth/Login';
-import './Responsive.css'
 import Register from './Pages/Auth/Register';
 import ForgetPassword from './Pages/Auth/ForgetPassword';
 import ResetPassword from './Pages/Auth/ResetPassword';
 import Verify from './Pages/Auth/Verify';
+import DashboardLayout from './Dashboard/DashboardLayout';
+import Home from './Pages/Home/Home';  // Ensure Home component is correctly imported
+import Test from './Pages/Home/Test';
+import Applications from './Pages/Applications/Applications';
+import Members from './Pages/Members/Members';
+import Admins from './Pages/Admins/Admins';
+
 function App() {
-  const location = useLocation();
-  const hideNavRoutes = ['/Login', '/Register'];
-  const shouldShowNav = !hideNavRoutes.includes(location.pathname);
-  const [direction , setDirection] = useState('ltr');
+  const [direction, setDirection] = useState('ltr');
 
   return (
     <div className='App'>
-      {/* {shouldShowNav && <Nav />} */}
       <Routes>
-        <Route path='/Login' element={<Login />} />
-        <Route path='/Register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
         <Route path='/forgetpassword' element={<ForgetPassword />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
         <Route path='/verify' element={<Verify />} />
-        {/* <Route path='/' element={<Home />} /> */}
-        
-      </Routes>
-      {/* {shouldShowNav && <Footer />} */}
 
+        <Route element={<DashboardLayout />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} /> 
+          <Route path='/test' element={<Test />} /> 
+          <Route path='/applications' element={<Applications />} /> 
+          <Route path='/members' element={<Members />} /> 
+          <Route path='/admins' element={<Admins />} /> 
+          
+        </Route>
+      </Routes>
     </div>
   );
 }
