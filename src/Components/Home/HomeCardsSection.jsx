@@ -15,11 +15,13 @@ const HomeCardsSection = ()=>{
                         isAdmins={true}
                         title={'ADMINS'}
                         number={'1,059'}
+                        link={'admins'}
                     />
                     <HomeCard 
                         isAdmins={false}
                         title={'MEMBERS'}
                         number={'1,059'}
+                        link={'members'}
                     />
                 </div>
             </div>
