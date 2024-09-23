@@ -13,6 +13,7 @@ import Test from './Pages/Home/Test';
 import Applications from './Pages/Applications/Applications';
 import Members from './Pages/Members/Members';
 import Admins from './Pages/Admins/Admins';
+import ApplicationDetails from './Pages/Applications/ApplicationDetails';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -33,6 +34,7 @@ function App() {
           <Route path='/applications' element={<Applications />} /> 
           <Route path='/members' element={<Members />} /> 
           <Route path='/admins' element={<Admins />} /> 
+          <Route path='/applications/:id' element={<ApplicationDetails />} /> 
           
         </Route>
       </Routes>

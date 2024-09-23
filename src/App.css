@@ -15,6 +15,10 @@
   font-family: "Adobe Fan Heiti Std";
   src: url("./Assets/Fonts/Adobe\ Fan\ Heiti\ Std\ B/AdobeFanHeitiStd-Bold.otf") format("opentype");
 }
+@font-face {
+  font-family: "Bonkoff";
+  src: url("./Assets/Fonts/Bonkoff.TTF");
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -54,4 +58,32 @@
   to {
     transform: rotate(360deg);
   }
+}
+.MainContent {
+  max-height: 90vh;
+  overflow-y: scroll;
+}
+
+/* For WebKit-based browsers (Chrome, Safari) */
+.MainContent::-webkit-scrollbar {
+  width: 2px;
+}
+
+.MainContent::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+}
+
+.MainContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.MainContent::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* For Firefox */
+.MainContent {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) transparent;
 }

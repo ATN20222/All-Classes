@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import './Admins.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import FilterIcon from '../../Assets/Images/Filter.svg'
+import PlusIcon from '../../Assets/Images/CirclePlus.svg'
+import AddAdminModal from "../../Components/Admins/AddAdminModal";
 const Admins = ()=>{
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
     const data = [
         {
             id:1,
@@ -22,11 +26,36 @@ const Admins = ()=>{
             date:'20-2-2025'
         }
     ]
+
+    const handleAddClass = async (className , ClassAgeFrom , ClassAgeTo) => {
+        try {
+    
+            // const response = await ClassService.Add(className , ClassAgeFrom , ClassAgeTo);
+            // console.log(response);
+            // toast.success('Class added successfully');
+            
+            
+          } catch (error) {
+              console.log(error)
+      
+          }
+    };
+
     return(
         <div className="MainContent Applications">
+            <AddAdminModal
+                isOpen={isOverlayOpen}
+                onClose={() => setIsOverlayOpen(false)}
+                onAddClass={handleAddClass}
+            />
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
+                        <div className="AddIconContainer" 
+                            onClick={() => setIsOverlayOpen(true)}
+                        > 
+                            <img src={PlusIcon} width="20px" height="20px" className="m-1" alt="" />
+                        </div>
                         Admins
                     </div>
                     <div className="RightSideHeader">

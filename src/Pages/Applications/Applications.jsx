@@ -1,5 +1,6 @@
 import React from "react";
 import './Applications.css'
+import { Link } from "react-router-dom";
 const Applications = ()=>{
     const data = [
         {
@@ -33,7 +34,9 @@ const Applications = ()=>{
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-lg-4 col-md-5 col-sm-5 col-5 Center">
+                                            <Link to={`./${row.id}`} className="nav-link">
                                             {row.name}
+                                            </Link>
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-3 col-3 Center">
                                             {row.id}

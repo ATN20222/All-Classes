@@ -4,3 +4,6 @@
 .FilterAdmins{
     margin-left: 10px;
 }
+.AddIconContainer{
+    cursor: pointer;
+}
