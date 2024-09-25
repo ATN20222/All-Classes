@@ -16,6 +16,10 @@ import Admins from './Pages/Admins/Admins';
 import ApplicationDetails from './Pages/Applications/ApplicationDetails';
 import News from './Pages/News/News';
 import AddNews from './Pages/News/AddNews';
+import Events from './Pages/Events/Events';
+import AddEvent from './Pages/Events/AddEvent';
+import Jobs from './Pages/Jobs/Jobs';
+import AddJob from './Pages/Jobs/AddJob';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -39,6 +43,10 @@ function App() {
           <Route path='/applications/:id' element={<ApplicationDetails />} /> 
           <Route path='/news' element={<News />} /> 
           <Route path='/addnews' element={<AddNews />} /> 
+          <Route path='/events' element={<Events />} /> 
+          <Route path='/addevent' element={<AddEvent />} /> 
+          <Route path='/jobs' element={<Jobs />} /> 
+          <Route path='/addjob' element={<AddJob />} /> 
 
           
         </Route>

@@ -1,0 +1,31 @@
+.JobPuplisherData{
+    display: flex;
+    align-items: center;
+}
+.JobPuplisherData .Avatar{
+    margin-right: 10px;
+}
+.JobNameAndDate{
+    display: flex;
+    flex-direction: column;
+}
+.JobNameAndDate h6{
+    margin: 0;
+}
+.JobNameAndDate span{
+    font-size: 10px;
+
+}
+.JobDescriptionItem .JobDescriptionTitle{
+    color: var(--secondary-color);
+}
+.JobSettings{
+    position: absolute;
+    top: 70px;
+    right: 0px;
+    color: white;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+
+}

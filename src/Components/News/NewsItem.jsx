@@ -3,7 +3,7 @@ import { faEllipsisV, faHeart as heart } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
-const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDeleteClicked, handleEditClicked, handlelikeClick }) => {
+const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDeleteClicked, handleEditClicked, handlelikeClick , OpenComments }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -32,7 +32,7 @@ const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDe
                         <FontAwesomeIcon icon={isLiked ? heart : faHeart} />
                         <span>{likes}</span>
                     </div>
-                    <div className="CommentsIconContainer">
+                    <div className="CommentsIconContainer" onClick={()=>OpenComments(id)}>
                         <FontAwesomeIcon icon={faComment} />
                         <span>{comments.length}</span>
                     </div>

@@ -48,6 +48,9 @@
         width: 100%;
 
     }
+    .CommentsContainer{
+        width: 90% !important;
+    }
 }
 @media (max-width:575px) {
     .AllClassesLogo{
