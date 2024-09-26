@@ -1,0 +1,47 @@
+.BuyRating{
+    text-align: end;
+    padding: 10px;
+    padding-bottom: 0;
+    color: #F5B309;
+}
+.BuyPrice{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.BuyPrice .Price{
+    position: relative;
+    width: fit-content;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    font-family: Adobe Fan Heiti Std;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 32px;
+    color: #00000059;
+
+}
+.Price .buyLine{
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #00000059;
+    top: 50%;
+}
+.TotalPrice{
+    background: #F4B309;
+    color: white;
+    width: 81px;
+    height: 30px;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

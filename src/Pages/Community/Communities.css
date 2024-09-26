@@ -1,0 +1,57 @@
+.TableRecord{
+    text-decoration: none;
+    color: black;
+}
+.CommunityProfileHeaderAvatar{
+    background-image: none !important;
+    background-color: white !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.CommunityProfileHeaderContainer{
+    flex-direction: column;
+}
+.CimmunityNameProfile{
+    color: white;
+    margin-bottom: 30px;
+    font-size: 18px;
+    font-weight: 600;
+
+
+}
+.CommunityProfileItemsContainer{
+    margin-bottom: 50px !important;
+    margin-top: 20px !important;
+}
+.CommunityProfileItem img{
+    height: 100px;
+    width: 100%;
+}
+.CommunityProfileItem{
+    background: linear-gradient(180deg, #124985 0%, #0D172A 100%);
+    padding: 10px;
+    color:white;
+    border-radius: 25px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.CommunityProfileItemContainer{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.CommunityProfileItemText{
+    background: linear-gradient(360deg, #0C101F 0%, #124985 100%);
+    width: 100%;
+    border-radius: 25px;
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom:5px;
+    cursor: pointer;
+}

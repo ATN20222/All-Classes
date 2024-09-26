@@ -9,7 +9,6 @@ const ApplicationDetails = ()=>{
             <div className="container">
                 <ProfileHeader/>
                 <div className="container">
-
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="ApplicationDetailsItem">

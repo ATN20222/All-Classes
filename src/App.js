@@ -20,6 +20,11 @@ import Events from './Pages/Events/Events';
 import AddEvent from './Pages/Events/AddEvent';
 import Jobs from './Pages/Jobs/Jobs';
 import AddJob from './Pages/Jobs/AddJob';
+import BuyAndSell from './Pages/BuyAndSell/BuyAndSell';
+import AddBuyAndSell from './Pages/BuyAndSell/AddBuyAndSell';
+import Communities from './Pages/Community/Communities';
+import Community from './Pages/Community/Community';
+import PointSystem from './Pages/PointSystem/PointSystem';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -47,6 +52,11 @@ function App() {
           <Route path='/addevent' element={<AddEvent />} /> 
           <Route path='/jobs' element={<Jobs />} /> 
           <Route path='/addjob' element={<AddJob />} /> 
+          <Route path='/buyandsell' element={<BuyAndSell />} /> 
+          <Route path='/addbuyandsell' element={<AddBuyAndSell />} /> 
+          <Route path='/communities' element={<Communities />} /> 
+          <Route path='/community/:id' element={<Community />} /> 
+          <Route path='/pointsystem' element={<PointSystem />} /> 
 
           
         </Route>
