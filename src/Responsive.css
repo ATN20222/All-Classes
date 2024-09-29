@@ -13,7 +13,9 @@
     .AllClassesLogo img{
         width: 70% !important;
     }
-
+    .CashierTableContainer{
+        overflow-x: scroll;
+    }
     
 }
 @media (max-width:668px) {
@@ -72,4 +74,5 @@
     .AuthOTPInput input{
         height: 50px;
     }
+
 }

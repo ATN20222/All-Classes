@@ -1,6 +1,8 @@
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
-const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
+const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
   const [name, setName] = useState('');
   const [points, setPoints] = useState(0);
   // const [password, setPassword] = useState('');
@@ -21,7 +23,7 @@ const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
     }
 
     // If validation passes, call the onAddAdmin function
-    onAddAdmin({ name, points });
+    onAddBrand({ name, points });
     
     // Clear form fields and errors
     setName('');
@@ -50,15 +52,21 @@ const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
           <h2>Add Point</h2>
           {/* <div className="FormHr"></div> */}
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
+            <label htmlFor="BrandImage" className='FormImageAvatarLabel'>
+                <input type="file" id='BrandImage' className='d-none' />
+                <div className="FormImageAvatar">
+                    <FontAwesomeIcon icon={faImage}/>
+                </div>
+            </label>
             <label>
                 <div className="ModalInputTitle">
-                    Name
+                    Brand name
                 </div>
               <input
                 type="text"
                 name="name"
                 className='form-control'
-                placeholder='Name'
+                placeholder='brand name'
                 value={name}
                 onChange={handleInputChange(setName)}
               />
@@ -67,10 +75,10 @@ const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
 
             <label>
                 <div className="ModalInputTitle">
-                    Points
+                    Start date
                 </div>
               <input
-                type="number"
+                type="date"
                 name="points"
                 className='form-control'
                 placeholder='Points'
@@ -96,4 +104,4 @@ const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
   );
 };
 
-export default AddPointModal;
+export default AddBrandModal;

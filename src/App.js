@@ -25,6 +25,9 @@ import AddBuyAndSell from './Pages/BuyAndSell/AddBuyAndSell';
 import Communities from './Pages/Community/Communities';
 import Community from './Pages/Community/Community';
 import PointSystem from './Pages/PointSystem/PointSystem';
+import Brands from './Pages/Brands/Brands';
+import Cashiers from './Pages/Cashiers/Cashiers';
+import CashiersHistory from './Pages/Cashiers/CashiersHistory';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -57,6 +60,9 @@ function App() {
           <Route path='/communities' element={<Communities />} /> 
           <Route path='/community/:id' element={<Community />} /> 
           <Route path='/pointsystem' element={<PointSystem />} /> 
+          <Route path='/brands' element={<Brands />} /> 
+          <Route path='/cashiers' element={<Cashiers />} /> 
+          <Route path='/cashiershistory' element={<CashiersHistory />} /> 
 
           
         </Route>

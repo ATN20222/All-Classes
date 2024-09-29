@@ -1,0 +1,39 @@
+.BrandAvatarAndNameCol{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.BrandAvatar{
+    min-width: 30px;
+    min-height:30px;
+    width: 30px;
+    height:30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.BrandAvatar img{
+    width: 100%;
+}
+.FormImageAvatar{
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(180deg, #124985 0%, #0D172A 100%);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+}
+.FormImageAvatarLabel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

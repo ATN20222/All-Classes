@@ -1,0 +1,53 @@
+.CashiersHistoryLink{
+    text-decoration: none;
+    margin-right: 5px;
+}
+.RightSideHeader{
+    align-items: center;
+}
+.CashHistoryImage{
+    margin-right: 5px;
+}
+.CashHistoryTableRecord{
+    min-width: 500px;
+}
+.CashierTopPart{
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(180deg, #124985 0%, #0D172A 100%);
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    margin-top: 20px !important;
+    position: relative;
+}
+.Expenditure{
+    width: 50%;
+    padding: 10px;
+}
+.Revenue{
+    width: 50%;
+    padding: 10px;
+}
+
+.HistoryaCash{
+    text-align: start;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: left;
+}
+.CashierTopPartTop{
+    position: absolute;
+    top: -8px;
+    left: 0;
+}
+.CashierTopPartCircle{
+    position: absolute;
+    bottom: -5px;
+    left: 40%;
+}
+.Separator{
+    position: relative;
+    width: 1px;
+    background-color: white;
+}
