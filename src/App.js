@@ -28,6 +28,12 @@ import PointSystem from './Pages/PointSystem/PointSystem';
 import Brands from './Pages/Brands/Brands';
 import Cashiers from './Pages/Cashiers/Cashiers';
 import CashiersHistory from './Pages/Cashiers/CashiersHistory';
+import Offers from './Pages/Offers/Offers';
+import AddOffer from './Pages/Offers/AddOffer';
+import Rewards from './Pages/Rewards/Rewards';
+import AddReward from './Pages/Rewards/AddReward';
+import Charity from './Pages/Charity/Charity';
+import AddCharity from './Pages/Charity/AddCharity';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -63,6 +69,13 @@ function App() {
           <Route path='/brands' element={<Brands />} /> 
           <Route path='/cashiers' element={<Cashiers />} /> 
           <Route path='/cashiershistory' element={<CashiersHistory />} /> 
+
+          <Route path='/offers' element={<Offers />} /> 
+          <Route path='/addoffer' element={<AddOffer />} /> 
+          <Route path='/rewards' element={<Rewards />} /> 
+          <Route path='/addreward' element={<AddReward />} /> 
+          <Route path='/charity' element={<Charity />} /> 
+          <Route path='/addcharity' element={<AddCharity />} /> 
 
           
         </Route>
