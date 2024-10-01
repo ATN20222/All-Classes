@@ -61,3 +61,6 @@
     background: radial-gradient(60.23% 60.23% at 49.99% 50.01%, #D41216 0%, #D11217 19.65%, #C71418 35.5%, #B8161A 50.02%, #A3171B 63.75%, #8A171B 76.94%, #6D1518 89.52%, #511014 100%);
 
 }
+.dark{
+    background-color: black !important;
+}

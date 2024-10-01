@@ -49,7 +49,7 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
     <div className="overlay">
       <div className="mymodal">
         <div className="modal-content">
-          <h2>Add Point</h2>
+          <h2>Add Brand</h2>
           {/* <div className="FormHr"></div> */}
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
             <label htmlFor="BrandImage" className='FormImageAvatarLabel'>

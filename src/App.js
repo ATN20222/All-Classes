@@ -34,6 +34,9 @@ import Rewards from './Pages/Rewards/Rewards';
 import AddReward from './Pages/Rewards/AddReward';
 import Charity from './Pages/Charity/Charity';
 import AddCharity from './Pages/Charity/AddCharity';
+import Subscription from './Pages/Subscription/Subscription';
+import About from './Pages/About/About';
+import AddAbout from './Pages/About/AddAbout';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -76,6 +79,9 @@ function App() {
           <Route path='/addreward' element={<AddReward />} /> 
           <Route path='/charity' element={<Charity />} /> 
           <Route path='/addcharity' element={<AddCharity />} /> 
+          <Route path='/supscription' element={<Subscription />} /> 
+          <Route path='/about' element={<About />} /> 
+          <Route path='/addabout' element={<AddAbout />} /> 
 
           
         </Route>

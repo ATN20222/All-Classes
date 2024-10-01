@@ -108,7 +108,7 @@ const AddAdminModal = ({ isOpen, onClose, onAddAdmin }) => {
               {errors.password && <div className="text-danger PopUpError mt-0">{errors.password}</div>}
             </label>
 
-            <div className="form-buttons AllClassesBtn ApplicationButtons">
+              <div className="form-buttons AllClassesBtn ApplicationButtons">
               <button className="ModalBtn" type="submit">
                 Save
               </button>
