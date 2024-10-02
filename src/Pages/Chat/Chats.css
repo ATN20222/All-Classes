@@ -1,0 +1,61 @@
+.ChatTypeHeader{
+    background: linear-gradient(360deg, #0C101F 0%, #124985 100%);
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #FFFFFF80;
+    display: flex;
+    
+}
+.ChatTypeHeader .Chats,
+.ChatTypeHeader .Groups{
+    width: 50%;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 20px;
+    transition: all 0.1s linear;
+    cursor: pointer;
+
+}
+.ChatsActiveTap{
+    background: #FFFFFF1A;
+    color: white;
+
+
+}
+
+.ChatRecord{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #c7d5e65f;
+}
+.ChatRecordImage{
+    margin-right: 10px;
+    min-width: 50px;
+    min-height: 100%;
+}
+.ChatRecordNameAndMessage{
+    text-align: start;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ChatRecordNameAndMessage .Message{
+    display: flex;
+    max-height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ChatRecordNameAndMessage .Name{
+    font-size: 16px;
+    font-weight: 600;
+    display: block;   
+}
+.NotSeend{
+    color: rgba(0, 0, 0, 0.368);
+}

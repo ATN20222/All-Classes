@@ -37,6 +37,9 @@ import AddCharity from './Pages/Charity/AddCharity';
 import Subscription from './Pages/Subscription/Subscription';
 import About from './Pages/About/About';
 import AddAbout from './Pages/About/AddAbout';
+import PrivacyPolicy from './Pages/PrivacyAndTerms/PrivacyPolicy';
+import TermsAndConditions from './Pages/PrivacyAndTerms/TermsAndConditions';
+import Chats from './Pages/Chat/Chats';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -82,6 +85,9 @@ function App() {
           <Route path='/supscription' element={<Subscription />} /> 
           <Route path='/about' element={<About />} /> 
           <Route path='/addabout' element={<AddAbout />} /> 
+          <Route path='/privacypolicy' element={<PrivacyPolicy />} /> 
+          <Route path='/termsandconditions' element={<TermsAndConditions />} /> 
+          <Route path='/chats' element={<Chats />} /> 
 
           
         </Route>
