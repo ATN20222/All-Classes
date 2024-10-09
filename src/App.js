@@ -40,6 +40,7 @@ import AddAbout from './Pages/About/AddAbout';
 import PrivacyPolicy from './Pages/PrivacyAndTerms/PrivacyPolicy';
 import TermsAndConditions from './Pages/PrivacyAndTerms/TermsAndConditions';
 import Chats from './Pages/Chat/Chats';
+import LandingHome from './Pages/Landing/Home/LandingHome';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -52,9 +53,11 @@ function App() {
         <Route path='/forgetpassword' element={<ForgetPassword />} />
         <Route path='/resetpassword' element={<ResetPassword />} />
         <Route path='/verify' element={<Verify />} />
+        <Route path='/landing' element={<LandingHome />} />
+        <Route path='/' element={<LandingHome />} />
 
         <Route element={<DashboardLayout />}>
-          <Route path='/' element={<Home />} />
+          {/* <Route path='/' element={<Home />} /> */}
           <Route path='/home' element={<Home />} /> 
           <Route path='/test' element={<Test />} /> 
           <Route path='/applications' element={<Applications />} /> 

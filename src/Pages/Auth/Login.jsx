@@ -1,12 +1,60 @@
-import React from "react";
-import No from '../../Assets/Images/LastBack-01-01.svg'
-import Logo from '../../Assets/Images/AllClassesLogo.svg'
-import './Auth.css'
+import React, { useState } from "react";
+import No from '../../Assets/Images/LastBack-01-01.svg';
+import Logo from '../../Assets/Images/AllClassesLogo.svg';
+import './Auth.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-const Login = ()=>{
-    return(
+import { AuthService } from '../../Services/Api'; // Import the AuthService for the login function
+
+const Login = () => {
+    // Manage email, password, and error states
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [formError, setFormError] = useState(''); // General form error for catch block
+
+    // Validate email format using a regular expression
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission behavior
+        setEmailError(''); // Reset email error
+        setPasswordError(''); // Reset password error
+        setFormError(''); // Reset form error
+
+        let valid = true;
+
+        if (!validateEmail(email)) {
+            setEmailError('Please enter a valid email address.');
+            valid = false;
+        }
+
+        if (password.trim()==='') {
+            setPasswordError('Password is required');
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        try {
+            // Call the login function from AuthService
+            const response = await AuthService.Login(email, password);
+            console.log("Login successful:", response);
+            // Redirect or handle success logic here
+        } catch (err) {
+            console.error("Login error:", err.message);
+            setFormError(err.message); // Display error message
+        }
+    };
+
+    return (
         <div className="Login">
             <div className="AuthLayout">
                 <div className="row">
@@ -23,27 +71,51 @@ const Login = ()=>{
                             <h1>Login</h1>
                         </div>
                         <div className="RightAuthForm">
-                            <div className="AuthInputCol">
-                                <label htmlFor="Email">
-                                    <span>Email</span>
-                                    <input id="Email" type="text" placeholder="Enter your email address" />
-                                </label>
-                            </div>
-                            <div className="AuthInputCol">
-                                <label htmlFor="Password">
-                                    <span>Password</span>
-                                    <input id="Password" type="password" placeholder="Enter your password" />
-                                    <FontAwesomeIcon icon={faEyeSlash}/>
-                                </label>
-                            </div>
-                            <div className="ForgetPasswordLink">
-                                <Link className="nav-link">Forget password?</Link>
-                            </div>
-                            <div className="AllClassesBtn">
-                                <button>Login</button>
-                            </div>
+                            {/* Display general form error */}
+                            {formError && <div className="text-danger mt-2 mb-2 text-start ">{formError}</div>}
+
+                            <form onSubmit={handleSubmit}>
+                                <div className="AuthInputCol">
+                                    <label htmlFor="Email">
+                                        <span>Email</span>
+                                        <input
+                                            id="Email"
+                                            type="text"
+                                            placeholder="Enter your email address"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)} // Update email state
+                                        />
+                                    </label>
+                                    {/* Display email error */}
+                                    {emailError && <div className="text-danger mt-2 mb-2 text-start">{emailError}</div>}
+                                </div>
+                                <div className="AuthInputCol">
+                                    <label htmlFor="Password">
+                                        <span>Password</span>
+                                            <input
+                                                id="Password"
+                                                type={showPassword ? 'text' : 'password'}
+                                                placeholder="Enter your password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)} // Update password state
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={showPassword ? faEye : faEyeSlash}
+                                                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                                            />
+                                    </label>
+                                    {/* Display password error */}
+                                    {passwordError && <div className="text-danger mt-2 mb-2 text-start">{passwordError}</div>}
+                                </div>
+                                <div className="ForgetPasswordLink">
+                                    <Link className="nav-link">Forget password?</Link>
+                                </div>
+                                <div className="AllClassesBtn">
+                                    <button type="submit">Login</button>
+                                </div>
+                            </form>
                             <div className="NewRegister">
-                                    New user? <Link className="nav-link"> Register</Link>
+                                New user? <Link className="nav-link"> Register</Link>
                             </div>
                         </div>
                     </div>
@@ -52,4 +124,5 @@ const Login = ()=>{
         </div>
     );
 }
-export default Login;   
+
+export default Login;

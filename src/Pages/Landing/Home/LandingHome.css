@@ -1,0 +1,9 @@
+.LandingHome{
+    background-image: url('../../../Assets/Images/Pattern.svg');
+    background-size: contain;
+    height: 100vh;
+}
+.CommingSoon{
+    font-size: 80px;
+    font-weight: 700;
+}
