@@ -41,6 +41,7 @@ import PrivacyPolicy from './Pages/PrivacyAndTerms/PrivacyPolicy';
 import TermsAndConditions from './Pages/PrivacyAndTerms/TermsAndConditions';
 import Chats from './Pages/Chat/Chats';
 import LandingHome from './Pages/Landing/Home/LandingHome';
+import EditEvent from './Pages/Events/EditEvent';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -55,7 +56,7 @@ function App() {
         <Route path='/verify' element={<Verify />} />
         <Route path='/landing' element={<LandingHome />} />
         <Route path='/' element={<LandingHome />} />
-
+        
         <Route element={<DashboardLayout />}>
           {/* <Route path='/' element={<Home />} /> */}
           <Route path='/home' element={<Home />} /> 
@@ -68,6 +69,7 @@ function App() {
           <Route path='/addnews' element={<AddNews />} /> 
           <Route path='/events' element={<Events />} /> 
           <Route path='/addevent' element={<AddEvent />} /> 
+          <Route path='/editevent/:id' element={<EditEvent />} /> 
           <Route path='/jobs' element={<Jobs />} /> 
           <Route path='/addjob' element={<AddJob />} /> 
           <Route path='/buyandsell' element={<BuyAndSell />} /> 
@@ -94,6 +96,8 @@ function App() {
 
           
         </Route>
+
+
       </Routes>
     </div>
   );

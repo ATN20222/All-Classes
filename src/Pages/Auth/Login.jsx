@@ -4,7 +4,7 @@ import Logo from '../../Assets/Images/AllClassesLogo.svg';
 import './Auth.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthService } from '../../Services/Api'; // Import the AuthService for the login function
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [formError, setFormError] = useState(''); // General form error for catch block
-
+    const navigate = useNavigate();
     // Validate email format using a regular expression
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -46,9 +46,12 @@ const Login = () => {
         try {
             // Call the login function from AuthService
             const response = await AuthService.Login(email, password);
-            console.log("Login successful:", response);
+            // console.log("Login successful:", response);
+            navigate('/home');
+            
             // Redirect or handle success logic here
         } catch (err) {
+            console.log(err)
             console.error("Login error:", err.message);
             setFormError(err.message); // Display error message
         }
@@ -87,7 +90,7 @@ const Login = () => {
                                         />
                                     </label>
                                     {/* Display email error */}
-                                    {emailError && <div className="text-danger mt-2 mb-2 text-start">{emailError}</div>}
+                                        {emailError && <div className="text-danger mt-2 mb-2 text-start">{emailError}</div>}
                                 </div>
                                 <div className="AuthInputCol">
                                     <label htmlFor="Password">

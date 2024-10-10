@@ -103,7 +103,7 @@ const Register = () => {
                                     {/* Display email error */}
                                     {emailError && <div className="text-danger mt-2 mb-2 text-start ">{emailError}</div>}
                                 </div>
-
+                                
                                 <div className="AuthInputCol">
                                     <label htmlFor="Password">
                                         <span>Password</span>

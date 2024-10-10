@@ -1,7 +1,7 @@
 import axios from 'axios';
 import axiosInstance, {  deleteToken, setToken   } from './AxiosApi';
 
-const baseURL = 'https://dashboard.infancia.app/api'; 
+const baseURL = 'https://yellowgreen-raccoon-480548.hostingersite.com/api'; 
 
 const axiosReg = axios.create({
   baseURL: baseURL,
@@ -14,10 +14,9 @@ const AuthService = {
         formData.append('email', email);
         formData.append('password', password);
         const response = await axiosInstance.post(`/auth/login`, formData);
+        console.log("resp",response);
         setToken(response.data.token);
-        console.log(response);
         return response.data; 
-
       } catch (error) {
         console.log(error)
         throw new Error(error.response.data.message); 
@@ -179,11 +178,76 @@ const PolicyServices = {
   },
 }
 
+const EventService = {
+  List: async () =>{
+    try {
+
+      const response = await axiosInstance.get(`/events`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/events/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (title,date,time,place,description) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('date', date);
+      formData.append('time', time);
+      formData.append('place', place);
+      formData.append('description', description);
+      const response = await axiosInstance.post(`/events`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit: async (id, title,date,time,place,description) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('date', date);
+      formData.append('time', time);
+      formData.append('place', place);
+      formData.append('description', description);
+      const response = await axiosInstance.post(`/events/${id}`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/events/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+}
+
 
 
 
 export { 
   AuthService,
+  EventService,
   FAQServices,
   PolicyServices
 };

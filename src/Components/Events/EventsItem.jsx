@@ -2,8 +2,8 @@ import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisV, faHeart as heart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-
-const EventsItem = ({ id,title , place, image, caption, date, handleDeleteClicked, handleEditClicked}) => {
+import imageevent from '../../Assets/Images/EventImage.png'
+const EventsItem = ({ id,title , place, image, caption, date ,time, handleDeleteClicked, handleEditClicked}) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -27,7 +27,7 @@ const EventsItem = ({ id,title , place, image, caption, date, handleDeleteClicke
                 <span>{title}</span>
             </div>
             <div className="NewsImageContainer">
-                <img src={image} width="100%" alt="" />
+                <img src={image?image:imageevent} width="100%" alt="" />
             </div>
             <div className="NewsCaptionContainer">
                 <span>{caption}</span>
@@ -35,10 +35,10 @@ const EventsItem = ({ id,title , place, image, caption, date, handleDeleteClicke
             <div className="AfterNewsImage container EventsPlaceDateContainer">
                 <div className="row">
                     <div className="col-lg-5 col-md-5 col-sm-5 col-12 EventPlace">
-                            <span>{place}</span>
+                            <span>Place : {place}</span>
                     </div>
                     <div className="col-lg-5 col-md-5 col-sm-5 col-12 EventDate">
-                            <span>{date}</span>
+                            <span>Date : {date} , Time : {time}</span>
                     </div>
                 </div>
                 

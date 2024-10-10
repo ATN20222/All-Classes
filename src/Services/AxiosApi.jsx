@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 // ---------- Const Variables ---------- //
-const baseURL = 'https://dashboard.infancia.app/api';
+const baseURL = 'https://yellowgreen-raccoon-480548.hostingersite.com/api';
 const cookie = new Cookies();
 
 // ---------- Functions ---------- //
@@ -27,7 +27,12 @@ export const deleteToken = () => {
 // Instance From Axios
 const axiosInstance = axios.create({
     baseURL: baseURL,
-    Accept:'application/json'
+    Accept:'application/json',
+    headers:{
+    "Database-App":'community_1',
+    "Content-Type":'multipart/form-data',
+    "Accept":'application/json',
+    }
 });
 
 // Axios Interceptors Request
@@ -37,7 +42,7 @@ axiosInstance.interceptors.request.use(
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
             config.headers.Accept = 'application/json';
-            config.headers["Content-Type"] = 'multipart/form-data'
+            config.headers["Content-Type"] = 'multipart/form-data';
         }
         return config;
     },
