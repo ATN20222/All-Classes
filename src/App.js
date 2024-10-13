@@ -42,6 +42,7 @@ import TermsAndConditions from './Pages/PrivacyAndTerms/TermsAndConditions';
 import Chats from './Pages/Chat/Chats';
 import LandingHome from './Pages/Landing/Home/LandingHome';
 import EditEvent from './Pages/Events/EditEvent';
+import EditNews from './Pages/News/EditNews';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -67,6 +68,7 @@ function App() {
           <Route path='/applications/:id' element={<ApplicationDetails />} /> 
           <Route path='/news' element={<News />} /> 
           <Route path='/addnews' element={<AddNews />} /> 
+          <Route path='/editnews/:id' element={<EditNews />} /> 
           <Route path='/events' element={<Events />} /> 
           <Route path='/addevent' element={<AddEvent />} /> 
           <Route path='/editevent/:id' element={<EditEvent />} /> 

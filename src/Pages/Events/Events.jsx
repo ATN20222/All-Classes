@@ -10,7 +10,7 @@ import { EventService } from "../../Services/Api";
 import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
 import toast, { Toaster } from "react-hot-toast";
 const Events = ()=>{
-    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);  
 
     // const events = [
     //     {

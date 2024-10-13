@@ -243,11 +243,113 @@ const EventService = {
 }
 
 
+const NewsService = {
+  List: async () =>{
+    try {
+
+      const response = await axiosInstance.get(`/news`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/news/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (caption , img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('caption', caption);
+      if(img){
+        formData.append('media', img);
+      }
+      const response = await axiosInstance.post(`/news`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit: async (id, caption , img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('caption', caption);
+      if(img){
+        formData.append('media', img);
+      }
+      const response = await axiosInstance.put(`/news/${id}?caption=${caption}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/news/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  AddComment:async (news_id,comment) =>{
+    try {
+      const formData = new FormData();
+      formData.append('comment', comment);
+      formData.append('news_id', news_id);
+      
+      const response = await axiosInstance.post(`/news/comment`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  ReplyComment:async (comment_id,reply) =>{
+    try {
+      const formData = new FormData();
+      formData.append('comment_id', comment_id);
+      formData.append('reply', reply);
+      
+      const response = await axiosInstance.post(`/news/comment/reply`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+
+  LikeNews:async (id) =>{
+    try {
+      
+      const response = await axiosInstance.get(`news/like/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+}
+
+
+
 
 
 export { 
   AuthService,
   EventService,
+  NewsService,
   FAQServices,
   PolicyServices
 };

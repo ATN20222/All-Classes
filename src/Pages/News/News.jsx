@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlusIcon from '../../Assets/Images/CirclePlus.svg'
 import NewsImage from '../../Assets/Images/NewsImage.png'
 import CommentImage from '../../Assets/Images/CommentImage.jpeg'
 import NewsItem from "../../Components/News/NewsItem";
 import './News.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Comments from "../../Components/News/Comments";
+import { NewsService } from "../../Services/Api";
+import toast, { Toaster } from "react-hot-toast";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
 const News = ()=>{
+    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+    const [NewsIdToDelete, setNewsIdToDelete] = useState('');
+
     const [isCommentsOpend , setIsCommentsOpend] = useState(false);
     const [selectedComments , setSelectedComments] = useState([]);
+    const [selectedNews , setSelectedNews] = useState('');
+    const [allNews , setAllNews] = useState([]);
     const news = [
         {
             id :1 , 
@@ -55,22 +63,107 @@ const News = ()=>{
     ];
     const handleOpenComments = (newsId)=>{
         console.log(newsId);
-        setSelectedComments(news.find(n=>n.id===newsId).comments);
+        setSelectedComments(allNews.find(n=>n.id===newsId).comments);
+        setSelectedNews(newsId);
         setIsCommentsOpend(true);
-        console.log(news.find(n=>n.id===newsId).comments);
+        console.log(allNews.find(n=>n.id===newsId).comments);
     }
-    const handleAddComment = (newsId , comment)=>{
+    const handleAddComment = async (newsId , comment)=>{
+
+        try {
+            const response = await NewsService.AddComment(newsId , comment);
+            GetNewsById(newsId);
+        } catch (error) {
+            toast.error("Failed to comment");
+        }
+    }
+    const handleReplyComment = async (newsId , replyData)=>{
         
+        try {
+            const response = await NewsService.ReplyComment(replyData.replyTo , replyData.text);
+            console.log(response);
+            GetNewsById(newsId);
+        } catch (error) {
+            toast.error("Failed to comment");
+        }
     }
+
+    useEffect(()=>{
+        getData();
+    },[]);
+    async function getData() {
+        try {
+            const response = await NewsService.List();
+            console.log(response);
+            setAllNews(response.content.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function GetNewsById(id) {
+        try {
+            const response = await NewsService.GetById(id);
+            const updatedItems = allNews.map((item) =>
+                item.id === id ? response.content : item
+            );
+            console.log(updatedItems)
+            setAllNews(updatedItems);
+            setSelectedComments(response.content.comments);
+            
+        } catch (error) {
+            console.error(error);
+        } 
+    }
+    const handleDelete = async (id)=>{
+        try {
+                
+            const response = await NewsService.Delete(id);
+            toast.success('News deleted successfully');
+            getData();
+        } catch (error) {
+            toast.error('Failed to delete news');
+            
+        }finally{
+            setNewsIdToDelete('');
+        }
+    }
+    const handleLikeNews = async (id)=>{
+        try {
+                
+            const response = await NewsService.LikeNews(id);
+            toast.success('successfully');
+            // getData();
+            GetNewsById(id);
+        } catch (error) {
+            toast.error('an error occurred');
+            
+        }
+    }
+
+    const navigate = useNavigate();
     return(
         <div className="MainContent News">
+            <DeleteModalComponent
+                id={NewsIdToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
+            />
             <Comments
                 isOpen={isCommentsOpend}
                 onClose={()=>setIsCommentsOpend(false)}
                 onAddComment={handleAddComment}
                 comments={selectedComments}
-
+                newsId={selectedNews}
+                onReplyComment={handleReplyComment}
             />
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
@@ -85,17 +178,23 @@ const News = ()=>{
                 </div>
 
                     <div className="NewsRow">
-                        {news.map((row)=>(
+                        {allNews.map((row)=>(
                                 <NewsItem
                                     key={row.id}
                                     id={row.id}
                                     caption={row.caption}
                                     comments={row.comments}
-                                    likes={row.likes}
-                                    date="5h ago"
+                                    likes={row.likes.length}
+                                    date={row.created_at}
                                     isLiked={true}
-                                    image={row.image}
+                                    image={row.image?row.image:NewsImage}
                                     OpenComments={handleOpenComments}
+                                    handleEditClicked={()=>{navigate(`/editnews/${row.id}`)}}
+                                    handleDeleteClicked={()=>{
+                                        setNewsIdToDelete(row.id);
+                                        setIsDeleteOverlayOpen(true);
+                                    }}
+                                    handlelikeClick={handleLikeNews}
                                 />
                         ))}
                     </div>

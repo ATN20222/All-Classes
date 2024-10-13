@@ -244,3 +244,15 @@
     align-items: center;
     transition: background-color 0.3s ease;
 }
+
+.EditNewsImageContainer{
+    position: relative;
+    overflow: hidden;
+}
+.EditNewsImageContainer img{
+    position: absolute  ;
+    width: 100%;
+}
+.EditNewsImageContainer label{
+    z-index: 100;
+}

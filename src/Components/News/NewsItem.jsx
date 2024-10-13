@@ -28,7 +28,7 @@ const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDe
             </div>
             <div className="AfterNewsImage">
                 <div className="NewsLikesComments">
-                    <div className={`LikesIconContainer ${isLiked ? 'isLiked' : ''}`}>
+                    <div className={`LikesIconContainer ${isLiked ? 'isLiked' : ''}`} onClick={()=>handlelikeClick(id)}>
                         <FontAwesomeIcon icon={isLiked ? heart : faHeart} />
                         <span>{likes}</span>
                     </div>
