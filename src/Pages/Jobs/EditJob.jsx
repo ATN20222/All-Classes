@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
 import { JobsService } from "../../Services/Api";
 
-const AddJob = () => {
+const EditJob = () => {
     const [jobTitle, setJobTitle] = useState('');
     const [jobType, setJobType] = useState('');
     const [location, setLocation] = useState('');
@@ -16,9 +16,11 @@ const AddJob = () => {
     const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false); // Loading state
+    const [currentImage, setCurrentImage] = useState(null);
+    const {id} = useParams();
     const navigate = useNavigate();
 
-    const handleAddJob = async (e) => {
+    const handleEditJob = async (e) => {
         e.preventDefault();
 
         // Reset errors
@@ -59,15 +61,14 @@ const AddJob = () => {
             setIsLoading(true);
             try {
                 // Your API call here to save the job details
-                const response = await JobsService.Add(jobTitle,jobType,location,salaryRange,experience ,jobDetails , image);
-                    console.log(jobDetails)
-                toast.success('Job added successfully');
+                const response = await JobsService.Edit(id,jobTitle,jobType,location,salaryRange,experience ,jobDetails , image);
+                toast.success('Job edited successfully');
                 setTimeout(() => {
                     navigate('/jobs');
                 }, 2000);
 
             } catch (error) {
-                toast.error('Failed to add job');
+                toast.error('Failed to edited job');
             } finally {
                 setIsLoading(false);
             }
@@ -78,6 +79,36 @@ const AddJob = () => {
         // Replace line breaks with '\n'
         const value = e.target.value.replace(/\n/g, ' \n ');
         setJobDetails(value);
+    };
+    useEffect(() => {
+        getData();
+    }, []);
+
+    async function getData() {
+        try {
+            const response = await JobsService.GetById(id);
+            setJobTitle(response.content.title);
+            setExperience(response.content.user_experience);
+            setLocation(response.content.location);
+            setJobType(response.content.type)
+            setSalaryRange(response.content.salary_range);
+            setJobDetails(response.content.description);
+            setCurrentImage(''); 
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
@@ -96,18 +127,21 @@ const AddJob = () => {
                     </div>
                 </div>
 
-                <form onSubmit={handleAddJob}>
-                    <div className="AddNewsImageContainer">
-                        <label htmlFor="JobImage">
+                <form onSubmit={handleEditJob}>
+                    
+
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
+                        <label htmlFor="NewsImage">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
-                        <input
-                            type="file"
-                            id="JobImage"
-                            className="d-none"
+                        <input 
+                            type="file" 
+                            id="NewsImage" 
+                            className="d-none" 
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange} // Handle image selection
                         />
+                        <img src={currentImage} width="100%" alt="News Preview" />
                         {errors.image && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.image}</div>}
                     </div>
 
@@ -212,4 +246,4 @@ const AddJob = () => {
     );
 };
 
-export default AddJob;
+export default EditJob;

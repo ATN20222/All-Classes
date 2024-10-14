@@ -116,7 +116,7 @@ const AddNews = () => {
                             </button>
                         </div>
                         <div className="AllClassesBtn RejectBtn">
-                            <button type="button" onClick={() => window.history.back()}>Delete</button>
+                            <button type="button" onClick={() => window.history.back()}>Cancel</button>
                         </div>
                         
                         

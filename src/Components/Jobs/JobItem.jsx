@@ -3,18 +3,36 @@ import { faEllipsisV, faHeart as heart } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
-const JobItem = ({ experience,salary_range, job_details,job_type,Location,job_title,puplisher_image,puplish_date,puplisher_name, image,  handleDeleteClicked, handleEditClicked}) => {
+const JobItem = ({
+    experience,
+    salary_range,
+    job_details,
+    job_type,
+    Location,
+    job_title,
+    puplisher_image,
+    puplish_date,
+    puplisher_name,
+    image,
+    handleDeleteClicked,
+    handleEditClicked,
+}) => {
     const [showMenu, setShowMenu] = useState(false);
+    const [showMore, setShowMore] = useState(false); // State for showing more details
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
 
+    const toggleShowMore = () => {
+        setShowMore(!showMore);
+    };
+
     return (
         <div className="NewsItem">
             <div className="NewsSettings JobSettings">
-                <div className="SettingsBtn " onClick={toggleMenu}>
-                    <FontAwesomeIcon icon={faEllipsisV}  className="text-dark"/>
+                <div className="SettingsBtn" onClick={toggleMenu}>
+                    <FontAwesomeIcon icon={faEllipsisV} className="text-dark" />
                 </div>
                 {showMenu && (
                     <div className="SettingsMenu">
@@ -24,7 +42,6 @@ const JobItem = ({ experience,salary_range, job_details,job_type,Location,job_ti
                 )}
             </div>
             <div className="EventTitle">
-                {/* <span>{title}</span> */}
                 <div className="CommenterImage JobPuplisherData">
                     <div className="Avatar">
                         <img src={puplisher_image} width="100%" alt="" />
@@ -33,46 +50,58 @@ const JobItem = ({ experience,salary_range, job_details,job_type,Location,job_ti
                         <h6>{puplisher_name}</h6>
                         <span>{puplish_date}</span>
                     </div>
-
                 </div>
             </div>
             <div className="NewsImageContainer">
                 <img src={image} width="100%" alt="" />
             </div>
-            <div className="NewsCaptionContainer">
-                {job_title&&
-                    <div className="JobDescriptionItem">
-                        <span className="JobDescriptionTitle">Job title: </span>
-                        <span>{job_title}</span>
+            <div className="JobContentContainer">
+                {job_title && (
+                    <div className="JobDetailItem">
+                        <h5 className="JobDetailTitle">{job_title}</h5>
                     </div>
-                }
-                {Location&&
-                    <div className="JobDescriptionItem">
-                        <span className="JobDescriptionTitle">Location: </span>
-                        <span>{Location} ({job_type})</span>
+                )}
+                {Location && (
+                    <div className="JobDetailItem">
+                        <span className="JobDetailLabel">Location:</span>
+                        <span className="JobDetailValue">{Location} ({job_type})</span>
                     </div>
-                }
-                {experience&&
-                    <div className="JobDescriptionItem">
-                        <span className="JobDescriptionTitle">Experience: </span>
-                        <span>{experience}</span>
+                )}
+                {experience && (
+                    <div className="JobDetailItem">
+                        <span className="JobDetailLabel">Experience:</span>
+                        <span className="JobDetailValue">{experience}</span>
                     </div>
-                }
-                {salary_range&&
-                    <div className="JobDescriptionItem">
-                        <span className="JobDescriptionTitle">Salary: </span>
-                        <span>{salary_range}</span>
+                )}
+                {salary_range && (
+                    <div className="JobDetailItem">
+                        <span className="JobDetailLabel">Salary Range:</span>
+                        <span className="JobDetailValue">{salary_range}</span>
                     </div>
-                }
-                {job_details&&
-                    <div className="JobDescriptionItem">
-                        <span className="JobDescriptionTitle">Job details: </span>
-                        <span>{job_details}</span>
+                )}
+                {job_details && (
+                    <div className="JobDetailItem">
+                        <span className="JobDetailLabel">Job Details:</span>
+                        {showMore ? (
+                            job_details.split('\n').map((line, index) => (
+                                <p key={index} className="JobDetailText">{line}</p>
+                            ))
+                        ) : (
+                            <>
+                                {job_details.split('\n').slice(0, 2).map((line, index) => (
+                                    <p className="JobDetailText mb-1" key={index}>{line}</p>
+                                ))}
+                                
+                                {job_details.split('\n').length > 2 && (
+                                    <span onClick={toggleShowMore} className="show-more-button text-nav-underline">
+                                        Show More
+                                    </span>
+                                )}
+                            </>
+                        )}
                     </div>
-                }
+                )}
             </div>
-           
-        
         </div>
     );
 };

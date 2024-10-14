@@ -343,13 +343,86 @@ const NewsService = {
 }
 
 
+const JobsService = {
+  List: async () =>{
+    try {
 
+      const response = await axiosInstance.get(`/jobs`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (title,type,location,salary_range,user_experience,description ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('type', type);
+      formData.append('location', location);
+      formData.append('salary_range', salary_range);
+      formData.append('user_experience', user_experience);
+      formData.append('description', description);
+
+      if(img){
+        formData.append('media', img);
+      }
+      const response = await axiosInstance.post(`/jobs`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit: async (id,title,type,location,salary_range,user_experience,description ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('type', type);
+      formData.append('location', location);
+      formData.append('salary_range', salary_range);
+      formData.append('user_experience', user_experience);
+      formData.append('description', description);
+
+      if(img){
+        formData.append('media', img);
+      }
+      
+      const response = await axiosInstance.post(`/jobs/${id}`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/jobs/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/jobs/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
 
 
 export { 
   AuthService,
   EventService,
   NewsService,
+  JobsService ,
   FAQServices,
   PolicyServices
 };

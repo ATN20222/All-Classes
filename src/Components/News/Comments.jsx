@@ -1,7 +1,7 @@
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
-
+import userImage from '../../Assets/Images/Avatar.svg'
 const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComment }) => {
     const [newComment, setNewComment] = useState("");
     const [replyingTo, setReplyingTo] = useState(null); 
@@ -16,7 +16,7 @@ const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComm
 
     const handleAddComment = () => {
         if (newComment.trim()) {
-            if (isReplying && replyingTo && newComment.includes(`@${replyingTo.id}`)) {
+            if (isReplying && replyingTo && newComment.includes(`@${replyingTo.user.name}`)) {
                 const replyData = {
                     
                     text: newComment,
@@ -37,7 +37,7 @@ const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComm
     const handleIsReply = (comment) => {
         setReplyingTo(comment); 
         setIsReplying(true); 
-        setNewComment(`@${comment.id} `);
+        setNewComment(`@${comment.user.name} `);
         
         if (inputRef.current) {
             inputRef.current.focus(); 
@@ -54,15 +54,16 @@ const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComm
                     <div className="CommentsHr"></div>
                     <div className="AllComments">
                         {comments.map((comment) => (
+                            <>
                             <div className="Comment" key={comment.id}>
                                 <div className="CommenterImage">
                                     <div className="Avatar">
-                                        <img src={comment.image} width="100%" alt="" />
+                                        <img src={comment.image?comment.image:userImage} width="100%" alt="" />
                                     </div>
                                 </div>
                                 <div className="CommentTextAndActions">
                                     <div className="CommentText">
-                                        <h6>{comment.name}</h6>
+                                        <h6>{comment.user.name}</h6>
                                         <span>{comment.comment}</span>
                                     </div>
                                     <div className="CommentActions">
@@ -73,7 +74,34 @@ const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComm
                                         <span className="CommentTime">{comment.created_at}</span>
                                     </div>
                                 </div>
+                                
                             </div>
+                            
+                            {comment.replies?.length>0&&comment.replies.map((rep)=>(
+                                <div className="Comment Reply" key={rep.id}>
+                                <div className="CommenterImage">
+                                    <div className="Avatar">
+                                        <img src={rep.image?rep.image:userImage} width="100%" alt="" />
+                                    </div>
+                                </div>
+                                <div className="CommentTextAndActions">
+                                    <div className="CommentText">
+                                        <h6>{rep.user.name}</h6>
+                                        <span>{rep.reply}</span>
+                                    </div>
+                                    <div className="CommentActions">
+                                        {/* <span className="CommentLike">Like</span> */}
+                                        {/* <span className="CommentReply" onClick={() => handleIsReply(comment)}>
+                                            Reply
+                                        </span> */}
+                                        <span className="CommentTime">{comment.created_at}</span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            ))}
+                            </>
+                            
                         ))}
                     </div>
                     <div className="AddCommentContainer">

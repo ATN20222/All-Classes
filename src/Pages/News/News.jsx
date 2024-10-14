@@ -17,6 +17,7 @@ const News = ()=>{
     const [selectedComments , setSelectedComments] = useState([]);
     const [selectedNews , setSelectedNews] = useState('');
     const [allNews , setAllNews] = useState([]);
+    const [CommentKey , setCommentKey] = useState(1);
     const news = [
         {
             id :1 , 
@@ -75,6 +76,8 @@ const News = ()=>{
             GetNewsById(newsId);
         } catch (error) {
             toast.error("Failed to comment");
+        }finally{
+            setCommentKey(CommentKey+1);
         }
     }
     const handleReplyComment = async (newsId , replyData)=>{
@@ -85,6 +88,8 @@ const News = ()=>{
             GetNewsById(newsId);
         } catch (error) {
             toast.error("Failed to comment");
+        }finally{
+            setCommentKey(CommentKey+1);
         }
     }
 
@@ -95,7 +100,7 @@ const News = ()=>{
         try {
             const response = await NewsService.List();
             console.log(response);
-            setAllNews(response.content.data);
+            setAllNews(response.content);
         } catch (error) {
             console.error(error);
         }
@@ -151,6 +156,7 @@ const News = ()=>{
                 onDelete={handleDelete}
             />
             <Comments
+                key={CommentKey}
                 isOpen={isCommentsOpend}
                 onClose={()=>setIsCommentsOpend(false)}
                 onAddComment={handleAddComment}
@@ -178,13 +184,13 @@ const News = ()=>{
                 </div>
 
                     <div className="NewsRow">
-                        {allNews.map((row)=>(
+                        {allNews?.map((row)=>(
                                 <NewsItem
                                     key={row.id}
                                     id={row.id}
                                     caption={row.caption}
                                     comments={row.comments}
-                                    likes={row.likes.length}
+                                    likes={row.likes_count}
                                     date={row.created_at}
                                     isLiked={true}
                                     image={row.image?row.image:NewsImage}

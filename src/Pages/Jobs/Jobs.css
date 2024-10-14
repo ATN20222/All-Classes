@@ -29,3 +29,65 @@
     cursor: pointer;
 
 }
+.show-more-button{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.JobDescriptionTitle{
+    font-weight: 700;
+}
+
+/*  */
+.JobContentContainer {
+    margin-top: 2px;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    /* border-top: 1px solid #e0e0e0; */
+    display: flex;
+    text-align: start;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+}
+
+.JobDetailItem {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+}
+
+.JobDetailTitle {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+.JobDetailLabel {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.JobDetailValue {
+    color: #333;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.JobDetailText {
+    margin: 0;
+    color: #666;
+}
+
+.show-more-button {
+    color: #007bff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.show-more-button:hover {
+    text-decoration: underline;
+}

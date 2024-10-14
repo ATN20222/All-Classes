@@ -256,3 +256,11 @@
 .EditNewsImageContainer label{
     z-index: 100;
 }
+.Reply{
+    margin-left: 50px;
+}           
+.CommenterImage .Avatar{
+    background-color: white;
+    border-radius: 50%;
+    overflow: hidden;
+}
