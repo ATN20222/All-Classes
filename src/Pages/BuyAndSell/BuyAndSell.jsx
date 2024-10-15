@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlusIcon from '../../Assets/Images/CirclePlus.svg'
 import BuyImage from '../../Assets/Images/BuyImage.png'
 import JobPersonImage from '../../Assets/Images/JobsPersonImage.png'
 import './BuyAndSell.css'
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import EventsItem from "../../Components/Events/EventsItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import JobItem from "../../Components/Jobs/JobItem";
 import BuyAndSellItem from "../../Components/BuyAndSell/BuyAndSellItem";
+import { BuyAndSellService } from "../../Services/Api";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
+import toast, { Toaster } from "react-hot-toast";
 const BuyAndSell = ()=>{
+    const navigate = useNavigate();
     const data = [
         {
             id :1 , 
@@ -40,10 +44,53 @@ const BuyAndSell = ()=>{
             discount:'0.5',
         },
     ];
+    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+    const [ItemIdToDelete, setItemIdToDelete] = useState('');
+    const [buyAndSell , setBuyAndSell] = useState([]);
+    useEffect(()=>{
+        getData();
+    },[]);
+    async function getData() {
+        try {
+            const response = await BuyAndSellService.List();
+            console.log(response);
+            setBuyAndSell(response.content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
+    const handleDelete = async (id)=>{
+        try {
+                
+            const response = await BuyAndSellService.Delete(id);
+            toast.success('Item deleted successfully');
+            getData();
+        } catch (error) {
+            toast.error('Failed to delete item');
+            
+        }finally{
+            setItemIdToDelete('');
+        }
+    }
 
     return(
         <div className="MainContent News">
+
+            <DeleteModalComponent
+                id={ItemIdToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
+            />
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
+
+
             <div className="container">
             <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
@@ -67,21 +114,23 @@ const BuyAndSell = ()=>{
                 </div>
 
                     <div className="NewsRow">
-                        {data.map((row)=>(
+                        {buyAndSell.map((row)=>(
                                 <BuyAndSellItem
                                     key={row.id}
                                     id={row.id}
-                                    Location={row.Location}
-                                    buy_details={row.buy_details}
-                                    image={row.image}
-                                    buy_title={row.buy_title}
-                                    discount={row.discount}
-                                    price={row.price}
-                                    puplisher_image={row.puplisher_image}
-                                    puplisher_name={row.puplisher_name}
-                                    puplish_date={row.puplish_date}
-                                    rating={row.rating}
-                                    total_price={row.total_price}
+                                    price_after={row.price_after}
+                                    price_before={row.price_before}
+                                    buy_details={row.description}
+                                    image={row.image?row.image:BuyImage}
+                                    buy_title={row.title}
+                                    puplisher_image={row.puplisher_image?row.puplisher_image:JobPersonImage}
+                                    puplisher_name={row.user.name}
+                                    puplish_date={row.user.created_at}
+                                    handleEditClicked={()=>navigate(`/editbuyandsell/${row.id}`)}
+                                    handleDeleteClicked={()=>{
+                                        setItemIdToDelete(row.id);
+                                        setIsDeleteOverlayOpen(true);
+                                    }}
                                 />
                         ))}
                     </div>

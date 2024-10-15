@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Modal.css';
+import { AdminsService } from '../../Services/Api';
 
-const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
+const EditAdminModal = ({ id , isOpen, onClose, onEditAdmin }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,12 +11,32 @@ const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
   const [selectedManagements, setSelectedManagements] = useState([]); // The selected managements array
 
   const [errors, setErrors] = useState({});
+    useEffect(() => {
+        getData();
+    }, []);
+
+    async function getData() {
+        try {
+            const response = await AdminsService.GetById(id);
+            console.log(response);
+            setName(response.content.name || '');  
+            setEmail(response.content.email || '');
+            const manage = response.content.permissions.map(permission => permission.name);
+            setSelectedManagements(manage);
+
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
     const validationErrors = {};
-    
+    console.log(name);
     if (name.trim() === '') {
       validationErrors.name = 'Name is required';
     }
@@ -36,7 +57,7 @@ const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
     }
 
     // Pass selected managements along with other form data
-    onAddAdmin({ name, email, managments: selectedManagements });
+    onEditAdmin(id,{ name, email, managments: selectedManagements });
 
     // Clear form fields and errors
     setName('');
@@ -76,7 +97,7 @@ const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
     <div className="overlay">
       <div className="mymodal">
         <div className="modal-content">
-          <h2>Add Admin</h2>
+          <h2>Edit Admin</h2>
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
             <label>
                 <div className="ModalInputTitle">
@@ -162,4 +183,4 @@ const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
   );
 };
 
-export default AddAdminModal;
+export default EditAdminModal;

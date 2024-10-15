@@ -342,7 +342,6 @@ const NewsService = {
   },
 }
 
-
 const JobsService = {
   List: async () =>{
     try {
@@ -417,12 +416,136 @@ const JobsService = {
   },
 }
 
+const BuyAndSellService = {
+  List: async () =>{
+    try {
+
+      const response = await axiosInstance.get(`/buysells`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (title,price_before , price_after,description ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('price_before', price_before);
+      formData.append('price_after', price_after);
+      formData.append('description', description);
+
+      if(img){
+        formData.append('media', img);
+      }
+      const response = await axiosInstance.post(`/buysells`,formData);
+      return response.data; 
+    } catch (error) { 
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit: async (id,title,price_before , price_after,description ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('price_before', price_before);
+      formData.append('price_after', price_after);
+      formData.append('description', description);
+
+      if(img){
+        formData.append('media', img);
+      }
+      
+      const response = await axiosInstance.post(`/buysells/${id}`,formData);
+      return response.data;   
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/buysells/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/buysells/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+
+const AdminsService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/admins`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Add: async (data) =>{
+    try {
+      
+      const response = await axiosInstance.post(`/admins`,data);
+      return response.data; 
+    } catch (error) { 
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Edit: async (id , data) =>{
+    try {
+      const response = await axiosInstance.post(`/admins/${id}`,data);
+      return response.data; 
+    } catch (error) { 
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/admins/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/admins/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
 
 export { 
   AuthService,
   EventService,
   NewsService,
   JobsService ,
+  BuyAndSellService,
+  AdminsService,
   FAQServices,
   PolicyServices
 };

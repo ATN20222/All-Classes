@@ -44,6 +44,7 @@ import LandingHome from './Pages/Landing/Home/LandingHome';
 import EditEvent from './Pages/Events/EditEvent';
 import EditNews from './Pages/News/EditNews';
 import EditJob from './Pages/Jobs/EditJob';
+import EditBuyAndSell from './Pages/BuyAndSell/EditBuyAndSell';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -78,6 +79,7 @@ function App() {
           <Route path='/editjob/:id' element={<EditJob />} /> 
           <Route path='/buyandsell' element={<BuyAndSell />} /> 
           <Route path='/addbuyandsell' element={<AddBuyAndSell />} /> 
+          <Route path='/editbuyandsell/:id' element={<EditBuyAndSell />} /> 
           <Route path='/communities' element={<Communities />} /> 
           <Route path='/community/:id' element={<Community />} /> 
           <Route path='/pointsystem' element={<PointSystem />} /> 

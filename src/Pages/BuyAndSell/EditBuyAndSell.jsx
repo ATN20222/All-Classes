@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
 import { BuyAndSellService } from "../../Services/Api";
 
-const AddBuyAndSell = () => {
+const EditBuyAndSell = () => {
+    const {id} = useParams();
     const [title, setTitle] = useState('');
+    const [currentImage, setCurrentImage] = useState(null);
     const [priceBefore, setPriceBefore] = useState('');
     const [priceAfter, setPriceAfter] = useState('');
     const [details, setDetails] = useState('');
@@ -16,7 +18,24 @@ const AddBuyAndSell = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleAddSell = async (e) => {
+    useEffect(() => {
+        getData();
+    }, []);
+
+    async function getData() {
+        try {
+            const response = await BuyAndSellService.GetById(id);
+            setDetails(response.content.description);
+            setTitle(response.content.title);
+            setPriceAfter(response.content.price_after);
+            setPriceBefore(response.content.price_before);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    const handleEditSell = async (e) => {
         e.preventDefault();
         
         // Reset errors
@@ -49,18 +68,30 @@ const AddBuyAndSell = () => {
             setIsLoading(true);
             try {
                 
-                const response = await BuyAndSellService.Add(title, priceBefore, priceAfter, details, image);
-                toast.success('Item added successfully');
+                const response = await BuyAndSellService.Edit(id,title, priceBefore, priceAfter, details, image);
+                toast.success('Item edited successfully');
                 setTimeout(() => {
                     navigate('/buyandsell');
                 }, 2000);
             } catch (error) {
-                toast.error('Failed to add item');
+                toast.error('Failed to edit item');
             } finally {
                 setIsLoading(false);
             }
         }
     };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     return (
         <div className="MainContent">
@@ -76,18 +107,19 @@ const AddBuyAndSell = () => {
                     </div>
                 </div>
 
-                <form onSubmit={handleAddSell}>
-                    <div className="AddNewsImageContainer">
-                        <label htmlFor="SellImage">
+                <form onSubmit={handleEditSell}>
+                <div className="AddNewsImageContainer EditNewsImageContainer">
+                        <label htmlFor="NewsImage">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
-                        <input
-                            type="file"
-                            id="SellImage"
-                            className="d-none"
+                        <input 
+                            type="file" 
+                            id="NewsImage" 
+                            className="d-none" 
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange} // Handle image selection
                         />
+                        <img src={currentImage} width="100%" alt="buy and sell" />
                         {errors.image && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.image}</div>}
                     </div>
 
@@ -166,4 +198,4 @@ const AddBuyAndSell = () => {
     );
 }
 
-export default AddBuyAndSell;
+export default EditBuyAndSell;

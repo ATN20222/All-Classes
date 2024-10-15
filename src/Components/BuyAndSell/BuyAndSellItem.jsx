@@ -3,7 +3,7 @@ import { faEllipsisV, faHeart as heart, faStar as solidStar } from "@fortawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
-const BuyAndSellItem = ({discount,total_price,price,rating,buy_details,Location,buy_title,image,puplisher_image,puplish_date,puplisher_name,id , handleEditClicked ,handleDeleteClicked }) => {
+const BuyAndSellItem = ({price_after,price_before,buy_details,buy_title,image,puplisher_image,puplish_date,puplisher_name,id , handleEditClicked ,handleDeleteClicked }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -55,32 +55,34 @@ const BuyAndSellItem = ({discount,total_price,price,rating,buy_details,Location,
             <div className="NewsImageContainer">
                 <img src={image} width="100%" alt="" />
             </div>
-            <div className="BuyRating">
+            {/* <div className="BuyRating">
                 <span>
                     {renderStars(rating)}
                 </span>
-            </div>
-            <div className="NewsCaptionContainer">
-                {buy_title &&
-                    <div className="BuyTitle">
-                        <h6>
-                            {buy_title}
-                        </h6>
-                    </div>
-                }
-                {buy_details &&
-                    <div className="BuyDetails">
-                        <span>{buy_details}</span>
-                    </div>
-                }
-            </div>
-            <div className="BuyPrice">
-                <div className="Price">
-                    {price+'EGP'}
-                    <div className="buyLine"></div>
+            </div> */}
+            <div className="BuyAndSellDetails">
+                <div className="NewsCaptionContainer">
+                    {buy_title &&
+                        <div className="BuyTitle">
+                            <h6>
+                                {buy_title}
+                            </h6>
+                        </div>
+                    }
+                    {buy_details &&
+                        <div className="BuyDetails">
+                            <span>{buy_details}</span>
+                        </div>
+                    }
                 </div>
-                <div className="TotalPrice">
-                    {total_price+'EGP'}
+                <div className="BuyPrice">
+                    <div className="Price">
+                        {price_before+'EGP'}
+                        <div className="buyLine"></div>
+                    </div>
+                    <div className="TotalPrice">
+                        {price_after+'EGP'}
+                    </div>
                 </div>
             </div>
         </div>

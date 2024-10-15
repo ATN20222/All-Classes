@@ -153,6 +153,6 @@
 
 /* For Firefox */
 .MainContent {
-  scrollbar-width: thin;
+  scrollbar-width: 2px;
   scrollbar-color: var(--primary-color) transparent;
 }
