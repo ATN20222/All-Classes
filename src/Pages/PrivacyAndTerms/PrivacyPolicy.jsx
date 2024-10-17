@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
@@ -10,7 +10,12 @@ import CategoryIcon from '../../Assets/Images/CategoryIcon.svg'
 import './PrivacyPolicy.css'
 import { Link } from "react-router-dom";
 import AddPrivacyPolicyModal from "./AddPrivacyPolicyModal";
+import { PolicyServices } from "../../Services/Api";
+import toast, { Toaster } from "react-hot-toast";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
 const PrivacyPolicy = ()=>{
+    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+    const [ItemIdToDelete, setItemIdToDelete] = useState('');
     const [isOverlayOpen,setIsOverlayOpen] = useState(false);
     const data = [
         {
@@ -35,12 +40,61 @@ const PrivacyPolicy = ()=>{
                         Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse`,
         }
     ];
-    const handleAddPrivacy = ()=>{
 
+    const [policies , setPolicies] = useState([]);
+    useEffect(()=>{
+        getData();
+    },[]);
+    async function getData() {
+        try {
+            const response = await PolicyServices.ListPrivacy();
+            console.log("response",response);
+            setPolicies(response.content);
+        } catch (error) {
+            console.error(error);
+        }
     }
+
+    const handleAddPrivacy = async (title , description)=>{
+        try {
+            const response = await PolicyServices.AddPrivacy(title,description);
+            toast.success('Policy added successfully');
+            getData();  
+            
+        } catch (error) {
+            toast.error(`${error}`);
+        }
+    }
+
+    const handleDelete = async (id)=>{
+        try {
+                
+            const response = await PolicyServices.DeletePrivacy(id);
+            toast.success('Policy deleted successfully');
+            getData();
+        } catch (error) {
+            toast.error('Failed to delete policy');
+            
+        }finally{
+            setItemIdToDelete('');
+        }
+    }
+
     return(
         <div className="MainContent Applications">
-          <AddPrivacyPolicyModal
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
+            <DeleteModalComponent
+                id={ItemIdToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
+            />
+            <AddPrivacyPolicyModal
                 isOpen={isOverlayOpen}
                 onClose={() => setIsOverlayOpen(false)}
                 onAddClass={handleAddPrivacy}
@@ -61,7 +115,13 @@ const PrivacyPolicy = ()=>{
                     <div className="PrivacyContainer">
                         {data.map((row)=>(
                             <div className="PrivacyItem" key={row.id}>
-                                <h6>{row.title}</h6>
+                                <h6 className="PolicyHeader">
+                                    <div className="">{row.title}</div>
+                                    <div className="DeletIcon" onClick={()=>{
+                                        setItemIdToDelete(row.id);
+                                        setIsDeleteOverlayOpen(true);
+                                    }}><FontAwesomeIcon icon={faTrashAlt}/></div>
+                                </h6>
                                 <span>{row.description}</span>
                             </div>
                         ))}

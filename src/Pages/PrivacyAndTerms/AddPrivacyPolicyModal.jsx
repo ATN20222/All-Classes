@@ -13,6 +13,7 @@ const AddPrivacyPolicyModal = ({ isOpen, onClose, onAddPolicy }) => {
     if (title.trim() === '') {
       validationErrors.title = 'Title is required';
     }
+
     if (description.trim() === '') {
       validationErrors.description = 'Description is required';
     }
@@ -22,10 +23,8 @@ const AddPrivacyPolicyModal = ({ isOpen, onClose, onAddPolicy }) => {
       return;
     }
 
-    // If validation passes, call the onAddPolicy function
-    onAddPolicy({ title, description });
+    onAddPolicy(title, description );
 
-    // Clear form fields and errors
     setTitle('');
     setDescription('');
     setErrors({});
@@ -37,13 +36,13 @@ const AddPrivacyPolicyModal = ({ isOpen, onClose, onAddPolicy }) => {
     setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
   };
 
-  if (!isOpen) return null;
-
   const ClearData = () => {
     setTitle('');
     setDescription('');
     setErrors({});
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="overlay">
@@ -52,9 +51,7 @@ const AddPrivacyPolicyModal = ({ isOpen, onClose, onAddPolicy }) => {
           <h2>Add Privacy Policy</h2>
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
             <label>
-              <div className="ModalInputTitle">
-                Title
-              </div>
+              <div className="ModalInputTitle">Title</div>
               <input
                 type="text"
                 name="title"
@@ -67,9 +64,7 @@ const AddPrivacyPolicyModal = ({ isOpen, onClose, onAddPolicy }) => {
             </label>
 
             <label>
-              <div className="ModalInputTitle">
-                Description
-              </div>
+              <div className="ModalInputTitle">Description</div>
               <textarea
                 name="description"
                 className="form-control"

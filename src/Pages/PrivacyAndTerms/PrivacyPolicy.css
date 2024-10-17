@@ -11,3 +11,10 @@
     color: #494949;
     
 }
+.PolicyHeader{
+    display: flex;
+    justify-content: space-between;
+}
+.DeletIcon{
+    cursor: pointer;
+}

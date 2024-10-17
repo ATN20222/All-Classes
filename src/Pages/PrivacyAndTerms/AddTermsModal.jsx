@@ -23,7 +23,7 @@ const AddTermsModal = ({ isOpen, onClose, onAddPolicy }) => {
     }
 
     // If validation passes, call the onAddPolicy function
-    onAddPolicy({ title, description });
+    onAddPolicy(title, description );
 
     // Clear form fields and errors
     setTitle('');

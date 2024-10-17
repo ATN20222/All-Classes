@@ -55,16 +55,12 @@ const Admins = ()=>{
     }
     const handleAddAdmin = async (data) => {
         try {
-            console.log(data);
-            // return;
             const response = await AdminsService.Add(data);
-            // console.log(response);
             toast.success('Admin added successfully');
             getData();  
             
         } catch (error) {
             toast.error(`${error}`);
-    
         }
     };
 

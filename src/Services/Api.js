@@ -142,7 +142,7 @@ const FAQServices = {
   },
 }
 const PolicyServices = {
-  Add: async (title, description )=>{
+  AddPrivacy: async (title, description )=>{
     try {
       const formData = new FormData();
       formData.append('title', title);
@@ -156,7 +156,7 @@ const PolicyServices = {
 //throw new Error('Failed to add'); 
     }
   },
-  List: async ()=>{
+  ListPrivacy: async ()=>{
     try {
       const response = await axiosInstance.get(`/policies`);
       return response.data; 
@@ -166,7 +166,42 @@ const PolicyServices = {
 //throw new Error('Failed to list'); 
     }
   },
-  Delete: async (id)=>{
+  DeletePrivacy: async (id)=>{
+    try {
+      const response = await axiosInstance.delete(`/policies/${id}`);
+      return response.data; 
+
+    } catch (error) {
+      throw new Error(error.response.data.message); 
+//throw new Error('Failed to delete'); 
+    }
+  },
+
+  AddTerms: async (title, description )=>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      
+      const response = await axiosInstance.post(`/policies` , formData);
+      return response.data; 
+
+    } catch (error) {
+      throw new Error(error.response.data.message); 
+//throw new Error('Failed to add'); 
+    }
+  },
+  ListTerms: async ()=>{
+    try {
+      const response = await axiosInstance.get(`/policies`);
+      return response.data; 
+
+    } catch (error) {
+      throw new Error(error.response.data.message); 
+//throw new Error('Failed to list'); 
+    }
+  },
+  DeleteTerms: async (id)=>{
     try {
       const response = await axiosInstance.delete(`/policies/${id}`);
       return response.data; 
@@ -538,6 +573,87 @@ const AdminsService = {
     }
   },
 }
+const MembersService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/members`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/members/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Delete: async (id) =>{
+    try {
+      const response = await axiosInstance.delete(`/members/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+
+
+
+const ApplicationsService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/applications`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  ApplicationStateChange: async (user_id , status) =>{
+    try {
+      const formData = new FormData();
+      formData.append('user_id', user_id);
+      formData.append('status', status);
+
+      const response = await axiosInstance.post(`/applications`,formData);
+      return response.data; 
+    } catch (error) { 
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/applications/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Delete: async (id) =>{
+    try {
+      const response = await axiosInstance.delete(`/applications/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+
+
 
 export { 
   AuthService,
@@ -546,6 +662,8 @@ export {
   JobsService ,
   BuyAndSellService,
   AdminsService,
+  MembersService,
+  ApplicationsService,
   FAQServices,
   PolicyServices
 };
