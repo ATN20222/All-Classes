@@ -4,28 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 const 
-CharityItem = ({ id, details, image, title,brand_image,brand_rating,brand_info,brand_name, handleDeleteClicked, handleEditClicked  }) => {
+CharityItem = ({ id, services, image, title,brand_image,brand_info,name,address ,email, website,number ,  handleDeleteClicked, handleEditClicked  }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
-    };
-
-    const renderStars = (rating) => {
-        const totalStars = 5; // Assuming a 5-star rating system
-        const stars = [];
-
-        for (let i = 1; i <= totalStars; i++) {
-            stars.push(
-                <FontAwesomeIcon 
-                    key={i} 
-                    icon={i <= rating ? solidStar : faStar} 
-                    className="star-icon"
-                />
-            );
-        }
-
-        return stars;
     };
 
 
@@ -50,18 +33,29 @@ CharityItem = ({ id, details, image, title,brand_image,brand_rating,brand_info,b
                     <div className="BrandOfferAvatr">
                         <img src={brand_image} width="100%" alt="" />
                     </div>
-                    <span>{brand_name}</span>
+                    <span>{name}</span>
                 </div>
-                <div className="NewsDate BrandOfferRating">
-                    <span>
-                        {renderStars(brand_rating)}
-                    </span>
-                </div>
+                
 
             </div>
             <div className="OfferBrandInfo">
                 <span>{brand_info}</span>
             </div>
+
+                <div className="ContactCharity">
+                    <span className="text-start ContactTitle">Contact :</span>
+                    <div className="container">
+                        <div className="row">
+                            
+                            <div className="col-lg-6 text-start">Address : {address}</div>
+                            <div className="col-lg-6 text-start">Number : {number}</div>
+                            <div className="col-lg-6 text-start">Website : {website}</div>
+                            <div className="col-lg-6 text-start">Email : {email}</div>
+                        </div>
+                    </div>
+                </div>
+
+
             
             <div className="NewsCaptionContainer OfferDetailsCard">
                 <div className="OfferDetailsTitle">
@@ -70,7 +64,12 @@ CharityItem = ({ id, details, image, title,brand_image,brand_rating,brand_info,b
                 {/* <div className="OfferPricing">
                     <span className=" text-white">{points+" Point"}</span>
                 </div> */}
-                <span>{details}</span>
+                <ul>
+                {services.map((serv)=>(
+                    <li>{serv.name} <br />{serv.description}</li>
+                ))}
+                </ul>
+                <span></span>
             </div>
         </div>
     );

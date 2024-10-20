@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
@@ -10,6 +10,10 @@ import CategoryIcon from '../../Assets/Images/CategoryIcon.svg'
 import { Link } from "react-router-dom";
 import RewardsItem from "../../Components/Rewards/RewardsItem";
 import CharityItem from "../../Components/Charity/CharityItem";
+import { CharityService } from "../../Services/Api";
+import './Charity.css'
+import toast, { Toaster } from "react-hot-toast";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
 const Charity = ()=>{
     const news = [
         {
@@ -37,9 +41,49 @@ const Charity = ()=>{
         }
         
     ];
+    const [charities , setCharities] = useState([]);
+    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+    const [charityIdToDelete , setCharityIdToDelete] = useState('');
+    useEffect(()=>{
+        getData();
+    },[]);
+    async function getData() {
+        try {
+            const response = await CharityService.List();
+            console.log(response);
+            setCharities(response.content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const handleDelete = async (id)=>{
+        try {
+            const response = await CharityService.Delete(id);
+            toast.success('charity deleted successfully');
+            getData();
+        } catch (error) {
+            toast.error('Failed to delete charity');
+            
+        }finally{
+            setCharityIdToDelete('');
+        }
+    }
+
     return(
         <div className="MainContent Applications">
-          
+            <DeleteModalComponent
+                id={charityIdToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
+            />
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
+
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
@@ -56,28 +100,28 @@ const Charity = ()=>{
                             <FontAwesomeIcon icon={faSearch}/>
                             
                         </div>
-                        <div className="FilterAdmins">
-                            {/* <FontAwesomeIcon icon={faFilter}/> */}
-                            <img src={FilterIcon} alt="" />
-                        </div>
-                        <div className="FilterAdmins">
-                            {/* <FontAwesomeIcon icon={faFilter}/> */}
-                            <img src={CategoryIcon} alt="" />
-                        </div>
+
                     </div>
                 </div>
                 <div className="NewsRow">
-                        {news.map((row)=>(
+                        {charities.map((row)=>(
                                 <CharityItem
                                     key={row.id}
                                     id={row.id}
-                                    brand_name={row.brand_name}
-                                    brand_info={row.brand_info}
-                                    brand_rating={row.brand_rating}
-                                    brand_image={row.brand_image}
-                                    title={"You can choose the way to change someone’s life"}
-                                    image={row.image}
-                                    details={row.details}
+                                    name={row.name}
+                                    brand_info={row.description}
+                                    brand_image={row.brand_image?row.brand_image:BrandImage}
+                                    title={"Services"}
+                                    image={row.image?BrandImage:BrandImage}
+                                    services={row.services}
+                                    address={row.address}
+                                    email={row.email}
+                                    number={row.phone}
+                                    website={row.website}
+                                    handleDeleteClicked={()=>{
+                                        setCharityIdToDelete(row.id);
+                                        setIsDeleteOverlayOpen(true);
+                                    }}
                                 />
                         ))}
                     </div>

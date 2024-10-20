@@ -46,6 +46,7 @@ import EditNews from './Pages/News/EditNews';
 import EditJob from './Pages/Jobs/EditJob';
 import EditBuyAndSell from './Pages/BuyAndSell/EditBuyAndSell';
 import MemberDetails from './Pages/Members/MemberDetails';
+import EditOffer from './Pages/Offers/EditOffer';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -91,6 +92,7 @@ function App() {
 
           <Route path='/offers' element={<Offers />} /> 
           <Route path='/addoffer' element={<AddOffer />} /> 
+          <Route path='/editoffer/:id' element={<EditOffer />} /> 
           <Route path='/rewards' element={<Rewards />} /> 
           <Route path='/addreward' element={<AddReward />} /> 
           <Route path='/charity' element={<Charity />} /> 

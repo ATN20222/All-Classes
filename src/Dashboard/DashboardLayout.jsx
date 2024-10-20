@@ -18,7 +18,7 @@ const DashboardLayout = () => {
       <div className="dashboard-main">
         <Header toggleSidebar={toggleSidebar} />
         <div className="content-area">
-          <Outlet />  {/* This is where the routed content (like Home) will appear */}
+          <Outlet />  
         </div>
       </div>
     </div>

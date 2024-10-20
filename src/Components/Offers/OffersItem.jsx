@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 const 
-OffersItem = ({ id, details, image, title, price_after, price_before,brand_image,brand_rating,brand_info,brand_name, handleDeleteClicked, handleEditClicked  }) => {
+OffersItem = ({ id, details, image, title, price_after, price_before,brand_image,brand_rating,brand_info,brand_name, code,  handleDeleteClicked, handleEditClicked  }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -54,7 +54,8 @@ OffersItem = ({ id, details, image, title, price_after, price_before,brand_image
                 </div>
                 <div className="NewsDate BrandOfferRating">
                     <span>
-                        {renderStars(brand_rating)}
+                        {/* {renderStars(brand_rating)} */}
+                        Code : {code}
                     </span>
                 </div>
 

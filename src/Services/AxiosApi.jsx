@@ -29,7 +29,8 @@ const axiosInstance = axios.create({
     baseURL: baseURL,
     Accept:'application/json',
     headers:{
-    "Database-App":'community_1',
+    // "Database-App":'community_1',
+    "Database-App":'mind',
     "Content-Type":'multipart/form-data',
     "Accept":'application/json',
     }

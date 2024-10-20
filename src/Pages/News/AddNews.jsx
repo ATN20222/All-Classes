@@ -110,9 +110,8 @@ const AddNews = () => {
                         <div className="AllClassesBtn AcceptBtn">
                             <button 
                                 type="submit" 
-                                disabled={isLoading} // Disable button when loading
-                            >
-                                {isLoading ? 'Sharing...' : 'Share'} {/* Show loading text */}
+                                disabled={isLoading} >
+                                {isLoading ? 'Sharing...' : 'Share'} 
                             </button>
                         </div>
                         <div className="AllClassesBtn RejectBtn">

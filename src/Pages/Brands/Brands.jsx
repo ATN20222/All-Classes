@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
@@ -9,9 +9,14 @@ import AddPointModal from "../../Components/PointSystem/AddPointModal";
 import logo from '../../Assets/Images/Avatar.svg'
 import './Brands.css'
 import AddBrandModal from "../../Components/Brands/AddBrandModal";
+import toast, { Toaster } from "react-hot-toast";
+import { BrandsService } from "../../Services/Api";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
 const Brands = ()=>{
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-
+    const [isDeleteOverlayOpen , setIsDeleteOverlayOpen] = useState(false);
+    const [brands , setBrands] = useState([]);
+    const [brandIdToDelete , setBrandIdToDelete] = useState('');
     const data = [
         {
             id:1,
@@ -30,27 +35,66 @@ const Brands = ()=>{
         }
     ]
 
-    const handleAddClass = async (className , ClassAgeFrom , ClassAgeTo) => {
-        try {
-    
-            // const response = await ClassService.Add(className , ClassAgeFrom , ClassAgeTo);
-            // console.log(response);
-            // toast.success('Class added successfully');
-            
-            
-          } catch (error) {
-              console.log(error)
-      
-          }
+    const handleAddBrand = async (name) => {
+        try {    
+                const response = await BrandsService.Add(name);
+                toast.success('Brand added successfully');
+                getData();
+
+            } catch (error) {
+                console.log(error)
+                toast.error('Failed to add brand'); 
+            }
     };
+
+    useEffect(()=>{
+        getData();
+    },[])
+    
+
+    async function getData() {
+        try {
+            const response = await BrandsService.List();
+            setBrands(response.content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const handleDelete = async (id)=>{
+        try {
+                
+            const response = await BrandsService.Delete(id);
+            toast.success('Brand deleted successfully');
+            getData();
+        } catch (error) {
+            toast.error('Failed to delete brand');
+            
+        }finally{
+            setBrandIdToDelete('')
+        }
+    }
+
+
 
     return(
         <div className="MainContent Applications">
             <AddBrandModal
                 isOpen={isOverlayOpen}
                 onClose={() => setIsOverlayOpen(false)}
-                onAddBrand={handleAddClass}
+                onAddBrand={handleAddBrand}
             />
+            <DeleteModalComponent
+                id={brandIdToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
+            />
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
@@ -73,7 +117,7 @@ const Brands = ()=>{
                 
                 <div className="TableContainer container">
                     <div className="row">
-                        {data.map((row)=>(
+                        {brands.map((row)=>(
                             <div className="col-lg-12 TableRecord" key={row.id}>
                                 <div className="container">
                                     <div className="row">
@@ -84,13 +128,16 @@ const Brands = ()=>{
                                             {row.name}
                                         </div>
                                         <div className="col-lg-3 col-md-4 col-sm-4 col-4  Center">
-                                            {row.date}
+                                            {row.created_at}
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-2 col-2  Center">
                                             {row.id}
                                         </div>
                                         <div className="col-lg-2 col-md-2 col-sm-2 col-1 Center">
-                                            <div className="Delete">
+                                            <div className="Delete" onClick={()=>{
+                                                setBrandIdToDelete(row.id);
+                                                setIsDeleteOverlayOpen(true);
+                                            }}>
                                                 <FontAwesomeIcon icon={faTrashAlt}/>
                                             </div>
                                         </div>

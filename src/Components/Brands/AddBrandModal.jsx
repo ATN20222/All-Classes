@@ -14,7 +14,7 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
     const validationErrors = {};
     
     if (name.trim() === '') {
-      validationErrors.name = 'action is required';
+      validationErrors.name = 'brand name is required';
     }
     
     if (Object.keys(validationErrors).length > 0) {
@@ -22,10 +22,8 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
       return;
     }
 
-    // If validation passes, call the onAddAdmin function
-    onAddBrand({ name, points });
+    onAddBrand(name);
     
-    // Clear form fields and errors
     setName('');
     setPoints('');
     setErrors({});
@@ -73,7 +71,7 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
               {errors.name && <div className="text-danger PopUpError mt-0">{errors.name}</div>}
             </label>
 
-            <label>
+            {/* <label>
                 <div className="ModalInputTitle">
                     Start date
                 </div>
@@ -86,7 +84,7 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
                 onChange={handleInputChange(setPoints)}
               />
               {errors.points && <div className="text-danger PopUpError mt-0">{errors.points}</div>}
-            </label>
+            </label> */}
 
 
             <div className="form-buttons AllClassesBtn ApplicationButtons">

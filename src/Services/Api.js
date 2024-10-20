@@ -604,6 +604,206 @@ const MembersService = {
   },
 }
 
+const BrandsService = {
+  List: async () =>{
+    try {
+
+      const response = await axiosInstance.get(`/brands`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/brands/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (name) =>{
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      const response = await axiosInstance.post(`/brands`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit: async (id, name) =>{
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      const response = await axiosInstance.post(`/brands/${id}`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+      const response = await axiosInstance.delete(`/brands/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+}
+const OffersService = {
+  List: async (type) =>{
+    try {
+      const response = await axiosInstance.get(`/offers/category/${type}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (title,brand_info,category,price_before,price_after,description ,brand_id ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('brand_info', brand_info);
+      formData.append('category', category);
+      formData.append('price_before', price_before);
+      formData.append('price_after', price_after);
+      formData.append('description', description);
+      formData.append('brand_id', brand_id);
+
+      if(img){
+        formData.append('media', img);
+      }
+      const response = await axiosInstance.post(`/offers`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit:async (id ,title,brand_info,category,price_before,price_after,description ,brand_id ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('brand_info', brand_info);
+      formData.append('category', category);
+      formData.append('price_before', price_before);
+      formData.append('price_after', price_after);
+      formData.append('description', description);
+      formData.append('brand_id', brand_id);
+
+      if(img){
+        formData.append('media', img);
+      }
+      
+      const response = await axiosInstance.post(`/offers/${id}`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/offers/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/offers/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+
+
+const CharityService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/charities`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (name,description,email,website,phone ,address,services ,img) =>{
+    try {
+      const data={
+        name:name,
+        description:description,
+        email:email, 
+        website:website,
+        phone:phone , 
+        address:address,
+        services:services 
+      }
+
+      const response = await axiosInstance.post(`/charities`,data);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit:async (id ,title,brand_info,category,price_before,price_after,description ,brand_id ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('brand_info', brand_info);
+      formData.append('category', category);
+      formData.append('price_before', price_before);
+      formData.append('price_after', price_after);
+      formData.append('description', description);
+      formData.append('brand_id', brand_id);
+
+      if(img){
+        formData.append('media', img);
+      }
+      
+      const response = await axiosInstance.post(`/offers/${id}`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/offers/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/charities/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
 
 
 const ApplicationsService = {
@@ -664,6 +864,9 @@ export {
   AdminsService,
   MembersService,
   ApplicationsService,
+  BrandsService,
+  OffersService,
+  CharityService,     
   FAQServices,
   PolicyServices
 };

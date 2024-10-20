@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
 import { BrandsService, OffersService } from "../../Services/Api";
 
-const AddOffer = () => {
+const EditOffer = () => {
+    const {id} = useParams();
     const [brands , setBrands] = useState([]);
     const cats = [
         'Fun',
@@ -16,6 +17,7 @@ const AddOffer = () => {
         'Retails & Services'
     ]
     const [category, setCategory] = useState('');
+    const [currentImage, setCurrentImage] = useState(null);
     const [brand, setBrand] = useState('');
     const [brandInfo, setBrandInfo] = useState('');
     const [offerName, setOfferName] = useState('');
@@ -23,7 +25,6 @@ const AddOffer = () => {
     const [priceAfter, setPriceAfter] = useState('');
     const [offerDetails, setOfferDetails] = useState('');
     const [image, setImage] = useState(null);
-    
     const [categoryError, setCategoryError] = useState('');
     const [brandError, setBrandError] = useState('');
     const [offerNameError, setOfferNameError] = useState('');
@@ -76,15 +77,15 @@ const AddOffer = () => {
         if (valid) {
             setIsLoading(true);
             try {
-                
-                const response = await OffersService.Add(offerName , brandInfo , category , priceBefore , priceAfter , offerDetails , brand , image);
-                toast.success('Offer added successfully');
+                console.log(category)
+                const response = await OffersService.Edit(id,offerName , brandInfo , category , priceBefore , priceAfter , offerDetails , brand , image);
+                toast.success('Offer edited successfully');
                 setTimeout(() => {
                     navigate('/offers');
                 }, 2000);
                 
             } catch (error) {
-                toast.error('Failed to add offer');
+                toast.error('Failed to edit offer');
             } finally {
                 setIsLoading(false);
             }
@@ -92,6 +93,7 @@ const AddOffer = () => {
     };
     useEffect(()=>{
         getBrands();
+        getData();
     },[]);
 
     async function getBrands() {
@@ -102,6 +104,34 @@ const AddOffer = () => {
             console.error(error);
         }
     }
+
+    async function getData() {
+        try {
+            const response = await OffersService.GetById(id);
+            console.log(response)
+            setBrand(response.content.brand_id);
+            setOfferName(response.content.title);
+            setCategory(response.content.category);
+            setOfferDetails(response.content.description);
+            setPriceAfter(response.content.price_after);
+            setPriceBefore(response.content.price_before);
+            setBrandInfo(response.content.brand_info);
+            
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     
 
@@ -122,7 +152,7 @@ const AddOffer = () => {
                 </div>
 
                 <form onSubmit={handleSave}>
-                    <div className="AddNewsImageContainer">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
                         <label htmlFor="NewsImage">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
@@ -131,8 +161,9 @@ const AddOffer = () => {
                             id="NewsImage" 
                             className="d-none" 
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange} 
                         />
+                        <img src={currentImage} width="100%" alt="News Preview" />
                         {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
                     </div>
 
@@ -245,4 +276,4 @@ const AddOffer = () => {
     );
 };
 
-export default AddOffer;
+export default EditOffer;
