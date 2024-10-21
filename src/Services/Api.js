@@ -751,10 +751,9 @@ const CharityService = {
         email:email, 
         website:website,
         phone:phone , 
-        address:address,
+        address:address,  
         services:services 
       }
-
       const response = await axiosInstance.post(`/charities`,data);
       return response.data; 
     } catch (error) {
@@ -762,22 +761,19 @@ const CharityService = {
       throw new Error(error.response.data); 
     }
   },
-  Edit:async (id ,title,brand_info,category,price_before,price_after,description ,brand_id ,img) =>{
+  Edit:async (id ,name,description,email,website,phone ,address,services ,img) =>{
     try {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('brand_info', brand_info);
-      formData.append('category', category);
-      formData.append('price_before', price_before);
-      formData.append('price_after', price_after);
-      formData.append('description', description);
-      formData.append('brand_id', brand_id);
-
-      if(img){
-        formData.append('media', img);
+      const data={
+        name:name,
+        description:description,
+        email:email, 
+        website:website,
+        phone:phone , 
+        address:address,  
+        services:services 
       }
       
-      const response = await axiosInstance.post(`/offers/${id}`,formData);
+      const response = await axiosInstance.post(`/charities/${id}`,data);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -786,7 +782,7 @@ const CharityService = {
   },
   GetById: async (id) =>{
     try {
-      const response = await axiosInstance.get(`/offers/${id}`);
+      const response = await axiosInstance.get(`/charities/${id}`);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -853,6 +849,59 @@ const ApplicationsService = {
   },
 }
 
+const CashierService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/cashiers`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Add: async (data) =>{
+    try {
+      
+      const response = await axiosInstance.post(`/cashiers`,data);
+      return response.data; 
+    } catch (error) { 
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Edit: async (id , data) =>{
+    try {
+      const response = await axiosInstance.post(`/cashiers/${id}`,data);
+      return response.data; 
+    } catch (error) { 
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/cashiers/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/cashiers/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+
 
 
 export { 
@@ -865,6 +914,7 @@ export {
   MembersService,
   ApplicationsService,
   BrandsService,
+  CashierService,
   OffersService,
   CharityService,     
   FAQServices,

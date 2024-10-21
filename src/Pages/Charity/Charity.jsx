@@ -7,7 +7,7 @@ import BrandImage from '../../Assets/Images/BrandImage.png'
 import FilterIcon from '../../Assets/Images/Filter.svg'
 import PlusIcon from '../../Assets/Images/CirclePlus.svg'
 import CategoryIcon from '../../Assets/Images/CategoryIcon.svg'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RewardsItem from "../../Components/Rewards/RewardsItem";
 import CharityItem from "../../Components/Charity/CharityItem";
 import { CharityService } from "../../Services/Api";
@@ -47,6 +47,7 @@ const Charity = ()=>{
     useEffect(()=>{
         getData();
     },[]);
+    const navigate = useNavigate();
     async function getData() {
         try {
             const response = await CharityService.List();
@@ -122,6 +123,7 @@ const Charity = ()=>{
                                         setCharityIdToDelete(row.id);
                                         setIsDeleteOverlayOpen(true);
                                     }}
+                                    handleEditClicked={()=>navigate(`/editcharity/${row.id}`)}
                                 />
                         ))}
                     </div>

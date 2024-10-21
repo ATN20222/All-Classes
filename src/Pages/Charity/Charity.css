@@ -10,3 +10,30 @@
     font-size: 14px;
     font-weight: 600;
 }
+.CharityServicesContainer{
+    text-align: start;
+}
+.AddService{
+    border: 1px solid var(--secondary-color);
+    margin-top: 5px;
+    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    border-radius: 15px;
+    background-color: white;
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+.AddService:hover{
+    background-color: var(--secondary-color);
+    color: white;
+    transition: all 0.2s linear;
+}
+.CharityServiceCol{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}

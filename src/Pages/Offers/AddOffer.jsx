@@ -32,7 +32,7 @@ const AddOffer = () => {
     const [offerDetailsError, setOfferDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
+    
     const navigate = useNavigate();
 
     const handleSave = async (e) => {

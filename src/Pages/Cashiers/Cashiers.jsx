@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
@@ -11,9 +11,10 @@ import './Cashiers.css'
 import AddBrandModal from "../../Components/Brands/AddBrandModal";
 import AddCashiersModal from "../../Components/Cashiers/AddCashiersModal";
 import { Link } from "react-router-dom";
+import { CashierService } from "../../Services/Api";
 const Cashiers = ()=>{
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
-
+    const [cashiers , setCashiers] = useState([]);
     const data = [
         {
             id:1,
@@ -35,14 +36,26 @@ const Cashiers = ()=>{
         },
     ]
 
-    const handleAddClass = async (className , ClassAgeFrom , ClassAgeTo) => {
+    useEffect(()=>{
+        getData();
+    },[]);
+    async function getData() {
+        try {
+            const response = await CashierService.List();
+            setCashiers(response.content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleAddCashier = async (name , email , brand) => {
         try {
     
             // const response = await ClassService.Add(className , ClassAgeFrom , ClassAgeTo);
             // console.log(response);
             // toast.success('Class added successfully');
             
-            
+            getData();
           } catch (error) {
               console.log(error)
       
@@ -54,7 +67,7 @@ const Cashiers = ()=>{
             <AddCashiersModal
                 isOpen={isOverlayOpen}
                 onClose={() => setIsOverlayOpen(false)}
-                onAddCashier={handleAddClass}
+                onAddCashier={handleAddCashier}
             />
             <div className="container">
                 <div className="PageHeader">
@@ -85,7 +98,6 @@ const Cashiers = ()=>{
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-lg-3 col-md-3 col-sm-4 col-4 Center">
-
                                             {row.name}
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-2 col-2  Center">

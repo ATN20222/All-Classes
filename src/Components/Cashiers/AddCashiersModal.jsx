@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { BrandsService } from '../../Services/Api';
 const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [brand, setBrand] = useState('');
+  const [brands, setBrands] = useState([]);
+  
+  useEffect(()=>{
+    getBrands();
+},[]);
 
+async function getBrands() {
+    try {
+        const response = await BrandsService.List();
+        setBrands(response.content);
+    } catch (error) {
+        console.error(error);
+    }
+}
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -18,24 +33,27 @@ const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       validationErrors.email = 'Invalid email format';
     }
-    if (password.trim() === '') {
-      validationErrors.password = 'Password is required';
-    } else if (password.length < 6) {
-      validationErrors.password = 'Password must be at least 6 characters';
-    }
+    // if (password.trim() === '') {
+    //   validationErrors.password = 'Password is required';
+    // } else if (password.length < 6) {
+    //   validationErrors.password = 'Password must be at least 6 characters';
+    // }
+    if(brand.trim()==='')
+      validationErrors.brand = 'Brand is required';
+
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    // If validation passes, call the onAddAdmin function
-    onAddCashier({ name, email, password });
+    onAddCashier(name, email , brand);
     
-    // Clear form fields and errors
     setName('');
     setEmail('');
     setPassword('');
+    setBrand('');
+    setBrands([]);
     setErrors({});
     onClose();
   };
@@ -53,6 +71,8 @@ const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
     setPassword('');
     setErrors({});
   };
+
+  
 
   return (
     <div className="overlay">
@@ -94,14 +114,24 @@ const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
                 <div className="ModalInputTitle">
                     Brand
                 </div>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+                
+                <select 
+                    className="form-select" 
+                    value={brand}
+                    onChange={(e) => setBrand(e.target.value)}
+                >
+                    <option value="">Brand</option>
+                    {brands.map((brand)=>(
+                        <option value={brand.id}>{brand.name}</option>
+                    
+                    ))}
+                            </select>
+                            {errors.brand && <div className="text-danger PopUpError mt-0">{errors.brand}</div>}
+
             </label>
-            <label>
+
+
+            {/* <label>
                 <div className="ModalInputTitle">
                     Password
                 </div>
@@ -114,7 +144,7 @@ const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
                 onChange={handleInputChange(setPassword)}
               />
               {errors.password && <div className="text-danger PopUpError mt-0">{errors.password}</div>}
-            </label>
+            </label> */}
             
 
             <div className="form-buttons AllClassesBtn ApplicationButtons">
