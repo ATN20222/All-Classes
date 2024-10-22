@@ -48,6 +48,7 @@ import EditBuyAndSell from './Pages/BuyAndSell/EditBuyAndSell';
 import MemberDetails from './Pages/Members/MemberDetails';
 import EditOffer from './Pages/Offers/EditOffer';
 import EditCharity from './Pages/Charity/EditCharity';
+import EditReward from './Pages/Rewards/EditReward';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -96,6 +97,7 @@ function App() {
           <Route path='/editoffer/:id' element={<EditOffer />} /> 
           <Route path='/rewards' element={<Rewards />} /> 
           <Route path='/addreward' element={<AddReward />} /> 
+          <Route path='/editrewards/:id' element={<EditReward />} /> 
           <Route path='/charity' element={<Charity />} /> 
           <Route path='/addcharity' element={<AddCharity />} /> 
           <Route path='/editcharity/:id' element={<EditCharity />} /> 

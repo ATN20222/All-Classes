@@ -4,28 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 const 
-RewardsItem = ({ id, details, image, title, points,brand_image,brand_rating,brand_info,brand_name, handleDeleteClicked, handleEditClicked  }) => {
+RewardsItem = ({ id, details, image, title, points, handleDeleteClicked, handleEditClicked  }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
-    };
-
-    const renderStars = (rating) => {
-        const totalStars = 5; // Assuming a 5-star rating system
-        const stars = [];
-
-        for (let i = 1; i <= totalStars; i++) {
-            stars.push(
-                <FontAwesomeIcon 
-                    key={i} 
-                    icon={i <= rating ? solidStar : faStar} 
-                    className="star-icon"
-                />
-            );
-        }
-
-        return stars;
     };
 
 
@@ -45,25 +28,8 @@ RewardsItem = ({ id, details, image, title, points,brand_image,brand_rating,bran
             <div className="NewsImageContainer">
                 <img src={image} width="100%" alt="" />
             </div>
-            <div className="AfterNewsImage">
-                <div className="NewsLikesComments BrandDataOffer">
-                    <div className="BrandOfferAvatr">
-                        <img src={brand_image} width="100%" alt="" />
-                    </div>
-                    <span>{brand_name}</span>
-                </div>
-                <div className="NewsDate BrandOfferRating">
-                    <span>
-                        {renderStars(brand_rating)}
-                    </span>
-                </div>
-
-            </div>
-            <div className="OfferBrandInfo">
-                <span>{brand_info}</span>
-            </div>
             
-            <div className="NewsCaptionContainer OfferDetailsCard">
+            <div className="NewsCaptionContainer OfferDetailsCard mt-2">
                 <div className="OfferDetailsTitle">
                     <span>{title}</span>
                 </div>

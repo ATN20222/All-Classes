@@ -906,7 +906,72 @@ const CashierService = {
   },
 }
 
+const RewardsService = {
+  List: async (type) =>{
+    try {
+      const response = await axiosInstance.get(`/rewards`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (name,quantity,redeem_points,description ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('quantity', quantity);
+      formData.append('redeem_points', redeem_points);
+      formData.append('description', description);
 
+      if(img){
+        formData.append('media', img);
+      }
+      const response = await axiosInstance.post(`/rewards`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit:async (id ,name,quantity,redeem_points,description ,img) =>{
+    try {
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('quantity', quantity);
+      formData.append('redeem_points', redeem_points);
+      formData.append('description', description);
+
+      if(img){
+        formData.append('media', img);
+      }
+      
+      const response = await axiosInstance.post(`/rewards/${id}`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/rewards/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+      const response = await axiosInstance.delete(`/rewards/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
 
 export { 
   AuthService,
@@ -920,6 +985,7 @@ export {
   BrandsService,
   CashierService,
   OffersService,
+  RewardsService,
   CharityService,     
   FAQServices,
   PolicyServices

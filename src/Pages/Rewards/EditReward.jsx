@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // Notification library
 import { RewardsService } from "../../Services/Api";
 
-const AddReward = () => {
+const EditReward = () => {
     const [title, setTitle] = useState('');
-    const [quantity, setQuantity] = useState('');   
+    const [quantity, setQuantity] = useState('');
     const [redeemPoints, setRedeemPoints] = useState('');
     const [rewardDetails, setRewardDetails] = useState('');
     const [image, setImage] = useState(null);
@@ -20,9 +20,30 @@ const AddReward = () => {
     const [rewardDetailsError, setRewardDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
 
+    const { id } = useParams(); 
     const navigate = useNavigate();
 
-    const handleSave = async (e) => {
+    useEffect(() => {        
+        getData();
+    }, []);
+
+    async function getData() {
+        setIsLoading(true);
+        try {
+            const response = await RewardsService.GetById(id); 
+            setTitle(response.content.name);
+            setQuantity(response.content.quantity);
+            setRedeemPoints(response.content.redeem_points);
+            setRewardDetails(response.content.description);
+            setImage(response.content.image);
+        } catch (error) {
+            toast.error('Failed to load reward details');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    
+    const handleUpdate = async (e) => {
         e.preventDefault();
         
         // Reset errors
@@ -54,13 +75,13 @@ const AddReward = () => {
         if (valid) {
             setIsLoading(true);
             try {
-                const response = await RewardsService.Add( title, quantity, redeemPoints, rewardDetails, image );
-                toast.success('Reward added successfully');
+                const response = await RewardsService.Edit(id, title,quantity,redeemPoints,rewardDetails,image); 
+                toast.success('Reward updated successfully');
                 setTimeout(() => {
                     navigate('/rewards');
                 }, 2000);
             } catch (error) {
-                toast.error('Failed to add reward');
+                toast.error('Failed to update reward');
             } finally {
                 setIsLoading(false);
             }
@@ -79,11 +100,11 @@ const AddReward = () => {
                         <Link className="AddIconContainer nav-link" to='/rewards'>
                             <img src={BackIcon} width="20px" height="20px" className="m-1" alt="Back" />
                         </Link>
-                        Rewards
+                        Edit Reward
                     </div>
                 </div>
 
-                <form onSubmit={handleSave}>
+                <form onSubmit={handleUpdate}>
                     <div className="AddNewsImageContainer">
                         <label htmlFor="NewsImage">
                             <FontAwesomeIcon icon={faImage} />
@@ -143,7 +164,7 @@ const AddReward = () => {
                                 type="submit" 
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Saving...' : 'Save'}
+                                {isLoading ? 'Saving...' : 'Update'}
                             </button>
                         </div>
                         <div className="AllClassesBtn RejectBtn">
@@ -156,4 +177,4 @@ const AddReward = () => {
     );
 };
 
-export default AddReward;
+export default EditReward;

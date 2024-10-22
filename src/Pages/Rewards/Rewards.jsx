@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
@@ -7,38 +7,55 @@ import BrandImage from '../../Assets/Images/BrandImage.png'
 import FilterIcon from '../../Assets/Images/Filter.svg'
 import PlusIcon from '../../Assets/Images/CirclePlus.svg'
 import CategoryIcon from '../../Assets/Images/CategoryIcon.svg'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RewardsItem from "../../Components/Rewards/RewardsItem";
+import { RewardsService } from "../../Services/Api";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
+import toast, { Toaster } from "react-hot-toast";
 const Rewards = ()=>{
-    const news = [
-        {
-            id: 1, 
-            image: NewsImage,
-            details: "This is a high-quality product designed for maximum performance and reliability. Perfect for daily use and comes with excellent customer reviews.",
-            title: "Premium Wireless Headphones",
-            points:'200',
-            brand_image: BrandImage,
-            brand_rating: 4.5,
-            brand_info: "Founded in 2005, the brand is known for creating top-tier electronic devices with a focus on innovation and customer satisfaction.",
-            brand_name: "TechGuru"
-        },
-        
-        {
-            id: 2, 
-            image: NewsImage,
-            details: "This is a high-quality product designed for maximum performance and reliability. Perfect for daily use and comes with excellent customer reviews.",
-            title: "Premium Wireless Headphones",
-            points:'200',
-            brand_image: BrandImage,
-            brand_rating: 4.5,
-            brand_info: "Founded in 2005, the brand is known for creating top-tier electronic devices with a focus on innovation and customer satisfaction.",
-            brand_name: "TechGuru"
+    const [rewards , setRewards] = useState([]);
+    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+    const [itemIdToDelete, setItemIdToDelete] = useState([]);
+
+    useEffect(() => {
+        getData();
+    }, []); 
+
+    async function getData() {
+        try {
+            const response = await RewardsService.List();
+            console.log(response);
+            setRewards(response.content);
+        } catch (error) {
+            console.error(error);
         }
-        
-    ];
+    }
+    const handleDelete = async (id) => {
+        try {
+            const response = await RewardsService.Delete(id);
+            toast.success('reward deleted successfully');
+            getData();
+        } catch (error) {
+            toast.error('Failed to delete reward');
+        } finally {
+            setItemIdToDelete('');
+        }
+    }
+    const navigate = useNavigate();
     return(
         <div className="MainContent Applications">
-          
+            <DeleteModalComponent
+                id={itemIdToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
+            />
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
@@ -66,18 +83,19 @@ const Rewards = ()=>{
                     </div>
                 </div>
                 <div className="NewsRow">
-                        {news.map((row)=>(
+                        {rewards.map((row)=>(
                                 <RewardsItem
                                     key={row.id}
                                     id={row.id}
-                                    brand_name={row.brand_name}
-                                    brand_info={row.brand_info}
-                                    brand_rating={row.brand_rating}
-                                    brand_image={row.brand_image}
-                                    points={row.points}
-                                    title={row.title}
-                                    image={row.image}
-                                    details={row.details}
+                                    points={row.redeem_points}
+                                    title={row.name}
+                                    image={BrandImage}
+                                    details={row.description}
+                                    handleEditClicked={()=>navigate(`/editrewards/${row.id}`)}
+                                    handleDeleteClicked={()=>{
+                                        setItemIdToDelete(row.id);
+                                        setIsDeleteOverlayOpen(true);
+                                    }}
                                 />
                         ))}
                     </div>
