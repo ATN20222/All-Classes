@@ -860,19 +860,23 @@ const CashierService = {
     }
   },
 
-  Add: async (data) =>{
+  Add: async (brand_id,name , email , password ) =>{
     try {
-      
-      const response = await axiosInstance.post(`/cashiers`,data);
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('name', name);
+      formData.append('brand_id', brand_id);
+      formData.append('password', password);
+      const response = await axiosInstance.post(`/cashiers`,formData);
       return response.data; 
     } catch (error) { 
       throw new Error(error.response.data.message); 
     }
   },
 
-  Edit: async (id , data) =>{
+  Edit: async (id , brand_id,name , email , password) =>{
     try {
-      const response = await axiosInstance.post(`/cashiers/${id}`,data);
+      const response = await axiosInstance.put(`/cashiers/${id}?email=${email}&name=${name}&brand_id=${brand_id}&password=${password}`);
       return response.data; 
     } catch (error) { 
       throw new Error(error.response.data.message); 

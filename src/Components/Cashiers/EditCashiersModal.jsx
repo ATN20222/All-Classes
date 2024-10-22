@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { BrandsService } from '../../Services/Api';
-const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
+const EditCashiersModal = ({ isOpen,data , onClose, onAddCashier }) => {
+    const [name, setName] = useState(data.name);
+    const [email, setEmail] = useState(data.email);
+    const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
+    useEffect(()=>{
+        setEmail(data.email);
+        setName(data.name)
+    }, [data])
+
   // const [brand, setBrand] = useState('');
   // const [brands, setBrands] = useState([]);
   
@@ -78,7 +83,7 @@ const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
     <div className="overlay">
       <div className="mymodal">
         <div className="modal-content">
-          <h2>Add Cashier</h2>
+          <h2>Edit Cashier</h2>
           {/* <div className="FormHr"></div> */}
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
             <label>
@@ -145,6 +150,9 @@ const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
               />
               {errors.password && <div className="text-danger PopUpError mt-0">{errors.password}</div>}
             </label>
+            <div className="ResendPassword text-start p-2">
+            <span>Resend Password</span>
+            </div>
             
 
             <div className="form-buttons AllClassesBtn ApplicationButtons">
@@ -162,4 +170,4 @@ const AddCashiersModal = ({ isOpen, onClose, onAddCashier }) => {
   );
 };
 
-export default AddCashiersModal;
+export default EditCashiersModal;

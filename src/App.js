@@ -88,7 +88,7 @@ function App() {
           <Route path='/community/:id' element={<Community />} /> 
           <Route path='/pointsystem' element={<PointSystem />} /> 
           <Route path='/brands' element={<Brands />} /> 
-          <Route path='/cashiers' element={<Cashiers />} /> 
+          <Route path='/cashiers/:id' element={<Cashiers />} /> 
           <Route path='/cashiershistory' element={<CashiersHistory />} /> 
 
           <Route path='/offers' element={<Offers />} /> 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import FilterIcon from '../../Assets/Images/Filter.svg'
 import PlusIcon from '../../Assets/Images/CirclePlus.svg'
@@ -12,11 +12,12 @@ import AddBrandModal from "../../Components/Brands/AddBrandModal";
 import toast, { Toaster } from "react-hot-toast";
 import { BrandsService } from "../../Services/Api";
 import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
+import { Link, useNavigate } from "react-router-dom";
 const Brands = ()=>{
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [isDeleteOverlayOpen , setIsDeleteOverlayOpen] = useState(false);
-    const [brands , setBrands] = useState([]);
     const [brandIdToDelete , setBrandIdToDelete] = useState('');
+    const [brands , setBrands] = useState([]);
     const data = [
         {
             id:1,
@@ -46,6 +47,7 @@ const Brands = ()=>{
                 toast.error('Failed to add brand'); 
             }
     };
+    const navigate = useNavigate();
 
     useEffect(()=>{
         getData();
@@ -133,7 +135,12 @@ const Brands = ()=>{
                                         <div className="col-lg-3 col-md-3 col-sm-2 col-2  Center">
                                             {row.id}
                                         </div>
-                                        <div className="col-lg-2 col-md-2 col-sm-2 col-1 Center">
+                                        <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center">
+                                            <Link to={`/cashiers/${row.id}`} className="nav-link">
+                                                <FontAwesomeIcon icon={faEye} /> View Cashiers
+                                            </Link>
+                                        </div>
+                                        <div className="col-lg-1 col-md-1 col-sm-1 col-1 Center">
                                             <div className="Delete" onClick={()=>{
                                                 setBrandIdToDelete(row.id);
                                                 setIsDeleteOverlayOpen(true);
