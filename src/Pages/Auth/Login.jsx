@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import No from '../../Assets/Images/LastBack-01-01.svg';
 import Logo from '../../Assets/Images/AllClassesLogo.svg';
 import './Auth.css';
@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthService } from '../../Services/Api'; // Import the AuthService for the login function
+import { ManagementContext } from "../../Context/ManagementContext";
 
 const Login = () => {
     // Manage email, password, and error states
@@ -20,7 +21,9 @@ const Login = () => {
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+
     };
+    const { updateManagement } = useContext(ManagementContext);
 
     // Handle form submission
     const handleSubmit = async (e) => {
@@ -44,9 +47,13 @@ const Login = () => {
         if (!valid) return;
 
         try {
-            // Call the login function from AuthService
             const response = await AuthService.Login(email, password);
             // console.log("Login successful:", response);
+            
+            updateManagement(response.permssions); 
+            
+            console.log(response.permssions)
+
             navigate('/home');
             
             // Redirect or handle success logic here

@@ -95,24 +95,23 @@ const AuthService = {
     AuthRole:async ()=>{
       try {
           
-          const response = await axiosInstance.post(`/auth/auth-role`);
+          const response = await axiosInstance.post(`auth/permissions`);
           return response.data; 
         } catch (error) {
           throw new Error(error.response.data.message); 
 //throw new Error('Failed to get roles'); 
         }
-  },
+    },
 }
 
-
-const FAQServices = {
-  Add: async (question , answer)=>{
+const AboutServices = {
+  Add: async (title, description )=>{
     try {
       const formData = new FormData();
-      formData.append('questions', question);
-      formData.append('answer', answer);
+      formData.append('title', title);
+      formData.append('description', description);
       
-      const response = await axiosInstance.post(`/faq` , formData);
+      const response = await axiosInstance.post(`/abouts` , formData);
       return response.data; 
 
     } catch (error) {
@@ -122,7 +121,7 @@ const FAQServices = {
   },
   List: async ()=>{
     try {
-      const response = await axiosInstance.get(`/faq`);
+      const response = await axiosInstance.get(`/abouts`);
       return response.data; 
 
     } catch (error) {
@@ -132,7 +131,7 @@ const FAQServices = {
   },
   Delete: async (id)=>{
     try {
-      const response = await axiosInstance.delete(`/faq/${id}`);
+      const response = await axiosInstance.delete(`/abouts/${id}`);
       return response.data; 
 
     } catch (error) {
@@ -140,7 +139,31 @@ const FAQServices = {
 //throw new Error('Failed to delete'); 
     }
   },
+  GetById: async (id) =>{
+    try {
+
+      const response = await axiosInstance.get(`/abouts/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Edit: async (id, title,description) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      const response = await axiosInstance.post(`/abouts/${id}`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
 }
+
 const PolicyServices = {
   AddPrivacy: async (title, description )=>{
     try {
@@ -987,7 +1010,7 @@ export {
   OffersService,
   RewardsService,
   CharityService,     
-  FAQServices,
+  AboutServices,
   PolicyServices
 };
 

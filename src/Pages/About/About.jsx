@@ -1,74 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PlusIcon from '../../Assets/Images/CirclePlus.svg'
 import NewsImage from '../../Assets/Images/NewsImage.png'
 import CommentImage from '../../Assets/Images/CommentImage.jpeg'
 import NewsItem from "../../Components/News/NewsItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Comments from "../../Components/News/Comments";
 import AboutItem from "../../Components/About/AboutItem";
+import { AboutServices } from "../../Services/Api";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
+import toast, { Toaster } from "react-hot-toast";
 const About = ()=>{
-    const [isCommentsOpend , setIsCommentsOpend] = useState(false);
-    const [selectedComments , setSelectedComments] = useState([]);
-    const news = [
-        {
-            id :1 , 
-            image:NewsImage,
-            caption:'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, ..................... more',
-            comments:[
-                {
-                    name:'Mike Johnson',
-                    text:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ab quidem esse autem saepe, ratione sint incidunt suscipit dolores enim voluptatum rem temporibus illo quos, iure impedit deleniti? Facilis, doloribus.",
-                    image:CommentImage,
-                    time:'5m'
-                },
-                {
-                    name:'Mike Johnson',
-                    text:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ab quidem esse autem saepe, ratione sint incidunt suscipit dolores enim voluptatum rem temporibus illo quos, iure impedit deleniti? Facilis, doloribus.",
-                    image:CommentImage,
-                    time:'5m'
-                }
-                ,{
-                    name:'Mike Johnson',
-                    text:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ab quidem esse autem saepe, ratione sint incidunt suscipit dolores enim voluptatum rem temporibus illo quos, iure impedit deleniti? Facilis, doloribus.",
-                    image:CommentImage,
-                    time:'5m'
-                }
-            ],
-            likes:30,
+    const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+    const [ItemIdToDelete, setItemIdToDelete] = useState('');
+    const [abouts , setAbouts] = useState([]);
 
-        },
-        {
-            id :2 , 
-            image:NewsImage,
-            caption:'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, ..................... more',
-            comments:[
-                {
-                    name:'Mike Johnson',
-                    text:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil ab quidem esse autem saepe, ratione sint incidunt suscipit dolores enim voluptatum rem temporibus illo quos, iure impedit deleniti? Facilis, doloribus.",
-                    image:CommentImage,
-                    time:'5m'
-                }
-            ],
-            likes:30,
-
+    useEffect(()=>{
+        getData();
+    },[]);
+    async function getData() {
+        try {
+            const response = await AboutServices.List();
+            setAbouts(response.content);
+        } catch (error) {
+            console.error(error);
         }
-    ];
-    const handleOpenComments = (newsId)=>{
-        console.log(newsId);
-        setSelectedComments(news.find(n=>n.id===newsId).comments);
-        setIsCommentsOpend(true);
-        console.log(news.find(n=>n.id===newsId).comments);
     }
-    const handleAddComment = (newsId , comment)=>{
-        
+    const handleDelete = async (id)=>{
+        try {
+                
+            const response = await AboutServices.Delete(id);
+            toast.success('Item deleted successfully');
+            getData();
+        } catch (error) {
+            toast.error('Failed to delete item');
+            
+        }finally{
+            setItemIdToDelete('');
+        }
     }
+    const navigate = useNavigate();
     return(
         <div className="MainContent News">
+            <DeleteModalComponent
+                id={ItemIdToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
+            />
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
                         <Link className="AddIconContainer nav-link" 
-                            // onClick={() => setIsOverlayOpen(true)}
                             to='/addabout'
                         > 
                             <img src={PlusIcon} width="20px" height="20px" className="m-1" alt="" />
@@ -78,17 +66,19 @@ const About = ()=>{
                 </div>
 
                     <div className="NewsRow">
-                        {news.map((row)=>(
+                        {abouts.map((row)=>(
                                 <AboutItem
                                     key={row.id}
                                     id={row.id}
-                                    caption={row.caption}
-                                    comments={row.comments}
-                                    likes={row.likes}
-                                    date="5h ago"
-                                    isLiked={true}
-                                    image={row.image}
-                                    OpenComments={handleOpenComments}
+                                    title = {row.title}
+                                    caption={row.description}
+                                    image={NewsImage}
+                                    handleDeleteClicked={()=>{
+                                        setItemIdToDelete(row.id);
+                                        setIsDeleteOverlayOpen(true);
+                                    }}
+                                    handleEditClicked={()=>navigate(`/editabout/${row.id}`)}
+                                    
                                 />
                         ))}
                     </div>

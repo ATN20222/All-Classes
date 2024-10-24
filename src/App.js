@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import './Responsive.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Login from './Pages/Auth/Login';
 import Register from './Pages/Auth/Register';
 import ForgetPassword from './Pages/Auth/ForgetPassword';
@@ -49,9 +49,12 @@ import MemberDetails from './Pages/Members/MemberDetails';
 import EditOffer from './Pages/Offers/EditOffer';
 import EditCharity from './Pages/Charity/EditCharity';
 import EditReward from './Pages/Rewards/EditReward';
+import { ManagementContext, ManagementProvider } from './Context/ManagementContext';
+import EditAbout from './Pages/About/EditAbout';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
+  const { management } = useContext(ManagementContext);
 
   return (
     <div className='App'>
@@ -68,44 +71,100 @@ function App() {
           {/* <Route path='/' element={<Home />} /> */}
           <Route path='/home' element={<Home />} /> 
           <Route path='/test' element={<Test />} /> 
-          <Route path='/applications' element={<Applications />} /> 
-          <Route path='/members' element={<Members />} /> 
-          <Route path='/member/:id' element={<MemberDetails />} /> 
-          <Route path='/admins' element={<Admins />} /> 
-          <Route path='/applications/:id' element={<ApplicationDetails />} /> 
-          <Route path='/news' element={<News />} /> 
-          <Route path='/addnews' element={<AddNews />} /> 
-          <Route path='/editnews/:id' element={<EditNews />} /> 
-          <Route path='/events' element={<Events />} /> 
-          <Route path='/addevent' element={<AddEvent />} /> 
-          <Route path='/editevent/:id' element={<EditEvent />} /> 
-          <Route path='/jobs' element={<Jobs />} /> 
-          <Route path='/addjob' element={<AddJob />} /> 
-          <Route path='/editjob/:id' element={<EditJob />} /> 
-          <Route path='/buyandsell' element={<BuyAndSell />} /> 
-          <Route path='/addbuyandsell' element={<AddBuyAndSell />} /> 
-          <Route path='/editbuyandsell/:id' element={<EditBuyAndSell />} /> 
+          {management.includes('forms')&&
+            <>
+              <Route path='/applications' element={<Applications />} /> 
+              <Route path='/applications/:id' element={<ApplicationDetails />} /> 
+            </>
+          }
+          {management.includes('members')&&
+            <>
+              <Route path='/members' element={<Members />} /> 
+              <Route path='/member/:id' element={<MemberDetails />} /> 
+            </>
+          }
+          {management.includes('admins')&&
+            <>
+              <Route path='/admins' element={<Admins />} /> 
+            </>
+          }
+          {management.includes('news')&&
+            <>
+              <Route path='/news' element={<News />} /> 
+              <Route path='/addnews' element={<AddNews />} /> 
+              <Route path='/editnews/:id' element={<EditNews />} /> 
+            </>
+          }
+          {management.includes('events')&&
+            <>
+            <Route path='/events' element={<Events />} /> 
+            <Route path='/addevent' element={<AddEvent />} /> 
+            <Route path='/editevent/:id' element={<EditEvent />} />
+            </>
+          }
+
+          {management.includes('jobs')&&
+            <>
+              <Route path='/jobs' element={<Jobs />} /> 
+              <Route path='/addjob' element={<AddJob />} /> 
+              <Route path='/editjob/:id' element={<EditJob />} /> 
+            </>
+          }
+          {management.includes('buy-and-sell')&&
+            <>
+              <Route path='/buyandsell' element={<BuyAndSell />} /> 
+              <Route path='/addbuyandsell' element={<AddBuyAndSell />} /> 
+              <Route path='/editbuyandsell/:id' element={<EditBuyAndSell />} /> 
+            </>
+          }
+          {management.includes('about')&&
+            <>
+              <Route path='/about' element={<About />} /> 
+              <Route path='/addabout' element={<AddAbout />} /> 
+              <Route path='/editabout/:id' element={<EditAbout />} /> 
+            </>
+          }
+          {management.includes('terms-and-conditions')&&
+            <>
+          <Route path='/termsandconditions' element={<TermsAndConditions />} /> 
+            </>
+          }
+          {management.includes('privacy-policy')&&
+            <>
+              <Route path='/privacypolicy' element={<PrivacyPolicy />} /> 
+
+            </>
+          }
+          {management.includes('rewards')&&
+            <>
+              <Route path='/rewards' element={<Rewards />} /> 
+              <Route path='/addreward' element={<AddReward />} /> 
+              <Route path='/editrewards/:id' element={<EditReward />} /> 
+
+            </>
+          }
+ 
+          
+
           <Route path='/communities' element={<Communities />} /> 
           <Route path='/community/:id' element={<Community />} /> 
           <Route path='/pointsystem' element={<PointSystem />} /> 
+          
           <Route path='/brands' element={<Brands />} /> 
+
           <Route path='/cashiers/:id' element={<Cashiers />} /> 
           <Route path='/cashiershistory' element={<CashiersHistory />} /> 
 
           <Route path='/offers' element={<Offers />} /> 
           <Route path='/addoffer' element={<AddOffer />} /> 
           <Route path='/editoffer/:id' element={<EditOffer />} /> 
-          <Route path='/rewards' element={<Rewards />} /> 
-          <Route path='/addreward' element={<AddReward />} /> 
-          <Route path='/editrewards/:id' element={<EditReward />} /> 
+          
           <Route path='/charity' element={<Charity />} /> 
           <Route path='/addcharity' element={<AddCharity />} /> 
           <Route path='/editcharity/:id' element={<EditCharity />} /> 
+          
           <Route path='/supscription' element={<Subscription />} /> 
-          <Route path='/about' element={<About />} /> 
-          <Route path='/addabout' element={<AddAbout />} /> 
-          <Route path='/privacypolicy' element={<PrivacyPolicy />} /> 
-          <Route path='/termsandconditions' element={<TermsAndConditions />} /> 
+
           <Route path='/chats' element={<Chats />} /> 
 
           
@@ -119,8 +178,10 @@ function App() {
 
 export default function AppWrapper() {
   return (
-    <Router>
-      <App />
-    </Router>
+    <ManagementProvider>
+      <Router>
+        <App />
+      </Router>
+    </ManagementProvider>
   );
 }

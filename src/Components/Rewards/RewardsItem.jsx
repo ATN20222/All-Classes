@@ -3,8 +3,7 @@ import { faEllipsisV, faHeart as heart, faStar as solidStar } from "@fortawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
-const 
-RewardsItem = ({ id, details, image, title, points, handleDeleteClicked, handleEditClicked  }) => {
+const RewardsItem = ({ id, details, image, title, points, handleDeleteClicked, handleEditClicked  }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {

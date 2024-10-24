@@ -6,9 +6,29 @@ const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  const [managements] = useState(["news", "events", "buy-and-sell", "forms", "jobs"]); // The list of managements
-  const [selectedManagements, setSelectedManagements] = useState([]); // The selected managements array
-
+  const [managements] = useState([
+    "news", 
+    "events", 
+    "buy-and-sell", 
+    "jobs",
+    "forms", 
+    "admins",
+    "members",
+    "terms-and-conditions",
+    "privacy-policy",
+    "about",
+    "rewards",
+  ]); 
+  const [selectedManagements, setSelectedManagements] = useState([]);
+  const handleManagementChange = (management) => {
+    setSelectedManagements((prevSelected) => {
+      if (prevSelected.includes(management)) {
+        return prevSelected.filter((m) => m !== management);
+      } else {
+        return [...prevSelected, management];
+      }
+    });
+  };
   const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
@@ -52,15 +72,7 @@ const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
     setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
   };
 
-  const handleManagementChange = (management) => {
-    setSelectedManagements((prevSelected) => {
-      if (prevSelected.includes(management)) {
-        return prevSelected.filter((m) => m !== management);
-      } else {
-        return [...prevSelected, management];
-      }
-    });
-  };
+
 
   if (!isOpen) return null;
 

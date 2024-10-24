@@ -97,7 +97,7 @@ const PrivacyPolicy = ()=>{
             <AddPrivacyPolicyModal
                 isOpen={isOverlayOpen}
                 onClose={() => setIsOverlayOpen(false)}
-                onAddClass={handleAddPrivacy}
+                onAddPolicy={handleAddPrivacy}
             />
             <div className="container">
                 <div className="PageHeader">
@@ -113,7 +113,7 @@ const PrivacyPolicy = ()=>{
                 </div>
                 <div className="NewsRow">
                     <div className="PrivacyContainer">
-                        {data.map((row)=>(
+                        {policies.map((row)=>(
                             <div className="PrivacyItem" key={row.id}>
                                 <h6 className="PolicyHeader">
                                     <div className="">{row.title}</div>

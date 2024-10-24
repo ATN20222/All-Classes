@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
 import { AboutServices } from "../../Services/Api";
 
-const AddAbout = () => {
+const EditAbout = () => {
+    const { id } = useParams(); 
     const [title, setTitle] = useState('');
     const [caption, setCaption] = useState('');
     const [image, setImage] = useState(null);
@@ -14,7 +15,23 @@ const AddAbout = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleAddAbout = async (e) => {
+    useEffect(() => {
+        const fetchAboutDetails = async () => {
+            try {
+                const response = await AboutServices.GetById(id); 
+                if (response) {
+                    setTitle(response.content.title);
+                    setCaption(response.content.description);
+                }
+            } catch (error) {
+                toast.error('Failed to fetch about details');
+            }
+        };
+
+        fetchAboutDetails();
+    }, [id]);
+
+    const handleEditAbout = async (e) => {
         e.preventDefault();
 
         // Reset errors
@@ -38,13 +55,13 @@ const AddAbout = () => {
         if (valid) {
             setIsLoading(true);
             try {
-                const response = await AboutServices.Add(title, caption, image);
-                toast.success('About section added successfully');
+                const response = await AboutServices.Edit(id, title, caption, image ); 
+                toast.success('About section updated successfully');
                 setTimeout(() => {
                     navigate('/about');
                 }, 2000);
             } catch (error) {
-                toast.error('Failed to add about section');
+                toast.error('Failed to update about section');
             } finally {
                 setIsLoading(false);
             }
@@ -65,7 +82,7 @@ const AddAbout = () => {
                     </div>
                 </div>
 
-                <form onSubmit={handleAddAbout}>
+                <form onSubmit={handleEditAbout}>
                     <div className="AddNewsImageContainer">
                         <label htmlFor="AboutImage">
                             <FontAwesomeIcon icon={faImage} />
@@ -115,7 +132,7 @@ const AddAbout = () => {
                         <div className="col-lg-12 ApplicationButtons">
                             <div className="AllClassesBtn AcceptBtn">
                                 <button type="submit" disabled={isLoading}>
-                                    {isLoading ? 'Saving...' : 'Save'}
+                                    {isLoading ? 'Saving...' : 'Update'}
                                 </button>
                             </div>
                             <div className="AllClassesBtn RejectBtn">
@@ -129,4 +146,4 @@ const AddAbout = () => {
     );
 }
 
-export default AddAbout;
+export default EditAbout;

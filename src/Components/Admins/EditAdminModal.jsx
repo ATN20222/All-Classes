@@ -7,8 +7,19 @@ const EditAdminModal = ({ id , isOpen, onClose, onEditAdmin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  const [managements] = useState(["news", "events", "buy-and-sell", "forms", "jobs"]); // The list of managements
-  const [selectedManagements, setSelectedManagements] = useState([]); // The selected managements array
+  const [managements] = useState([
+    "news", 
+    "events", 
+    "buy-and-sell", 
+    "jobs",
+    "forms", 
+    "admins",
+    "members",
+    "terms-and-conditions",
+    "privacy-policy",
+    "about",
+    "rewards"
+  ]);   const [selectedManagements, setSelectedManagements] = useState([]); // The selected managements array
 
   const [errors, setErrors] = useState({});
     useEffect(() => {
