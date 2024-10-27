@@ -51,6 +51,7 @@ import EditCharity from './Pages/Charity/EditCharity';
 import EditReward from './Pages/Rewards/EditReward';
 import { ManagementContext, ManagementProvider } from './Context/ManagementContext';
 import EditAbout from './Pages/About/EditAbout';
+import HomeMind from './Pages/Home/HomeMind';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -69,6 +70,7 @@ function App() {
         
         <Route element={<DashboardLayout />}>
           {/* <Route path='/' element={<Home />} /> */}
+          <Route path='/homeMIND' element={<HomeMind />} /> 
           <Route path='/home' element={<Home />} /> 
           <Route path='/test' element={<Test />} /> 
           {management.includes('forms')&&
@@ -135,7 +137,7 @@ function App() {
 
             </>
           }
-          {management.includes('rewards')&&
+          {!management.includes('rewards')&&
             <>
               <Route path='/rewards' element={<Rewards />} /> 
               <Route path='/addreward' element={<AddReward />} /> 

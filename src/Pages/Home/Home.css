@@ -64,3 +64,41 @@
 .dark{
     background-color: black !important;
 }
+
+
+.ChartsRow{
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    display: flex;
+    justify-content: space-between;
+}
+.PieChartCol{
+    padding: 50px;
+    padding-top: 0;
+}
+.ChartsRow h5{
+    text-align: start;
+}
+.ChartItem{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 25px;
+    margin-bottom: 10px;
+}
+
+
+.PieChartCol{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.UploadRegisterImage label{
+    height: 100% !important;
+}
+.UploadRegisterImage label img{
+    height: 100%;
+}
+@media (min-width:786px) {
+    .HomeCardMind{
+        width: 49% !important;
+    }
+}

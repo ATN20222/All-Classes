@@ -1,6 +1,7 @@
 import React from "react";
 import HomeCard from "./HomeCard";
-const HomeCardsSection = ()=>{
+const HomeCardsSection = ({Admins , Members , Forms})=>{
+    
     return(
         <section className="HomeCardsSection">
             <div className="container">
@@ -8,19 +9,19 @@ const HomeCardsSection = ()=>{
                     <HomeCard 
                         isAdmins={false}
                         title={'FORMS'}
-                        number={'1,059'}
+                        number={Forms}
                         link={'applications'}
                     />
                     <HomeCard 
                         isAdmins={true}
                         title={'ADMINS'}
-                        number={'1,059'}
+                        number={Admins}
                         link={'admins'}
                     />
                     <HomeCard 
                         isAdmins={false}
-                        title={'MEMBERS'}
-                        number={'1,059'}
+                        title={"MEMBERS"}
+                        number={Members}
                         link={'members'}
                     />
                 </div>

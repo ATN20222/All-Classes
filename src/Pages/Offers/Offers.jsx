@@ -105,8 +105,7 @@ const Offers = () => {
                             brand_info={row.brand_info}
                             brand_rating={row.brand_rating}
                             brand_image={row.brand_image ? row.brand_image : BrandImage}
-                            price_before={row.price_before}
-                            price_after={row.price_after}
+                            discount={row.discount}
                             title={row.title}
                             image={row.image ? row.image : BrandImage}
                             details={row.description}

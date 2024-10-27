@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 const 
-OffersItem = ({ id, details, image, title, price_after, price_before,brand_image,brand_rating,brand_info,brand_name, code,  handleDeleteClicked, handleEditClicked  }) => {
+OffersItem = ({ id, details, image, title, discount,brand_image,brand_rating,brand_info,brand_name, code,  handleDeleteClicked, handleEditClicked  }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -69,8 +69,7 @@ OffersItem = ({ id, details, image, title, price_after, price_before,brand_image
                     <span>{title}</span>
                 </div>
                 <div className="OfferPricing">
-                    <span><s>{price_before+" EGP"}</s></span> 
-                    <span>{price_after+" EGP"}</span>
+                    <span>{discount+"%"}</span>
                 </div>
                 <span>{details}</span>
             </div>

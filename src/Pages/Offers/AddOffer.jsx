@@ -19,15 +19,14 @@ const AddOffer = () => {
     const [brand, setBrand] = useState('');
     const [brandInfo, setBrandInfo] = useState('');
     const [offerName, setOfferName] = useState('');
-    const [priceBefore, setPriceBefore] = useState('');
-    const [priceAfter, setPriceAfter] = useState('');
+    const [discount, setDiscount] = useState('');
     const [offerDetails, setOfferDetails] = useState('');
     const [image, setImage] = useState(null);
     
     const [categoryError, setCategoryError] = useState('');
     const [brandError, setBrandError] = useState('');
     const [offerNameError, setOfferNameError] = useState('');
-    const [priceBeforeError, setPriceBeforeError] = useState('');
+    const [discountError, setDiscountError] = useState('');
     const [priceAfterError, setPriceAfterError] = useState('');
     const [offerDetailsError, setOfferDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
@@ -41,7 +40,7 @@ const AddOffer = () => {
         setCategoryError('');
         setBrandError('');
         setOfferNameError('');
-        setPriceBeforeError('');
+        setDiscountError('');
         setPriceAfterError('');
         setOfferDetailsError('');
         setImageError('');
@@ -60,12 +59,8 @@ const AddOffer = () => {
             setOfferNameError('Offer name is required.');
             valid = false;
         }
-        if (!priceBefore) {
-            setPriceBeforeError('Price before is required.');
-            valid = false;
-        }
-        if (!priceAfter) {
-            setPriceAfterError('Price after is required.');
+        if (!discount) {
+            setDiscountError('discount is required.');
             valid = false;
         }
         if (!offerDetails) {
@@ -77,7 +72,7 @@ const AddOffer = () => {
             setIsLoading(true);
             try {
                 
-                const response = await OffersService.Add(offerName , brandInfo , category , priceBefore , priceAfter , offerDetails , brand , image);
+                const response = await OffersService.Add(offerName , brandInfo , category , discount  , offerDetails , brand , image);
                 toast.success('Offer added successfully');
                 setTimeout(() => {
                     navigate('/offers');
@@ -197,24 +192,12 @@ const AddOffer = () => {
                         <label htmlFor="priceBefore">
                             <input 
                                 type="number" 
-                                placeholder="Price before" 
-                                value={priceBefore}
-                                onChange={(e) => setPriceBefore(e.target.value)}
+                                placeholder="discount" 
+                                value={discount}
+                                onChange={(e) => setDiscount(e.target.value)}
                             />
                         </label>
-                        {priceBeforeError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{priceBeforeError}</div>}
-                    </div>
-
-                    <div className="AddField">
-                        <label htmlFor="priceAfter">
-                            <input 
-                                type="number" 
-                                placeholder="Price after" 
-                                value={priceAfter}
-                                onChange={(e) => setPriceAfter(e.target.value)}
-                            />
-                        </label>
-                        {priceAfterError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{priceAfterError}</div>}
+                        {discount && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{discountError}</div>}
                     </div>
 
                     <div className="AddField">

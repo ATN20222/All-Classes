@@ -103,7 +103,28 @@ const AuthService = {
         }
     },
 }
+const HomeServices = {
+  ListCommunity: async ()=>{
+    try {
+      const response = await axiosInstance.get(`/dashboard/community`);
+      return response.data; 
 
+    } catch (error) {
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+const MindHomeServices = {
+  ListCommunity: async ()=>{
+    try {
+      const response = await axiosInstance.get(`/dashboard/mind`);
+      return response.data; 
+
+    } catch (error) {
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
 const AboutServices = {
   Add: async (title, description )=>{
     try {
@@ -691,14 +712,13 @@ const OffersService = {
       throw new Error(error.response.data.message); 
     }
   },
-  Add: async (title,brand_info,category,price_before,price_after,description ,brand_id ,img) =>{
+  Add: async (title,brand_info,category,discount,description ,brand_id ,img) =>{
     try {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('brand_info', brand_info);
       formData.append('category', category);
-      formData.append('price_before', price_before);
-      formData.append('price_after', price_after);
+      formData.append('discount', discount);
       formData.append('description', description);
       formData.append('brand_id', brand_id);
 
@@ -712,14 +732,13 @@ const OffersService = {
       throw new Error(error.response.data); 
     }
   },
-  Edit:async (id ,title,brand_info,category,price_before,price_after,description ,brand_id ,img) =>{
+  Edit:async (id ,title,brand_info,category,discount,description ,brand_id ,img) =>{
     try {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('brand_info', brand_info);
       formData.append('category', category);
-      formData.append('price_before', price_before);
-      formData.append('price_after', price_after);
+      formData.append('discount', discount);
       formData.append('description', description);
       formData.append('brand_id', brand_id);
 
@@ -1009,8 +1028,10 @@ export {
   CashierService,
   OffersService,
   RewardsService,
+  HomeServices,
   CharityService,     
   AboutServices,
-  PolicyServices
+  PolicyServices,
+  MindHomeServices
 };
 

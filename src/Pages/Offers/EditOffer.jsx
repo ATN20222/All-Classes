@@ -21,15 +21,13 @@ const EditOffer = () => {
     const [brand, setBrand] = useState('');
     const [brandInfo, setBrandInfo] = useState('');
     const [offerName, setOfferName] = useState('');
-    const [priceBefore, setPriceBefore] = useState('');
-    const [priceAfter, setPriceAfter] = useState('');
+    const [discount, setDiscount] = useState('');
     const [offerDetails, setOfferDetails] = useState('');
     const [image, setImage] = useState(null);
     const [categoryError, setCategoryError] = useState('');
     const [brandError, setBrandError] = useState('');
     const [offerNameError, setOfferNameError] = useState('');
-    const [priceBeforeError, setPriceBeforeError] = useState('');
-    const [priceAfterError, setPriceAfterError] = useState('');
+    const [discountError, setDiscountError] = useState('');
     const [offerDetailsError, setOfferDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -42,8 +40,7 @@ const EditOffer = () => {
         setCategoryError('');
         setBrandError('');
         setOfferNameError('');
-        setPriceBeforeError('');
-        setPriceAfterError('');
+        setDiscountError('');
         setOfferDetailsError('');
         setImageError('');
         let valid = true;
@@ -61,12 +58,8 @@ const EditOffer = () => {
             setOfferNameError('Offer name is required.');
             valid = false;
         }
-        if (!priceBefore) {
-            setPriceBeforeError('Price before is required.');
-            valid = false;
-        }
-        if (!priceAfter) {
-            setPriceAfterError('Price after is required.');
+        if (!discount) {
+            setDiscountError('Discount is required.');
             valid = false;
         }
         if (!offerDetails) {
@@ -78,7 +71,7 @@ const EditOffer = () => {
             setIsLoading(true);
             try {
                 console.log(category)
-                const response = await OffersService.Edit(id,offerName , brandInfo , category , priceBefore , priceAfter , offerDetails , brand , image);
+                const response = await OffersService.Edit(id,offerName , brandInfo , category ,discount , offerDetails , brand , image);
                 toast.success('Offer edited successfully');
                 setTimeout(() => {
                     navigate('/offers');
@@ -113,8 +106,7 @@ const EditOffer = () => {
             setOfferName(response.content.title);
             setCategory(response.content.category);
             setOfferDetails(response.content.description);
-            setPriceAfter(response.content.price_after);
-            setPriceBefore(response.content.price_before);
+            setDiscount(response.content.discount);
             setBrandInfo(response.content.brand_info);
             
         } catch (error) {
@@ -229,25 +221,13 @@ const EditOffer = () => {
                             <input 
                                 type="number" 
                                 placeholder="Price before" 
-                                value={priceBefore}
-                                onChange={(e) => setPriceBefore(e.target.value)}
+                                value={discount}
+                                onChange={(e) => setDiscount(e.target.value)}
                             />
                         </label>
-                        {priceBeforeError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{priceBeforeError}</div>}
+                        {discountError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{discountError}</div>}
                     </div>
-
-                    <div className="AddField">
-                        <label htmlFor="priceAfter">
-                            <input 
-                                type="number" 
-                                placeholder="Price after" 
-                                value={priceAfter}
-                                onChange={(e) => setPriceAfter(e.target.value)}
-                            />
-                        </label>
-                        {priceAfterError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{priceAfterError}</div>}
-                    </div>
-
+                    
                     <div className="AddField">
                         <textarea 
                             placeholder="Write offer details" 
