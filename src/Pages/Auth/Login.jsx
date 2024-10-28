@@ -7,6 +7,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthService } from '../../Services/Api'; // Import the AuthService for the login function
 import { ManagementContext } from "../../Context/ManagementContext";
+import { getDB, setDB } from "../../Services/AxiosApi";
 
 const Login = () => {
     // Manage email, password, and error states
@@ -47,13 +48,12 @@ const Login = () => {
         if (!valid) return;
 
         try {
+            setDB('mind');
+            console.log(getDB())      
             const response = await AuthService.Login(email, password);
-            // console.log("Login successful:", response);
-            
+            localStorage.setItem('email' , email);   
             updateManagement(response.permssions); 
             
-            console.log(response.permssions)
-
             navigate('/home');
             
             // Redirect or handle success logic here

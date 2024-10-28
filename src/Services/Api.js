@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosInstance, {  deleteToken, setToken   } from './AxiosApi';
+import axiosInstance, {  deleteToken, setDB, setToken   } from './AxiosApi';
 
 const baseURL = 'https://yellowgreen-raccoon-480548.hostingersite.com/api'; 
 
@@ -16,6 +16,7 @@ const AuthService = {
         const response = await axiosInstance.post(`/auth/login`, formData);
         console.log("resp",response);
         setToken(response.data.token);
+        // setDB(response.data.db);
         return response.data; 
       } catch (error) {
         console.log(error)

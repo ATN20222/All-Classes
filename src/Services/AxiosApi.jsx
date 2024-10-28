@@ -15,14 +15,30 @@ export const setToken = (token) => {
 export const getToken = () => {
     return cookie.get('token');
 };
+export const getMindToken = () => {
+    return cookie.get('mind_token');
+};
 // Delete Token
 export const deleteToken = () => {
     cookie.remove('token', { path: '/' });
     localStorage.clear();
     sessionStorage.clear();
 };
+export const setMindToken = (mind_token) => {
+    cookie.set('mind_token', mind_token, { path: '/' });
+};
 
+export const RollBackToken = () => {
+    setToken(getMindToken());
+};
+export const setDB = (db_name) => {
+    cookie.set('db_name', db_name, { path: '/' });
+    axiosInstance.defaults.headers["Database-App"] = db_name;
+};
 
+export const getDB = () => {
+    return cookie.get('db_name');
+};
 
 // Instance From Axios
 const axiosInstance = axios.create({
@@ -30,7 +46,7 @@ const axiosInstance = axios.create({
     Accept:'application/json',
     headers:{
     // "Database-App":'community_1',
-    "Database-App":'mind',
+    "Database-App":getDB(),
     "Content-Type":'multipart/form-data',
     "Accept":'application/json',
     }
@@ -44,6 +60,8 @@ axiosInstance.interceptors.request.use(
             config.headers.Authorization = `Bearer ${token}`;
             config.headers.Accept = 'application/json';
             config.headers["Content-Type"] = 'multipart/form-data';
+            config.headers["Database-App"] = getDB(); // Dynamically set db_name on each request
+
         }
         return config;
     },
