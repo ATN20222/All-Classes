@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthService } from '../../Services/Api'; // Import the AuthService for the login function
 import { ManagementContext } from "../../Context/ManagementContext";
 import { getDB, setDB } from "../../Services/AxiosApi";
-
 const Login = () => {
     // Manage email, password, and error states
     const [email, setEmail] = useState('');
@@ -51,12 +50,13 @@ const Login = () => {
             setDB('mind');
             console.log(getDB())      
             const response = await AuthService.Login(email, password);
+            
             localStorage.setItem('email' , email);   
             updateManagement(response.permssions); 
             
-            navigate('/home');
+            // navigate('/home');
+            window.location.href='/home'
             
-            // Redirect or handle success logic here
         } catch (err) {
             console.log(err)
             console.error("Login error:", err.message);

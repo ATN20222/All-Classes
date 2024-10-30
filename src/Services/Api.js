@@ -1016,12 +1016,69 @@ const RewardsService = {
   },
 }
 
+const SubscriptionService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/subscriptions`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (plan_name,frequency,amount ,details) =>{
+    try {
+      const formData = new FormData();
+      formData.append('plan_name', plan_name);
+      formData.append('frequency', frequency);
+      formData.append('amount', amount);
+      formData.append('details', details);
+
+      const response = await axiosInstance.post(`/subscriptions`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit:async (id ,plan_name,frequency,amount ,details) =>{
+    try {
+      const response = await axiosInstance.put(`/subscriptions/${id}?plan_name=${plan_name}&frequency=${frequency}&amount=${amount}&details=${details}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/subscriptions/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/subscriptions/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+
+
 export { 
   AuthService,
   EventService,
   NewsService,
   JobsService ,
   BuyAndSellService,
+  SubscriptionService,
   AdminsService,
   MembersService,
   ApplicationsService,

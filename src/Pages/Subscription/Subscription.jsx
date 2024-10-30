@@ -1,15 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faCirclePlus, faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 import CashIcon from '../../Assets/Images/CashHistoryImahe.svg';
 import './Subscription.css';
 import AddPlanModal from "./AddPlanModal";
+import { SubscriptionService } from "../../Services/Api";
+import toast, { Toaster } from "react-hot-toast";
+import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
+import EditPlanModal from "./EditPlanModal";
 
 const Subscription = () => {
   const [activeMenuId, setActiveMenuId] = useState(null); // Track which plan's menu is open
-    const[isOverlayOpen , setIsOverlayOpen] = useState(false);
-    const handleAddPlan = ()=>{
-        
+  const [isOverlayOpen , setIsOverlayOpen] = useState(false);
+  const [planToDelete,setPlanToDelete] = useState('');
+  const [plans , setPlans] = useState([]);
+  const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
+  const [editModalOpen,setEditModalOpen] = useState(false);
+  const [selectedPlan , setSelectedPlan] = useState({});
+    useEffect(()=>{
+      getData();
+  },[])
+  
+
+  async function getData() {
+      try {
+          const response = await SubscriptionService.List();
+          setPlans(response.content);
+      } catch (error) {
+          console.error(error);
+      }
+  }
+  const handleDelete = async (id)=>{
+      try {
+              
+          const response = await SubscriptionService.Delete(id);
+          toast.success('Brand deleted successfully');
+          getData();
+      } catch (error) {
+          toast.error('Failed to delete brand');
+          
+      }finally{
+          setPlanToDelete('')
+      }
+  }
+
+    const handleAddPlan = async (planName, price, planDetails, frequency)=>{
+      try {    
+        const response = await SubscriptionService.Add(planName,frequency, price,planDetails);
+        toast.success('Plan added successfully');
+        getData();
+
+    } catch (error) {
+        console.log(error)
+        toast.error('Failed to add plan'); 
+    }
+    }
+    const handleEditPlan = async (id,planName, price, planDetails, frequency)=>{
+      try {    
+        const response = await SubscriptionService.Edit(id,planName,frequency, price,planDetails);
+        toast.success('Plan updated successfully');
+        getData();
+
+    } catch (error) {
+        console.log(error)
+        toast.error('Failed to update plan'); 
+    }
     }
   const data = [
     {
@@ -64,7 +119,6 @@ const Subscription = () => {
       },
     // More items...
   ];
-
   const plansdata = [
     {
       id: 1,
@@ -92,15 +146,19 @@ const Subscription = () => {
   ];
 
   const toggleMenu = (id) => {
-    setActiveMenuId(activeMenuId === id ? null : id); // Toggle the menu for the selected plan
+    setActiveMenuId(activeMenuId === id ? null : id);
   };
 
-  const handleEditClicked = (id) => {
-    console.log(`Edit clicked for plan ${id}`);
+  const handleEditClicked = (plan) => {
+    // console.log(`Edit clicked for plan ${id}`);
+    setSelectedPlan(plan);
+    setEditModalOpen(true);
   };
 
   const handleDeleteClicked = (id) => {
-    console.log(`Delete clicked for plan ${id}`);
+    setPlanToDelete(id);
+    setIsDeleteOverlayOpen(true);
+  
   };
 
   return (
@@ -109,6 +167,25 @@ const Subscription = () => {
                 isOpen={isOverlayOpen}
                 onClose={() => setIsOverlayOpen(false)}
                 onAddPlan={handleAddPlan}
+            />
+        <div className="Toaster">
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
+        </div>
+        <EditPlanModal
+          isOpen={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          onEditPlan={handleEditPlan}
+          plan={selectedPlan}
+        />
+
+        <DeleteModalComponent
+                id={planToDelete}
+                isOpen={isDeleteOverlayOpen}
+                onClose={() => setIsDeleteOverlayOpen(false)}
+                onDelete={handleDelete}
             />
       <div className="container">
         <div className="PageHeader">
@@ -156,15 +233,15 @@ const Subscription = () => {
 
         <div className="PlansContainer container">
           <div className="row Center">
-            {plansdata.map((plan) => (
+            {plans.map((plan) => (
               <div className="col-lg-3 PlanCard" key={plan.id}>
                 <div className="NewsSettings">
-                  <div className="SettingsBtn" onClick={() => toggleMenu(plan.id)}>
-                    <FontAwesomeIcon icon={faEllipsisV} />
+                  <div className="SettingsBtn PlanSettings" onClick={() => toggleMenu(plan.id)}>
+                    <FontAwesomeIcon icon={faEllipsisV} className="text-white" />
                   </div>
                   {activeMenuId === plan.id && (
                     <div className="SettingsMenu">
-                      <div className="MenuItem" onClick={() => handleEditClicked(plan.id)}>Edit</div>
+                      <div className="MenuItem" onClick={() => handleEditClicked(plan)}>Edit</div>
                       <div className="MenuItem" onClick={() => handleDeleteClicked(plan.id)}>Delete</div>
                     </div>
                   )}
@@ -173,10 +250,10 @@ const Subscription = () => {
                   <span>{plan.plan_name}</span>
                 </div>
                 <div className="PlanPrice">
-                  <span>{plan.price}</span>
+                  <span>{plan.amount+'EGP/'+plan.frequency+'day'}</span>
                 </div>
                 <ul className="list-unstyled">
-                  {plan.features.map((feature, index) => (
+                  {plan.details.split(",").map((feature, index) => (
                     <li key={index} className="list-item">
                       <div className="Icon">
                         <FontAwesomeIcon icon={faCircleCheck} />
@@ -188,7 +265,7 @@ const Subscription = () => {
                   ))}
                 </ul>
               </div>
-            ))}
+            ))} 
             <div className="col-lg-3 PlanCard Center AddPlanCard">
                 <FontAwesomeIcon icon={faCirclePlus} onClick={()=>setIsOverlayOpen(true)}/>
             </div>

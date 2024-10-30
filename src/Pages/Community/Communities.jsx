@@ -1,18 +1,11 @@
 import React, { useState } from "react";
 import './Communities.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import FilterIcon from '../../Assets/Images/Filter.svg'
-import PlusIcon from '../../Assets/Images/CirclePlus.svg'
-import AddAdminModal from "../../Components/Admins/AddAdminModal";
 import { Link, useNavigate } from "react-router-dom";
 import LoginCommunityModal from "../../Components/Community/LoginCommunityModal";
 import { AuthService } from "../../Services/Api";
-import { getToken, ReplaceToken, setDB, setMindToken } from "../../Services/AxiosApi";
-import toast from "react-hot-toast";
+import { getToken, setDB, setMindToken } from "../../Services/AxiosApi";
+import toast, { Toaster } from "react-hot-toast";
 const Communities = ()=>{
-    const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [isManageOverlayOpen, setIsManageOverlayOpen] = useState(false);
     const [selectedId , setSelectedId] = useState('');
     const data = [  
@@ -58,6 +51,12 @@ const Communities = ()=>{
                 onClose={() => setIsManageOverlayOpen(false)}
                 onLogin={handleCommunityLogin}
             />
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">

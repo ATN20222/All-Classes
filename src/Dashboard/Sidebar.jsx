@@ -2,10 +2,11 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.css";
 import avatarImage from '../Assets/Images/Avatar.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase, faChevronRight, faCubesStacked, faFileContract, faFileShield, faGifts, faHome, faInfo, faMoneyBillTransfer, faSearch, faShield, faShieldHalved, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import faTimes for close icon
-import { Link } from "react-router-dom";
+import { faBriefcase, faDoorOpen, faFileContract, faGifts, faHome, faInfo, faMoneyBillTransfer, faSearch, faShield, faShieldHalved, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import faTimes for close icon
+import { Link, useNavigate } from "react-router-dom";
 import { faCalendarDays, faNewspaper } from "@fortawesome/free-regular-svg-icons";
 import { ManagementContext } from "../Context/ManagementContext";
+import { RollBackToken, setDB } from "../Services/AxiosApi";
 
 const Sidebar = ({ isActive, toggleSidebar }) => {
 
@@ -35,7 +36,7 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
     });
   };
   const { management } = useContext(ManagementContext);
-
+  const navigate = useNavigate();
   return (
     <div className={`sidebar ${isActive ? 'ActiveSideMenu' : ''}`}>
       {console.log(management)}
@@ -125,6 +126,18 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
             <Link to='about' className="nav-link">
               <FontAwesomeIcon icon={faInfo} /> About
             </Link>
+          </li>
+        }
+
+        {
+          <li>
+            <div className="nav-link" onClick={()=>{
+              RollBackToken();
+              setDB('mind');
+              navigate('homemind')
+            }}>
+              <FontAwesomeIcon icon={faDoorOpen} /> Back to MIND
+            </div>
           </li>
         }
 

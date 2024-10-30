@@ -52,6 +52,8 @@ import EditReward from './Pages/Rewards/EditReward';
 import { ManagementContext, ManagementProvider } from './Context/ManagementContext';
 import EditAbout from './Pages/About/EditAbout';
 import HomeMind from './Pages/Home/HomeMind';
+import { AuthProvider } from './Context/AuthContext';
+import PrivateRoute from './Context/PrivateRoute';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -68,7 +70,7 @@ function App() {
         <Route path='/landing' element={<LandingHome />} />
         <Route path='/' element={<LandingHome />} />
         
-        <Route element={<DashboardLayout />}>
+        <Route element={<PrivateRoute><DashboardLayout /></PrivateRoute>}>
           {/* <Route path='/' element={<Home />} /> */}
           <Route path='/homeMIND' element={<HomeMind />} /> 
           <Route path='/home' element={<Home />} /> 
@@ -85,7 +87,7 @@ function App() {
               <Route path='/member/:id' element={<MemberDetails />} /> 
             </>
           }
-          {management.includes('admins')&&
+          {!management.includes('admins')&&
             <>
               <Route path='/admins' element={<Admins />} /> 
             </>
@@ -165,7 +167,7 @@ function App() {
           <Route path='/addcharity' element={<AddCharity />} /> 
           <Route path='/editcharity/:id' element={<EditCharity />} /> 
           
-          <Route path='/supscription' element={<Subscription />} /> 
+          <Route path='/subscription' element={<Subscription />} /> 
 
           <Route path='/chats' element={<Chats />} /> 
 
@@ -180,10 +182,12 @@ function App() {
 
 export default function AppWrapper() {
   return (
-    <ManagementProvider>
-      <Router>
-        <App />
-      </Router>
-    </ManagementProvider>
+    <AuthProvider>  
+      <ManagementProvider>
+        <Router>
+          <App />
+        </Router>
+      </ManagementProvider>
+    </AuthProvider>
   );
 }

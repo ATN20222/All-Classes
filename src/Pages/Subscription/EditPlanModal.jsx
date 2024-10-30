@@ -1,25 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const AddPlanModal = ({ isOpen, onClose, onAddPlan }) => {
-  const [planName, setPlanName] = useState('');
-  const [price, setPrice] = useState('');
-  const [planDetails, setPlanDetails] = useState('');
-  const [frequency, setFrequency] = useState('');
+const EditPlanModal = ({ isOpen, onClose, onEditPlan, plan }) => {
+  const [planName, setPlanName] = useState(plan.plan_name || '');
+  const [price, setPrice] = useState(plan.price || '');
+  const [planDetails, setPlanDetails] = useState(plan.details || '');
+  const [frequency, setFrequency] = useState(plan.frequency || '');
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    // Populate fields with plan data when modal opens
+    if (plan) {
+      setPlanName(plan.plan_name || '');
+      setPrice(plan.amount || '');
+      setPlanDetails(plan.details || '');
+      setFrequency(plan.frequency || '');
+    }
+  }, [plan]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const validationErrors = {};
 
     if (planName.trim() === '') {
       validationErrors.planName = 'Plan name is required';
     }
-    if (price.trim() === '') {
+    if (price =='0') {
       validationErrors.price = 'Price is required';
-    } else if (isNaN(price) || parseFloat(price) <= 0) {
-      validationErrors.price = 'Price must be a positive number';
-    }
+    } 
     if (frequency === '') {
       validationErrors.frequency = 'Frequency is required';
     }
@@ -32,15 +39,11 @@ const AddPlanModal = ({ isOpen, onClose, onAddPlan }) => {
       return;
     }
 
-    // Send data including frequency
-    onAddPlan(planName, price, planDetails, frequency);
+    // Send updated data
+    onEditPlan(plan.id,  planName, price, planDetails, frequency );
 
     // Clear form and errors after submission
-    setPlanName('');
-    setPrice('');
-    setPlanDetails('');
-    setFrequency('');
-    setErrors({});
+    clearData();
     onClose();
   };
 
@@ -48,8 +51,6 @@ const AddPlanModal = ({ isOpen, onClose, onAddPlan }) => {
     setter(e.target.value);
     setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
   };
-
-  if (!isOpen) return null;
 
   const clearData = () => {
     setPlanName('');
@@ -59,11 +60,13 @@ const AddPlanModal = ({ isOpen, onClose, onAddPlan }) => {
     setErrors({});
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="overlay">
       <div className="mymodal">
         <div className="modal-content">
-          <h2>Add Plan</h2>
+          <h2>Edit Plan</h2>
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
             <label>
               <div className="ModalInputTitle">Plan Name</div>
@@ -134,4 +137,4 @@ const AddPlanModal = ({ isOpen, onClose, onAddPlan }) => {
   );
 };
 
-export default AddPlanModal;
+export default EditPlanModal;

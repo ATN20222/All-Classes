@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import FilterIcon from '../../Assets/Images/Filter.svg'
 import PlusIcon from '../../Assets/Images/CirclePlus.svg'
-import AddAdminModal from "../../Components/Admins/AddAdminModal";
-import AddPointModal from "../../Components/PointSystem/AddPointModal";
 import logo from '../../Assets/Images/Avatar.svg'
 import './Brands.css'
 import AddBrandModal from "../../Components/Brands/AddBrandModal";
@@ -18,23 +15,6 @@ const Brands = ()=>{
     const [isDeleteOverlayOpen , setIsDeleteOverlayOpen] = useState(false);
     const [brandIdToDelete , setBrandIdToDelete] = useState('');
     const [brands , setBrands] = useState([]);
-    const data = [
-        {
-            id:1,
-            name:'Brand name',
-            date:'20-2-2025'
-        },
-        {
-            id:2,
-            name:'Brand name',
-            date:'20-2-2025'
-        },
-        {
-            id:3,
-            name:'Brand name',
-            date:'20-2-2025'
-        }
-    ]
 
     const handleAddBrand = async (name) => {
         try {    
@@ -48,7 +28,6 @@ const Brands = ()=>{
             }
     };
     const navigate = useNavigate();
-
     useEffect(()=>{
         getData();
     },[])
