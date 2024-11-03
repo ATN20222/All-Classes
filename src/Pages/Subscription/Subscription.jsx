@@ -17,6 +17,7 @@ const Subscription = () => {
   const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
   const [editModalOpen,setEditModalOpen] = useState(false);
   const [selectedPlan , setSelectedPlan] = useState({});
+  const [key , setKey] = useState(0);
     useEffect(()=>{
       getData();
   },[])
@@ -34,10 +35,10 @@ const Subscription = () => {
       try {
               
           const response = await SubscriptionService.Delete(id);
-          toast.success('Brand deleted successfully');
+          toast.success('Plan deleted successfully');
           getData();
       } catch (error) {
-          toast.error('Failed to delete brand');
+          toast.error('Failed to delete plan');
           
       }finally{
           setPlanToDelete('')
@@ -153,6 +154,7 @@ const Subscription = () => {
     // console.log(`Edit clicked for plan ${id}`);
     setSelectedPlan(plan);
     setEditModalOpen(true);
+    setKey(key+1)
   };
 
   const handleDeleteClicked = (id) => {
@@ -179,6 +181,7 @@ const Subscription = () => {
           onClose={() => setEditModalOpen(false)}
           onEditPlan={handleEditPlan}
           plan={selectedPlan}
+          key={key}
         />
 
         <DeleteModalComponent
@@ -247,10 +250,10 @@ const Subscription = () => {
                   )}
                 </div>
                 <div className="PlanName">
-                  <span>{plan.plan_name}</span>
+                  <span>{plan.name}</span>
                 </div>
                 <div className="PlanPrice">
-                  <span>{plan.amount+'EGP/'+plan.frequency+'day'}</span>
+                  <span>{plan.amount_cents+'EGP/'+plan.frequency+'day'}</span>
                 </div>
                 <ul className="list-unstyled">
                   {plan.details.split(",").map((feature, index) => (

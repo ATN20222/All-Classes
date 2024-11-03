@@ -1029,9 +1029,9 @@ const SubscriptionService = {
   Add: async (plan_name,frequency,amount ,details) =>{
     try {
       const formData = new FormData();
-      formData.append('plan_name', plan_name);
+      formData.append('name', plan_name);
       formData.append('frequency', frequency);
-      formData.append('amount', amount);
+      formData.append('amount_cents', amount);
       formData.append('details', details);
 
       const response = await axiosInstance.post(`/subscriptions`,formData);
@@ -1043,7 +1043,7 @@ const SubscriptionService = {
   },
   Edit:async (id ,plan_name,frequency,amount ,details) =>{
     try {
-      const response = await axiosInstance.put(`/subscriptions/${id}?plan_name=${plan_name}&frequency=${frequency}&amount=${amount}&details=${details}`);
+      const response = await axiosInstance.put(`/subscriptions/${id}?sub_id=${id}&name=${plan_name}&frequency=${frequency}&amount_cents=${amount}&details=${details}`);
       return response.data; 
     } catch (error) {
       console.log(error)

@@ -10,8 +10,8 @@ const EditPlanModal = ({ isOpen, onClose, onEditPlan, plan }) => {
   useEffect(() => {
     // Populate fields with plan data when modal opens
     if (plan) {
-      setPlanName(plan.plan_name || '');
-      setPrice(plan.amount || '');
+      setPlanName(plan.name || '');
+      setPrice(plan.amount_cents || '');
       setPlanDetails(plan.details || '');
       setFrequency(plan.frequency || '');
     }
