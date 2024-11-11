@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
+const AddPointModal = ({ isOpen, onClose, onEditPoint ,data }) => {
   const [name, setName] = useState('');
   const [points, setPoints] = useState(0);
   // const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
-
+  useEffect(()=>{
+    setName(data.display_name);
+    setPoints(data.points);
+  },[data])
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -21,7 +24,7 @@ const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
     }
 
     // If validation passes, call the onAddAdmin function
-    onAddAdmin({ name, points });
+    onEditPoint( data.id, points , data.display_name ,data.action );
     
     // Clear form fields and errors
     setName('');
@@ -59,8 +62,9 @@ const AddPointModal = ({ isOpen, onClose, onAddAdmin }) => {
                 name="name"
                 className='form-control'
                 placeholder='Name'
+                disabled
                 value={name}
-                onChange={handleInputChange(setName)}
+                // onChange={handleInputChange(setName)}
               />
               {errors.name && <div className="text-danger PopUpError mt-0">{errors.name}</div>}
             </label>

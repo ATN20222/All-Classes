@@ -322,6 +322,28 @@ const EventService = {
 
 }
 
+const PointsService = {
+  ListPoints: async () =>{
+    try {
+      const response = await axiosInstance.get(`/point/systems`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  EditPoints: async (id,points, display_name, action ) =>{
+    try {
+      const response = await axiosInstance.put(`/point/systems/${id}?points=${points}&display_name=${display_name}&action=${action}`);
+
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+}
 
 const NewsService = {
   List: async () =>{
@@ -1071,12 +1093,12 @@ const SubscriptionService = {
   },
 }
 
-
 export { 
   AuthService,
   EventService,
   NewsService,
   JobsService ,
+  PointsService,
   BuyAndSellService,
   SubscriptionService,
   AdminsService,
