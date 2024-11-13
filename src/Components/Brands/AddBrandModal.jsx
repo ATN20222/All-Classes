@@ -4,17 +4,24 @@ import React, { useState } from 'react';
 
 const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
   const [name, setName] = useState('');
-  const [points, setPoints] = useState(0);
-  // const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
     const validationErrors = {};
-    
+
+    // Basic email regex pattern for format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (name.trim() === '') {
-      validationErrors.name = 'brand name is required';
+      validationErrors.name = 'Brand name is required';
+    }
+    if (email.trim() === '') {
+      validationErrors.email = 'Vendor email is required';
+    } else if (!emailRegex.test(email)) {
+      validationErrors.email = 'Invalid email format';
     }
     
     if (Object.keys(validationErrors).length > 0) {
@@ -22,10 +29,10 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
       return;
     }
 
-    onAddBrand(name);
+    onAddBrand(name , email);
     
     setName('');
-    setPoints('');
+    setEmail('');
     setErrors({});
     onClose();
   };
@@ -39,7 +46,7 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
 
   const ClearData = () => {
     setName('');
-    setPoints('');
+    setEmail('');
     setErrors({});
   };
 
@@ -48,7 +55,6 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
       <div className="mymodal">
         <div className="modal-content">
           <h2>Add Brand</h2>
-          {/* <div className="FormHr"></div> */}
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
             <label htmlFor="BrandImage" className='FormImageAvatarLabel'>
                 <input type="file" id='BrandImage' className='d-none' />
@@ -64,28 +70,27 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
                 type="text"
                 name="name"
                 className='form-control'
-                placeholder='brand name'
+                placeholder='Brand name'
                 value={name}
                 onChange={handleInputChange(setName)}
               />
               {errors.name && <div className="text-danger PopUpError mt-0">{errors.name}</div>}
             </label>
 
-            {/* <label>
+            <label>
                 <div className="ModalInputTitle">
-                    Start date
+                    Vendor email
                 </div>
               <input
-                type="date"
-                name="points"
+                type="text"
+                name="email"
                 className='form-control'
-                placeholder='Points'
-                value={points}
-                onChange={handleInputChange(setPoints)}
+                placeholder='Vendor email'
+                value={email}
+                onChange={handleInputChange(setEmail)}
               />
-              {errors.points && <div className="text-danger PopUpError mt-0">{errors.points}</div>}
-            </label> */}
-
+              {errors.email && <div className="text-danger PopUpError mt-0">{errors.email}</div>}
+            </label>
 
             <div className="form-buttons AllClassesBtn ApplicationButtons">
               <button className="ModalBtn" type="submit">

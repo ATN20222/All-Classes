@@ -692,10 +692,11 @@ const BrandsService = {
       throw new Error(error.response.data.message); 
     }
   },
-  Add: async (name) =>{
+  Add: async (name , email) =>{
     try {
       const formData = new FormData();
       formData.append('name', name);
+      formData.append('email', email);
       const response = await axiosInstance.post(`/brands`,formData);
       return response.data; 
     } catch (error) {
@@ -1041,13 +1042,23 @@ const RewardsService = {
 const SubscriptionService = {
   List: async () =>{
     try {
-      const response = await axiosInstance.get(`/subscriptions`);
+      const response = await axiosInstance.get(`/subscriptions/plans`);
       return response.data; 
     } catch (error) {
       console.log(error)
       throw new Error(error.response.data.message); 
     }
   },
+  ListHistory: async () =>{
+    try {
+      const response = await axiosInstance.get(`/transactions`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
   Add: async (plan_name,frequency,amount ,details) =>{
     try {
       const formData = new FormData();
@@ -1056,7 +1067,7 @@ const SubscriptionService = {
       formData.append('amount_cents', amount);
       formData.append('details', details);
 
-      const response = await axiosInstance.post(`/subscriptions`,formData);
+      const response = await axiosInstance.post(`/subscriptions/plans`,formData);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -1065,7 +1076,7 @@ const SubscriptionService = {
   },
   Edit:async (id ,plan_name,frequency,amount ,details) =>{
     try {
-      const response = await axiosInstance.put(`/subscriptions/${id}?sub_id=${id}&name=${plan_name}&frequency=${frequency}&amount_cents=${amount}&details=${details}`);
+      const response = await axiosInstance.put(`/subscriptions/plans/${id}?sub_id=${id}&name=${plan_name}&frequency=${frequency}&amount_cents=${amount}&details=${details}`);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -1074,7 +1085,7 @@ const SubscriptionService = {
   },
   GetById: async (id) =>{
     try {
-      const response = await axiosInstance.get(`/subscriptions/${id}`);
+      const response = await axiosInstance.get(`/subscriptions/plans/${id}`);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -1084,7 +1095,7 @@ const SubscriptionService = {
   Delete: async (id) =>{
     try {
 
-      const response = await axiosInstance.delete(`/subscriptions/${id}`);
+      const response = await axiosInstance.delete(`/subscriptions/plans/${id}`);
       return response.data; 
     } catch (error) {
       console.log(error)

@@ -87,7 +87,7 @@ function App() {
               <Route path='/member/:id' element={<MemberDetails />} /> 
             </>
           }
-          {!management.includes('admins')&&
+          {management.includes('admins')&&
             <>
               <Route path='/admins' element={<Admins />} /> 
             </>
@@ -136,10 +136,9 @@ function App() {
           {management.includes('privacy-policy')&&
             <>
               <Route path='/privacypolicy' element={<PrivacyPolicy />} /> 
-
             </>
           }
-          {!management.includes('rewards')&&
+          {management.includes('rewards')&&
             <>
               <Route path='/rewards' element={<Rewards />} /> 
               <Route path='/addreward' element={<AddReward />} /> 

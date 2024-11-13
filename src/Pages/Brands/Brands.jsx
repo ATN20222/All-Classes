@@ -16,9 +16,9 @@ const Brands = ()=>{
     const [brandIdToDelete , setBrandIdToDelete] = useState('');
     const [brands , setBrands] = useState([]);
 
-    const handleAddBrand = async (name) => {
+    const handleAddBrand = async (name , email) => {
         try {    
-                const response = await BrandsService.Add(name);
+                const response = await BrandsService.Add(name ,email);
                 toast.success('Brand added successfully');
                 getData();
 
@@ -86,14 +86,14 @@ const Brands = ()=>{
                         </div>
                         Brands
                     </div>
-                    <div className="RightSideHeader">
+                    {/* <div className="Right   SideHeader">
                         <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
                         </div>
                         
-                    </div>
+                    </div> */}
                 </div>
                 
                 <div className="TableContainer container">
@@ -108,17 +108,17 @@ const Brands = ()=>{
                                             </div>
                                             {row.name}
                                         </div>
-                                        <div className="col-lg-3 col-md-4 col-sm-4 col-4  Center">
+                                        <div className="col-lg-4 col-md-4 col-sm-4 col-3  Center">
                                             {row.created_at}
                                         </div>
                                         <div className="col-lg-3 col-md-3 col-sm-2 col-2  Center">
                                             {row.id}
                                         </div>
-                                        <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center">
+                                        {/* <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center">
                                             <Link to={`/cashiers/${row.id}`} className="nav-link">
                                                 <FontAwesomeIcon icon={faEye} /> View Cashiers
                                             </Link>
-                                        </div>
+                                        </div> */}
                                         <div className="col-lg-1 col-md-1 col-sm-1 col-1 Center">
                                             <div className="Delete" onClick={()=>{
                                                 setBrandIdToDelete(row.id);

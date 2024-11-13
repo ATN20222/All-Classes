@@ -37,6 +37,9 @@
     font-weight: 700;
     
 }
+.CashHistoryTableRecord{
+    min-width:700px !important;
+}
 .PlanCard ul{
     margin-top: 10px;
     padding: 0;

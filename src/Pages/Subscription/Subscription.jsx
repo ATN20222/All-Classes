@@ -17,9 +17,11 @@ const Subscription = () => {
   const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
   const [editModalOpen,setEditModalOpen] = useState(false);
   const [selectedPlan , setSelectedPlan] = useState({});
+  const [history , setHistory] = useState([]);
   const [key , setKey] = useState(0);
     useEffect(()=>{
       getData();
+      getSubData();
   },[])
   
 
@@ -31,6 +33,15 @@ const Subscription = () => {
           console.error(error);
       }
   }
+  async function getSubData() {
+    try {
+        const response = await SubscriptionService.ListHistory();
+        console.log(response);
+        setHistory(response.content);
+    } catch (error) {
+        console.error(error);
+    }
+}
   const handleDelete = async (id)=>{
       try {
               
@@ -207,7 +218,7 @@ const Subscription = () => {
 
         <div className="TableContainer CashierTableContainer SubscriptionTable container">
           <div className="row">
-            {data.map((row) => (
+            {history.map((row) => (
               <div className="col-lg-12 TableRecord CashHistoryTableRecord" key={row.id}>
                 <div className="container">
                   <div className="row">
@@ -215,18 +226,21 @@ const Subscription = () => {
                       <div className="CashHistoryImage">
                         <img src={CashIcon} alt="" />
                       </div>
-                      {row.name}
+                      {row.first_name + row.last_name}
                     </div>
-                    <div className="col-lg-2 col-md-2 col-sm-2 col-1 Center">{row.cash_id}</div>
-                    <div className="col-lg-2 col-md-2 col-sm-2 col-1 Center text-success">
-                      {row.price_before + ' EGP'}
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center">{row.paymob_trans_id}</div>
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center text-success">
+                      {row.amount_cents + ' '+row.currency}
                     </div>
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-3 Center">{row.date}</div>
-                    <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center">{row.time}</div>
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center">{row.subscription_plans.name}</div>
+                    <div className="col-lg-2 col-md-2 col-sm-2 col-2 Center">{row.created_at}</div>
                   </div>
                 </div>
               </div>
             ))}
+            {history.length===0&&
+              <span>No data found</span>
+            }
           </div>
         </div>
 
