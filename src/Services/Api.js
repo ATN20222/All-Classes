@@ -322,6 +322,65 @@ const EventService = {
 
 }
 
+
+const QuestionsService = {
+  List: async () =>{
+    try {
+
+      const response = await axiosInstance.get(`/community/questions`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/community/questions/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Add: async (title , question,required) =>{
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('question', question);
+      formData.append('required', required?1:0);
+      
+      const response = await axiosInstance.post(`/community/questions`,formData);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  Edit: async (id, title,question ,required) =>{
+    try {
+
+      const response = await axiosInstance.put(`/community/questions/${id}?title=${title}&question=${question}&required=${required?1:0}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/community/questions/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+}
+
+
 const PointsService = {
   ListPoints: async () =>{
     try {
@@ -1108,6 +1167,7 @@ export {
   AuthService,
   EventService,
   NewsService,
+  QuestionsService,
   JobsService ,
   PointsService,
   BuyAndSellService,

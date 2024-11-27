@@ -1,0 +1,25 @@
+
+.message-received {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px 0;
+}
+
+.message-received .message-bubble {
+  background-color: #f3f6f9;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 20px 20px 20px 0;
+  max-width: 60%;
+  word-wrap: break-word;
+  text-align: start;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.message-received .message-timestamp {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: #666;
+  text-align: right;
+}

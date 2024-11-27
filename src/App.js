@@ -54,6 +54,7 @@ import EditAbout from './Pages/About/EditAbout';
 import HomeMind from './Pages/Home/HomeMind';
 import { AuthProvider } from './Context/AuthContext';
 import PrivateRoute from './Context/PrivateRoute';
+import Questions from './Pages/Questions/Questions';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -133,7 +134,7 @@ function App() {
           <Route path='/termsandconditions' element={<TermsAndConditions />} /> 
             </>
           }
-          {management.includes('privacy-policy')&&
+          {!management.includes('privacy-policy')&&
             <>
               <Route path='/privacypolicy' element={<PrivacyPolicy />} /> 
             </>
@@ -146,6 +147,21 @@ function App() {
 
             </>
           }
+          {!management.includes('questions')&&
+            <>
+              <Route path='/questions' element={<Questions />} /> 
+
+            </>
+          }
+
+
+          {!management.includes('questions')&&
+            <>
+              <Route path='/questions' element={<Questions />} /> 
+
+            </>
+          }
+ 
  
           
 

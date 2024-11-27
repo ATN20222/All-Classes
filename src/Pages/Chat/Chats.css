@@ -12,7 +12,7 @@
     width: 50%;
     font-size: 20px;
     font-weight: 500;
-    padding: 20px;
+    padding: 10px;
     transition: all 0.1s linear;
     cursor: pointer;
 
@@ -25,12 +25,16 @@
 }
 
 .ChatRecord{
+    background: #eee;
     display: flex;
     justify-content: start;
     align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
     border-bottom: 2px solid #c7d5e65f;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 15px;
 }
 .ChatRecordImage{
     margin-right: 10px;

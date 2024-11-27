@@ -47,7 +47,7 @@ const Login = () => {
         if (!valid) return;
 
         try {
-            setDB('mind');
+            setDB('community_1');
             console.log(getDB())      
             const response = await AuthService.Login(email, password);
             

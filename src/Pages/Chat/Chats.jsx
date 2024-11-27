@@ -12,6 +12,7 @@ import CategoryIcon from '../../Assets/Images/CategoryIcon.svg'
 import { Link } from "react-router-dom";
 import NewsItem from "../../Components/News/NewsItem";
 import OffersItem from "../../Components/Offers/OffersItem";
+import ChatComponent from "../../Components/Chat/ChatComponent";
 const Chats = ()=>{
     const [isChatTab , setIsChatTap] = useState (true);
     const news = [
@@ -76,25 +77,24 @@ const Chats = ()=>{
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
-                        <Link className="AddIconContainer nav-link" 
+                        {/* <Link className="AddIconContainer nav-link" 
                         to="/addoffer"
                         > 
                             <img src={PlusIcon} width="20px" height="20px" className="m-1" alt="" />
-                        </Link>
-                        Chat room
+                        </Link> */}
+                        Chats 
                     </div>
-                    <div className="RightSideHeader">
+                    {/* <div className="RightSideHeader">
                         <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
                         </div>
                         <div className="FilterAdmins">
-                            {/* <FontAwesomeIcon icon={faFilter}/> */}
                             <img src={FilterIcon} alt="" />
                         </div>
                         
-                    </div>
+                    </div> */}
                 </div>
                 <div className="ChatTypeHeader">
                     <div className={`Chats ${isChatTab?'ChatsActiveTap':''}`}
@@ -136,6 +136,7 @@ const Chats = ()=>{
                     }
                 </div>
                 
+                <ChatComponent/>
             </div>
         </div>
     );
