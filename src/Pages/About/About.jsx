@@ -72,7 +72,7 @@ const About = ()=>{
                                     id={row.id}
                                     title = {row.title}
                                     caption={row.description}
-                                    image={NewsImage}
+                                    image={row.media?.original_url}
                                     handleDeleteClicked={()=>{
                                         setItemIdToDelete(row.id);
                                         setIsDeleteOverlayOpen(true);

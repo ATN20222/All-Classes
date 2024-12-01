@@ -35,7 +35,7 @@ const EditReward = () => {
             setQuantity(response.content.quantity);
             setRedeemPoints(response.content.redeem_points);
             setRewardDetails(response.content.description);
-            setImage(response.content.image);
+            setImage(response.content.media?.original_url);
         } catch (error) {
             toast.error('Failed to load reward details');
         } finally {

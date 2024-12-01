@@ -52,9 +52,11 @@ const JobItem = ({
                     </div>
                 </div>
             </div>
-            <div className="NewsImageContainer">
-                <img src={image} width="100%" alt="" />
-            </div>
+            {image&&
+                <div className="NewsImageContainer">
+                    <img src={image} width="100%" alt="" />
+                </div>
+            }
             <div className="JobContentContainer">
                 {job_title && (
                     <div className="JobDetailItem">

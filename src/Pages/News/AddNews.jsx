@@ -27,10 +27,10 @@ const AddNews = () => {
             valid = false;
         }
 
-        // if (!image) {
-        //     setImageError('Image is required.');
-        //     valid = false;
-        // }
+        if (!image) {
+            setImageError('Image is required.');
+            valid = false;
+        }
 
         if (valid) {
             setIsLoading(true);

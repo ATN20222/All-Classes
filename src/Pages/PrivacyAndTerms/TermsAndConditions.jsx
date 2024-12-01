@@ -106,7 +106,7 @@ const TermsAndConditions = ()=>{
                     
                 </div>
                 <div className="NewsRow">
-                    <div className="PrivacyContainer">
+                    {policies.length>0&&<div className="PrivacyContainer">
                         {policies.map((row)=>(
                             <div className="PrivacyItem" key={row.id}>
                                 <h6 className="PolicyHeader">
@@ -120,7 +120,9 @@ const TermsAndConditions = ()=>{
                             </div>
                         ))}
                     </div>
+                    }
                 </div>
+                
                 
             </div>
         </div>

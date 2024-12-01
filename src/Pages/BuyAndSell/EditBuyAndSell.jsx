@@ -29,6 +29,7 @@ const EditBuyAndSell = () => {
             setTitle(response.content.title);
             setPriceAfter(response.content.price_after);
             setPriceBefore(response.content.price_before);
+            setCurrentImage(response.content.media?.original_url);
         } catch (error) {
             console.error(error);
         }
@@ -59,10 +60,10 @@ const EditBuyAndSell = () => {
             setErrors((prev) => ({ ...prev, details: 'Details are required.' }));
             valid = false;
         }
-        if (!image) {
-            setErrors((prev) => ({ ...prev, image: 'Image is required.' }));
-            valid = false;
-        }
+        // if (!image) {
+        //     setErrors((prev) => ({ ...prev, image: 'Image is required.' }));
+        //     valid = false;
+        // }
 
         if (valid) {
             setIsLoading(true);

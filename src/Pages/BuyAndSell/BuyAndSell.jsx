@@ -102,11 +102,11 @@ const BuyAndSell = ()=>{
                         Buy & Sell
                     </div>
                     <div className="RightSideHeader">
-                        <div className="PageSearch">
+                        {/* <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
-                        </div>
+                        </div> */}
                         {/* <div className="FilterAdmins">
                             <img src={CategoryIcon} alt="" />
                         </div> */}
@@ -121,7 +121,7 @@ const BuyAndSell = ()=>{
                                     price_after={row.price_after}
                                     price_before={row.price_before}
                                     buy_details={row.description}
-                                    image={row.image?row.image:BuyImage}
+                                    image={row.media?.original_url}
                                     buy_title={row.title}
                                     puplisher_image={row.puplisher_image?row.puplisher_image:JobPersonImage}
                                     puplisher_name={row.user.name}

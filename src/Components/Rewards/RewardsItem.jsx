@@ -24,9 +24,12 @@ const RewardsItem = ({ id, details, image, title, points, handleDeleteClicked, h
                     </div>
                 )}
             </div>
-            <div className="NewsImageContainer">
-                <img src={image} width="100%" alt="" />
-            </div>
+            {image&&
+            
+                <div className="NewsImageContainer">
+                    <img src={image} width="100%" alt="" />
+                </div>
+            }
             
             <div className="NewsCaptionContainer OfferDetailsCard mt-2">
                 <div className="OfferDetailsTitle">

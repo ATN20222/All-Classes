@@ -134,7 +134,7 @@ function App() {
           <Route path='/termsandconditions' element={<TermsAndConditions />} /> 
             </>
           }
-          {!management.includes('privacy-policy')&&
+          {management.includes('privacy-policy')&&
             <>
               <Route path='/privacypolicy' element={<PrivacyPolicy />} /> 
             </>

@@ -12,34 +12,7 @@ import { JobsService } from "../../Services/Api";
 import toast, { Toaster } from "react-hot-toast";
 import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
 const Jobs = ()=>{
-    const events = [
-        {
-            id :1 , 
-            puplisher_name:'Nada ahmed',
-            puplish_date:'5 hours ago',
-            image:JobImage,
-            puplisher_image:JobPersonImage,
-            job_title:'advertising manger ',
-            Location:' Egypt, Anywhere',
-            job_type:'Remote',
-            job_details:'• Develop, implement, and manage Amazon advertising campaigns for multiple brands.• Monitor and analyze campaign performance, making data-driven decisions to optimize results.• Conduct thorough keyword research and competitive analysis to enhance ad performance.• Create and maintain detailed reports on campaign performance metrics. How to Apply:Send a  your resume and a cover letter  to Jobs@pinnacle-eg.com.',
-            salary_range:'30k-35k',
-            experience:'3-5 years',
-        },
-        {
-            id :2 , 
-            puplisher_name:'Nada ahmed',
-            puplish_date:'5 hours ago',
-            image:JobImage,
-            puplisher_image:JobPersonImage,
-            job_title:'advertising manger ',
-            Location:' Egypt, Anywhere',
-            job_type:'Remote',
-            job_details:'• Develop, implement, and manage Amazon advertising campaigns for multiple brands.• Monitor and analyze campaign performance, making data-driven decisions to optimize results.• Conduct thorough keyword research and competitive analysis to enhance ad performance.• Create and maintain detailed reports on campaign performance metrics. How to Apply:Send a  your resume and a cover letter  to Jobs@pinnacle-eg.com.',
-            salary_range:'30k-35k',
-            experience:'3-5 years',
-        },
-    ];
+
     const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
     const [JobIdToDelete, setJobIdToDelete] = useState('');
     const navigate = useNavigate();
@@ -107,11 +80,11 @@ const Jobs = ()=>{
                         Jobs
                     </div>
                     <div className="RightSideHeader">
-                        <div className="PageSearch">
+                        {/* <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
-                        </div>
+                        </div> */}
                         {/* <div className="FilterAdmins">
                             <img src={CategoryIcon} alt="" />
                         </div> */}
@@ -125,12 +98,12 @@ const Jobs = ()=>{
                                     id={row.id}
                                     Location={row.location}
                                     experience={row.user_experience}
-                                    image={row.image?row.image:JobImage}
+                                    image={row.media?.original_url}
                                     job_details={row.description}
                                     job_title={row.title}
                                     job_type={row.type}
                                     puplisher_image={row.puplisher_image?row.puplisher_image:JobPersonImage}
-                                    puplisher_name={row.puplisher_name?row.puplisher_name:"Nora Basem"}
+                                    puplisher_name={row.user?.name}
                                     puplish_date={row.created_at}
                                     salary_range={row.salary_range}
                                     handleEditClicked={()=>navigate(`/editjob/${row.id}`)}

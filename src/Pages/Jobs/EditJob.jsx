@@ -52,10 +52,10 @@ const EditJob = () => {
             setErrors((prev) => ({ ...prev, jobDetails: 'Job details are required.' }));
             valid = false;
         }
-        if (!image) {
-            setErrors((prev) => ({ ...prev, image: 'Image is required.' }));
-            valid = false;
-        }
+        // if (!image) {
+        //     setErrors((prev) => ({ ...prev, image: 'Image is required.' }));
+        //     valid = false;
+        // }
 
         if (valid) {
             setIsLoading(true);

@@ -11,25 +11,6 @@ import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteMo
 import toast, { Toaster } from "react-hot-toast";
 const Events = ()=>{
     const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);  
-
-    // const events = [
-    //     {
-    //         id :1 , 
-    //         title:'Event Title',
-    //         image:EventImage,
-    //         caption:'Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds, and marketing Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds,Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds, and marketing securing bookings, communicating with vendors, managing crowds,Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds, and marketing',
-    //         Place:'Costa coffe mall of egypt',
-    //         Date:'Monday at 8:00pm'
-    //     },
-    //     {
-    //         id :2, 
-    //         title:'Event Title',
-    //         image:EventImage,
-    //         caption:'Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds, and marketing Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds,Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds, and marketing securing bookings, communicating with vendors, managing crowds,Your business most likely focuses on the following things each day: securing bookings, communicating with vendors, managing crowds, and marketing',
-    //         Place:'Costa coffe mall of egypt',
-    //         Date:'Monday at 8:00pm'
-    //     },
-    // ];
     const navigate = useNavigate()
     const [events , setEvents] = useState([]);
     const [EventIdToDelete, setEventIdToDelete] = useState('');
@@ -43,7 +24,6 @@ const Events = ()=>{
             const response = await EventService.List();
             console.log(response.content)
             setEvents(response.content);
-            console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -86,16 +66,14 @@ const Events = ()=>{
                         </Link>
                         Events
                     </div>
-                    <div className="RightSideHeader">
+                    {/* <div className="RightSideHeader">
                         <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
                         </div>
-                        {/* <div className="FilterAdmins">
-                            <img src={CategoryIcon} alt="" />
-                        </div> */}
-                    </div>
+                        
+                    </div> */}
                 </div>
 
                     <div className="NewsRow">
@@ -106,7 +84,7 @@ const Events = ()=>{
                                     caption={row.description}
                                     date={row.date}
                                     place={row.place}
-                                    image={row.image}
+                                    image={row.media?.original_url}
                                     title={row.title}
                                     time={row.time}
                                     handleEditClicked={()=>navigate(`/editevent/${row.id}`)}

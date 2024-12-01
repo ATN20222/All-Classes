@@ -26,9 +26,11 @@ const EventsItem = ({ id,title , place, image, caption, date ,time, handleDelete
             <div className="EventTitle">
                 <span>{title}</span>
             </div>
-            <div className="NewsImageContainer">
-                <img src={image?image:imageevent} width="100%" alt="" />
-            </div>
+            {image&&
+                <div className="NewsImageContainer">
+                    <img src={image} width="100%" alt="" />
+                </div>
+            }
             <div className="NewsCaptionContainer">
                 <span>{caption}</span>
             </div>

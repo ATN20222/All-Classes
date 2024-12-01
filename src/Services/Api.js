@@ -1,7 +1,7 @@
 import axios from 'axios';
 import axiosInstance, {  deleteToken, setDB, setToken   } from './AxiosApi';
 
-const baseURL = 'https://yellowgreen-raccoon-480548.hostingersite.com/api'; 
+const baseURL = 'https://all-classes.com/api'; 
 
 const axiosReg = axios.create({
   baseURL: baseURL,
@@ -127,11 +127,14 @@ const MindHomeServices = {
   },
 }
 const AboutServices = {
-  Add: async (title, description )=>{
+  Add: async (title, description,image )=>{
     try {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
+      if(image){
+        formData.append('media', image);
+      }
       
       const response = await axiosInstance.post(`/abouts` , formData);
       return response.data; 
@@ -171,11 +174,14 @@ const AboutServices = {
       throw new Error(error.response.data.message); 
     }
   },
-  Edit: async (id, title,description) =>{
+  Edit: async (id, title,description,image) =>{
     try {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
+      if(image){
+        formData.append('media', image);
+      }
       const response = await axiosInstance.post(`/abouts/${id}`,formData);
       return response.data; 
     } catch (error) {
@@ -279,7 +285,7 @@ const EventService = {
       throw new Error(error.response.data.message); 
     }
   },
-  Add: async (title,date,time,place,description) =>{
+  Add: async (title,date,time,place,description , img) =>{
     try {
       const formData = new FormData();
       formData.append('title', title);
@@ -287,6 +293,11 @@ const EventService = {
       formData.append('time', time);
       formData.append('place', place);
       formData.append('description', description);
+
+      if(img){
+        formData.append('media',img); 
+      }
+      
       const response = await axiosInstance.post(`/events`,formData);
       return response.data; 
     } catch (error) {
@@ -446,7 +457,7 @@ const NewsService = {
       if(img){
         formData.append('media', img);
       }
-      const response = await axiosInstance.put(`/news/${id}?caption=${caption}`);
+      const response = await axiosInstance.post(`/news/${id}`,formData);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -1163,6 +1174,77 @@ const SubscriptionService = {
   },
 }
 
+
+const ChatService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/chats`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+  Add: async (type,members,name) =>{
+    try {
+      const data = {
+        type:type,
+        members:members,
+        name:name
+      }
+      console.log(data);
+      const response = await axiosInstance.post(`/chats/create`,data);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data); 
+    }
+  },
+  SendMessages: async (chat_id , message) => {
+    try {
+      const formData = new FormData();
+      formData.append('chat_id', chat_id);
+      formData.append('message', message);
+      const response = await axiosInstance.post(`/chats`,formData);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message); 
+    }
+  },
+
+
+  Edit:async (id ,plan_name,frequency,amount ,details) =>{
+    try {
+      const response = await axiosInstance.put(`/subscriptions/plans/${id}?sub_id=${id}&name=${plan_name}&frequency=${frequency}&amount_cents=${amount}&details=${details}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/chats/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/subscriptions/plans/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+}
+
+
 export { 
   AuthService,
   EventService,
@@ -1183,6 +1265,7 @@ export {
   CharityService,     
   AboutServices,
   PolicyServices,
-  MindHomeServices
+  MindHomeServices,
+  ChatService
 };
 

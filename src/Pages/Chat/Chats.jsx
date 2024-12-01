@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './Chats.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCheckDouble, faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -13,8 +13,18 @@ import { Link } from "react-router-dom";
 import NewsItem from "../../Components/News/NewsItem";
 import OffersItem from "../../Components/Offers/OffersItem";
 import ChatComponent from "../../Components/Chat/ChatComponent";
+import AddChatModal from "../../Components/Chat/AddChatModal";
+import { ChatService, MembersService } from "../../Services/Api";
+import toast, { Toaster } from "react-hot-toast";
 const Chats = ()=>{
     const [isChatTab , setIsChatTap] = useState (true);
+    const [isOpen, setIsOpen] = useState(false);
+    const [membersData , setMembersData] = useState([]);
+    const [isChatOpen , setIsChatOpen] = useState(false);
+    const [selectedChat , setselectedChat] = useState('');
+    const [chatsData , setChatsData] = useState([]);
+    const [groupsData , setGroupsData] = useState([]);
+
     const news = [
         {
             id: 1, 
@@ -72,16 +82,71 @@ const Chats = ()=>{
             status:2,
         }
     ]
+    useEffect(()=>{
+        getMembersData();
+        getChats();
+    },[])
+
+    const handleCreateChat = async (members,name)=>{
+        try {
+            const type = members.length===1?'personal':'group';
+            const response = await ChatService.Add(type ,members,name);
+            getChats();
+            toast.success('Chat created successfully');
+        } catch (error) {
+            console.error(error);
+            toast.error(`${error}`)
+        }
+    }
+
+    async function getMembersData() {
+        try {
+            const response = await MembersService.List();
+            setMembersData(response.content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    
+    async function getChats() {
+        try {
+            const response = await ChatService.List();
+            const allChats = response.content.filter(e=>e.type==='personal');
+            const allGroups = response.content.filter(e=>e.type==='group');
+            setChatsData(allChats);
+            setGroupsData(allGroups);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+
+    const toggleChat = () => {
+        setIsChatOpen(!isChatOpen);
+    };
     return(
         <div className="MainContent Applications">
+            <div className="Toaster">
+                <Toaster
+                    position="top-right"
+                    reverseOrder={false}
+                />
+            </div>
+            <AddChatModal
+                isOpen={isOpen}
+                membersData={membersData}
+                onAddMembers={handleCreateChat}
+                onClose={()=>setIsOpen(false)}      
+            />
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
-                        {/* <Link className="AddIconContainer nav-link" 
-                        to="/addoffer"
+                        <div className="AddIconContainer nav-link" 
+                            onClick={()=>setIsOpen(true)}
                         > 
                             <img src={PlusIcon} width="20px" height="20px" className="m-1" alt="" />
-                        </Link> */}
+                        </div>
                         Chats 
                     </div>
                     {/* <div className="RightSideHeader">
@@ -90,7 +155,7 @@ const Chats = ()=>{
                             <FontAwesomeIcon icon={faSearch}/>
                             
                         </div>
-                        <div className="FilterAdmins">
+                        <div className="FilterAdmins"   >
                             <img src={FilterIcon} alt="" />
                         </div>
                         
@@ -110,16 +175,20 @@ const Chats = ()=>{
                 </div>
                 <div className="NewsRow">
                     {isChatTab?
-                    chats.map((chat)=>(
-                        <div className="ChatRecord">
+                    chatsData.map((chat)=>(
+                        <div className="ChatRecord" key={chat.chat_id} 
+                        onClick={()=>{
+                            setselectedChat(chat);
+                            setIsChatOpen(true);
+                        }}>
                             <div className="ChatRecordImage">
                                 <div className="Avatar">
-                                    <img src={chat.image} width="100%" alt="" />
+                                    <img src={userImage} width="100%" alt="" />
                                 </div>
                             </div>
                             <div className="ChatRecordNameAndMessage">
-                                <span className="Name">{chat.name}</span>
-                                <span className="Message">{chat.message}</span>
+                                <span className="Name">{chat.members[0].first_name + ' '+chat.members[0].last_name }</span>
+                                <span className="Message">{chat.last_message}</span>
                             </div>
                             <div className="ChatRecordDateAndSeen">
                                 <span>
@@ -131,12 +200,40 @@ const Chats = ()=>{
                             </div>
                         </div>
                     ))
-                    :''
+                    :groupsData.map((chat)=>(
+                        <div className="ChatRecord" key={chat.chat_id} 
+                        onClick={()=>{
+                            setselectedChat(chat);
+                            setIsChatOpen(true);
+                        }}>
+                            <div className="ChatRecordImage">
+                                <div className="Avatar">
+                                    <img src={userImage} width="100%" alt="" />
+                                </div>
+                            </div>
+                            <div className="ChatRecordNameAndMessage">
+                                <span className="Name">{chat.name }</span>
+                                <span className="Message">{chat.last_message}</span>
+                            </div>
+                            <div className="ChatRecordDateAndSeen">
+                                <span>
+                                    {chat.status===0&&<FontAwesomeIcon className="NotSeend" icon={faClock}/>}
+                                    {chat.status===1&&<FontAwesomeIcon className="NotSeend" icon={faCheck}/>}
+                                    {chat.status===2&&<FontAwesomeIcon icon={faCheckDouble}/>}
+                                    
+                                </span>
+                            </div>
+                        </div>
+                    ))
 
                     }
                 </div>
-                
-                <ChatComponent/>
+                {selectedChat&&
+                    <ChatComponent ChatId={selectedChat.chat_id} 
+                    Name={selectedChat.name?selectedChat.name:selectedChat.members[0].first_name+" "+selectedChat.members[0].last_name} 
+                    isOpen={isChatOpen} 
+                    toggleChat={toggleChat}/>
+                }
             </div>
         </div>
     );

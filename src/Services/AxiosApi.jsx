@@ -3,7 +3,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 // ---------- Const Variables ---------- //
-const baseURL = 'https://yellowgreen-raccoon-480548.hostingersite.com/api';
+const baseURL = 'https://all-classes.com/api';
 const cookie = new Cookies();
 
 // ---------- Functions ---------- //

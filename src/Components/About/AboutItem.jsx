@@ -23,9 +23,11 @@ const AboutItem = ({ id, image, caption, title, handleDeleteClicked, handleEditC
                     </div>
                 )}
             </div>
-            <div className="NewsImageContainer">
-                <img src={image} width="100%" alt="" />
-            </div>
+            {image&&
+                <div className="NewsImageContainer">
+                    <img src={image} width="100%" alt="" />
+                </div>
+            }
             <div className="NewsCaptionContainer">
                 <h5>{title}</h5>
             </div>

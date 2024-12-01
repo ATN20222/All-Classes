@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { EventService } from "../../Services/Api";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -25,6 +25,8 @@ const EditEvent = () => {
     const [placeError, setPlaceError] = useState('');
     const [detailsError, setDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
+
+    const navigate = useNavigate();
 
     // Validate form on submit
     const handleSubmit = (e) => {
@@ -77,7 +79,13 @@ const EditEvent = () => {
         if (valid) {
             try {
                 
-                const response = EventService.Edit(id,eventTitle, eventDate ,eventTime,place,eventDetails );
+                const response = EventService.Edit(id,eventTitle, eventDate ,eventTime,place,eventDetails,image );
+                
+                setTimeout(() => {
+                    
+                    navigate('/events');
+                }, 2000);
+                
                 toast.success('Event edited successfully');
             } catch (error) {
                 toast.error('Failed to edit event');
@@ -90,10 +98,8 @@ const EditEvent = () => {
         getData();
     },[])
     function convertTimeFormat(timeString) {
-        // Split the time string into an array of [hours, minutes, seconds]
         const [hours, minutes] = timeString.split(':');
         
-        // Return the formatted time in H:i format
         return `${hours}:${minutes}`;
     }
     async function getData() {

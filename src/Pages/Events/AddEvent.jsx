@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EventService } from "../../Services/Api";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -24,6 +24,7 @@ const AddEvent = () => {
     const [placeError, setPlaceError] = useState('');
     const [detailsError, setDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
+    const navigate = useNavigate();
 
     // Validate form on submit
     const handleSubmit = (e) => {
@@ -76,8 +77,13 @@ const AddEvent = () => {
         if (valid) {
             try {
                 
-                const response = EventService.Add(eventTitle, eventDate ,eventTime,place,eventDetails );
+                const response = EventService.Add(eventTitle, eventDate ,eventTime,place,eventDetails,image);
                 toast.success('Event added successfully');
+                setTimeout(() => {
+                    
+                    navigate('/events');
+                }, 2000);
+                
             } catch (error) {
                 toast.error('Failed to add event');
                 

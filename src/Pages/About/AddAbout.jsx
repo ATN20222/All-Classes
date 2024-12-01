@@ -30,10 +30,10 @@ const AddAbout = () => {
             setErrors((prev) => ({ ...prev, caption: 'Caption is required.' }));
             valid = false;
         }
-        if (!image) {
-            setErrors((prev) => ({ ...prev, image: 'Image is required.' }));
-            valid = false;
-        }
+        // if (!image) {
+        //     setErrors((prev) => ({ ...prev, image: 'Image is required.' }));
+        //     valid = false;
+        // }
 
         if (valid) {
             setIsLoading(true);

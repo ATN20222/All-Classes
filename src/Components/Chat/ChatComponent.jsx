@@ -1,68 +1,132 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ChatComponent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronUp, faPaperPlane, faX } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import MessageReceived from "./MessageReceived";
 import MessageSent from "./MessageSent";
+import { ChatService } from "../../Services/Api";
+import Echo from "laravel-echo";
+import Pusher from 'pusher-js';
 
-const ChatComponent = () => {
-  const [isOpen, setIsOpen] = useState(false);
+
+const ChatComponent = ({ ChatId, Name, isOpen, toggleChat }) => {
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [chatName, setChatName] = useState('');
+  const [isLoading, setIsLoading] = useState(false); 
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
+  window.Pusher = Pusher;
+
+  const echo = new Echo({
+    broadcaster: 'pusher',
+    key: '81c558fbfd3ec3d7f363',
+    cluster: 'eu',
+    forceTLS: true,
+    enabledTransports: ['ws', 'wss'],
+  });
+  
+
+  useEffect(() => {
+    getChat();
+  }, [ChatId]);
+
+
+  async function getChat() {
+    setIsLoading(true);
+    try {
+      const response = await ChatService.GetById(ChatId);
+      setChatName(Name);
+      setMessages(response.content.messages);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handleKeyDown = (e) => {
-    // if (e.key === "Enter" && !e.shiftKey) {
-    //   e.preventDefault(); 
-    //   if (message.trim()) {
-    //     onSubmit(message);
-    //     setMessage(""); 
-    //   }
-    // }
   };
 
-  const onSubmit = async (msg)=>{
-    console.log("msg",msg);
-  }
+
+
+  const sendMessage = async () => {
+    const msg = message;
+    setMessage('');
+    try {
+        await ChatService.SendMessages(ChatId, msg);
+        setMessage('');
+    } catch (error) {
+      setMessage(msg)
+      console.error('Send Message Error:', error);
+    }
+};
 
   const handleChange = (e) => {
     setMessage(e.target.value);
   };
+
+  
+  useEffect(() => {
+    const channel = echo.channel(`chat.${ChatId}`); 
+    
+    channel.listen('MessageSent', (data) => {
+      setMessages((prevMessages) => [...prevMessages, data.content]);
+    });
+
+    return () => {
+      channel.stopListening('MessageSent'); 
+    };
+  }, [ChatId]);
+
+  
+  const messagesEndRef = useRef(null);
+  useEffect(() => {
+    if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+}, [messages]);
+
+
   return (
-<div className={`chat-container ${isOpen ? "chat-open" : ""}`}>
-<div className="chat-header" onClick={toggleChat}>
-        <span className="ChattedName">Ahmed Sabry</span>
-        <span>  {isOpen ? <FontAwesomeIcon icon={faChevronDown}/> : <FontAwesomeIcon icon={faChevronUp}/>}</span>
+    <div className={`chat-container ${isOpen ? "chat-open" : ""}`}>
+      <div className="chat-header" onClick={toggleChat}>
+        <span className="ChattedName">{chatName}</span>
+        <span>{isOpen ? <FontAwesomeIcon icon={faChevronDown} /> : <FontAwesomeIcon icon={faChevronUp} />}</span>
       </div>
+
       {isOpen && (
         <div className="chat-body">
-
-          <div className="MessagesContainer p-2">
-            <MessageReceived text={"hello"} timestamp="Nov 27, 2024, 10:15 AM" />
-            <MessageSent text={'hello hello'} timestamp="Nov 27, 2024, 10:15 AM" />
-          </div>
+          {isLoading ? (
+            <div className="loading-indicator">Loading chat...</div> // Loading indicator
+          ) : (
+            <div className="MessagesContainer p-2">
+              {messages.map((row) =>
+                !row.recieved ? (
+                  <MessageReceived key={row.id} text={row.message} timestamp={row.created_at} />
+                ) : (
+                  <MessageSent key={row.id} text={'hello hello'} timestamp="Nov 27, 2024, 10:15 AM" />
+                )
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          )}
 
           <div className="chat-input">
-            <textarea 
+            <textarea
               onChange={handleChange}
               onKeyDown={handleKeyDown}
-              type="text" 
+              type="text"
               value={message}
-              placeholder="Type a message..." 
+              placeholder="Type a message..."
             />
-            <button 
-            
-            onClick={() => {
-              if (message.trim()) {
-                onSubmit(message);
-                setMessage("");
-              }
-            }}  
+            <button
+              onClick={() => {
+                if (message.trim()) {
+                  sendMessage();
+                }
+              }}
             >
-              <FontAwesomeIcon icon={faPaperPlane}/>
+              <FontAwesomeIcon icon={faPaperPlane} />
             </button>
           </div>
         </div>

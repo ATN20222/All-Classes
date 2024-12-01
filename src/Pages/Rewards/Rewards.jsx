@@ -20,7 +20,6 @@ const Rewards = ()=>{
     useEffect(() => {
         getData();
     }, []); 
-
     async function getData() {
         try {
             const response = await RewardsService.List();
@@ -66,21 +65,19 @@ const Rewards = ()=>{
                         </Link>
                         Rewards
                     </div>
-                    <div className="RightSideHeader">
+                    {/* <div className="RightSideHeader">
                         <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
                         </div>
                         <div className="FilterAdmins">
-                            {/* <FontAwesomeIcon icon={faFilter}/> */}
                             <img src={FilterIcon} alt="" />
                         </div>
                         <div className="FilterAdmins">
-                            {/* <FontAwesomeIcon icon={faFilter}/> */}
                             <img src={CategoryIcon} alt="" />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="NewsRow">
                         {rewards.map((row)=>(
@@ -89,7 +86,7 @@ const Rewards = ()=>{
                                     id={row.id}
                                     points={row.redeem_points}
                                     title={row.name}
-                                    image={BrandImage}
+                                    image={row.media?.original_url}
                                     details={row.description}
                                     handleEditClicked={()=>navigate(`/editrewards/${row.id}`)}
                                     handleDeleteClicked={()=>{
