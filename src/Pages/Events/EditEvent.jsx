@@ -16,6 +16,7 @@ const EditEvent = () => {
     const [place, setPlace] = useState('');
     const [eventDetails, setEventDetails] = useState('');
     const [image, setImage] = useState(null);
+    const [currentImage, setCurrentImage] = useState(null);
 
     // State for error messages
     const [titleError, setTitleError] = useState('');
@@ -79,7 +80,7 @@ const EditEvent = () => {
         if (valid) {
             try {
                 
-                const response = EventService.Edit(id,eventTitle, eventDate ,eventTime,place,eventDetails,image );
+                const response = EventService.Edit(id,eventTitle, eventDate ,eventTime,place,eventDetails,image);
                 
                 setTimeout(() => {
                     
@@ -110,12 +111,24 @@ const EditEvent = () => {
             setEventTime(convertTimeFormat(response.content.time));
             setEventDetails(response.content.description);
             setPlace(response.content.place);
+            setCurrentImage(response.content.media[0]?.original_url); 
             
 
         } catch (error) {
             console.error(error);
         }
     }
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <div className="MainContent">
@@ -136,7 +149,7 @@ const EditEvent = () => {
                 </div>
 
                 <form onSubmit={handleSubmit}>
-                    <div className="AddNewsImageContainer">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
                         <label htmlFor="NewsImage">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
@@ -145,9 +158,11 @@ const EditEvent = () => {
                             id="NewsImage" 
                             className="d-none" 
                             accept="image/png, image/jpeg" 
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange}
                         />
                         {/* Display image error */}
+                        <img src={currentImage} width="100%" alt="News Preview" />
+
                         {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
                     </div>
 

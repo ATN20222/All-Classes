@@ -86,7 +86,7 @@ const Rewards = ()=>{
                                     id={row.id}
                                     points={row.redeem_points}
                                     title={row.name}
-                                    image={row.media?.original_url}
+                                    image={row.media? row.media[0]?.original_url:null}
                                     details={row.description}
                                     handleEditClicked={()=>navigate(`/editrewards/${row.id}`)}
                                     handleDeleteClicked={()=>{

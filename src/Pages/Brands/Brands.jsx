@@ -16,12 +16,11 @@ const Brands = ()=>{
     const [brandIdToDelete , setBrandIdToDelete] = useState('');
     const [brands , setBrands] = useState([]);
 
-    const handleAddBrand = async (name , email) => {
+    const handleAddBrand = async (name , email , image) => {
         try {    
-                const response = await BrandsService.Add(name ,email);
+                const response = await BrandsService.Add(name ,email , image);
                 toast.success('Brand added successfully');
                 getData();
-
             } catch (error) {
                 console.log(error)
                 toast.error('Failed to add brand'); 

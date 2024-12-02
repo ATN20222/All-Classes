@@ -111,9 +111,9 @@ const Charity = ()=>{
                                     id={row.id}
                                     name={row.name}
                                     brand_info={row.description}
-                                    brand_image={row.brand_image?row.brand_image:BrandImage}
+                                    brand_image={row.media? row.media[0].original_url:null}
                                     title={"Services"}
-                                    image={row.image?BrandImage:BrandImage}
+                                    image={row.media? row.media[0].original_url:null}
                                     services={row.services}
                                     address={row.address}
                                     email={row.email}

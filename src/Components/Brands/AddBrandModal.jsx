@@ -5,11 +5,12 @@ import React, { useState } from 'react';
 const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [image, setImage] = useState(null);
   const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const validationErrors = {};
 
     // Basic email regex pattern for format validation
@@ -23,16 +24,22 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
     } else if (!emailRegex.test(email)) {
       validationErrors.email = 'Invalid email format';
     }
-    
+    if (!image) {
+      validationErrors.image = 'Brand image is required';
+    }
+
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    onAddBrand(name , email);
-    
+    // Pass the brand details to the parent component
+    onAddBrand(name, email, image);
+
+    // Clear the form
     setName('');
     setEmail('');
+    setImage(null);
     setErrors({});
     onClose();
   };
@@ -42,11 +49,18 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
     setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setErrors((prev) => ({ ...prev, image: '' }));
+  };
+
   if (!isOpen) return null;
 
   const ClearData = () => {
     setName('');
     setEmail('');
+    setImage(null);
     setErrors({});
   };
 
@@ -57,15 +71,23 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
           <h2>Add Brand</h2>
           <form className="add-class-form addAdminForm" onSubmit={handleSubmit}>
             <label htmlFor="BrandImage" className='FormImageAvatarLabel'>
-                <input type="file" id='BrandImage' className='d-none' />
-                <div className="FormImageAvatar">
-                    <FontAwesomeIcon icon={faImage}/>
-                </div>
+              <input
+                type="file"
+                id='BrandImage'
+                className='d-none'
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <div className="FormImageAvatar">
+                <FontAwesomeIcon icon={faImage} />
+              </div>
             </label>
+            {errors.image && <div className="text-danger PopUpError mt-0">{errors.image}</div>}
+
             <label>
-                <div className="ModalInputTitle">
-                    Brand name
-                </div>
+              <div className="ModalInputTitle">
+                Brand name
+              </div>
               <input
                 type="text"
                 name="name"
@@ -78,9 +100,9 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
             </label>
 
             <label>
-                <div className="ModalInputTitle">
-                    Vendor email
-                </div>
+              <div className="ModalInputTitle">
+                Vendor email
+              </div>
               <input
                 type="text"
                 name="email"

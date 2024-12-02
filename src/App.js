@@ -147,23 +147,13 @@ function App() {
 
             </>
           }
-          {!management.includes('questions')&&
+          {management.includes('questions')&&
             <>
               <Route path='/questions' element={<Questions />} /> 
-
             </>
           }
-
-
-          {!management.includes('questions')&&
-            <>
-              <Route path='/questions' element={<Questions />} /> 
-
-            </>
-          }
- 
- 
           
+          <Route path='/chats' element={<Chats />} /> 
 
           <Route path='/communities' element={<Communities />} /> 
           <Route path='/community/:id' element={<Community />} /> 
@@ -183,9 +173,6 @@ function App() {
           <Route path='/editcharity/:id' element={<EditCharity />} /> 
           
           <Route path='/subscription' element={<Subscription />} /> 
-
-          <Route path='/chats' element={<Chats />} /> 
-
           
         </Route>
 

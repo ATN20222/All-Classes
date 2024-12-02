@@ -118,12 +118,13 @@ const BuyAndSell = ()=>{
                                 <BuyAndSellItem
                                     key={row.id}
                                     id={row.id}
+                                    Uid={row.user.id}
                                     price_after={row.price_after}
                                     price_before={row.price_before}
                                     buy_details={row.description}
-                                    image={row.media?.original_url}
+                                    image={row.media[row.media.length-1]?.original_url}
                                     buy_title={row.title}
-                                    puplisher_image={row.puplisher_image?row.puplisher_image:JobPersonImage}
+                                    puplisher_image={row.user?.member?.media[0].original_url}
                                     puplisher_name={row.user.name}
                                     puplish_date={row.user.created_at}
                                     handleEditClicked={()=>navigate(`/editbuyandsell/${row.id}`)}

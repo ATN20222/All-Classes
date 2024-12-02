@@ -108,6 +108,7 @@ const EditOffer = () => {
             setOfferDetails(response.content.description);
             setDiscount(response.content.discount);
             setBrandInfo(response.content.brand_info);
+            setCurrentImage(response.content.media[0]?.original_url);
             
         } catch (error) {
             console.error(error);

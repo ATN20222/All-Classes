@@ -107,7 +107,7 @@ const Offers = () => {
                             brand_image={row.brand_image ? row.brand_image : BrandImage}
                             discount={row.discount}
                             title={row.title}
-                            image={row.image ? row.image : BrandImage}
+                            image={row.media? row.media[0]?.original_url :null}
                             details={row.description}
                             handleDeleteClicked={() => {
                                 setOfferIdToDelete(row.id);

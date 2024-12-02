@@ -43,9 +43,11 @@ const JobItem = ({
             </div>
             <div className="EventTitle">
                 <div className="CommenterImage JobPuplisherData">
-                    <div className="Avatar">
-                        <img src={puplisher_image} width="100%" alt="" />
-                    </div>
+                    {puplisher_image&&
+                        <div className="Avatar">
+                            <img src={puplisher_image} width="100%" alt="" />
+                        </div>
+                    }
                     <div className="JobNameAndDate">
                         <h6>{puplisher_name}</h6>
                         <span>{puplish_date}</span>

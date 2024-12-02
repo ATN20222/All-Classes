@@ -3,7 +3,7 @@ import { faEllipsisV, faHeart as heart, faStar as solidStar } from "@fortawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
-const BuyAndSellItem = ({price_after,price_before,buy_details,buy_title,image,puplisher_image,puplish_date,puplisher_name,id , handleEditClicked ,handleDeleteClicked }) => {
+const BuyAndSellItem = ({Uid,price_after,price_before,buy_details,buy_title,image,puplisher_image,puplish_date,puplisher_name,id , handleEditClicked ,handleDeleteClicked }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -36,7 +36,9 @@ const BuyAndSellItem = ({price_after,price_before,buy_details,buy_title,image,pu
                 </div>
                 {showMenu && (
                     <div className="SettingsMenu">
-                        <div className="MenuItem" onClick={handleEditClicked}>Edit</div>
+                        {Uid==localStorage.getItem('UId')&&
+                            <div className="MenuItem" onClick={handleEditClicked}>Edit</div>
+                        }
                         <div className="MenuItem" onClick={handleDeleteClicked}>Delete</div>
                     </div>
                 )}

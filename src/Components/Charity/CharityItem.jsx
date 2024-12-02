@@ -30,9 +30,9 @@ CharityItem = ({ id, services, image, title,brand_image,brand_info,name,address 
             </div>
             <div className="AfterNewsImage">
                 <div className="NewsLikesComments BrandDataOffer">
-                    <div className="BrandOfferAvatr">
+                    {/* <div className="BrandOfferAvatr">
                         <img src={brand_image} width="100%" alt="" />
-                    </div>
+                    </div> */}
                     <span>{name}</span>
                 </div>
                 

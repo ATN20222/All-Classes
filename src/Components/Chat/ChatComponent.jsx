@@ -7,6 +7,7 @@ import MessageSent from "./MessageSent";
 import { ChatService } from "../../Services/Api";
 import Echo from "laravel-echo";
 import Pusher from 'pusher-js';
+import { getToken } from "../../Services/AxiosApi";
 
 
 const ChatComponent = ({ ChatId, Name, isOpen, toggleChat }) => {
@@ -23,6 +24,13 @@ const ChatComponent = ({ ChatId, Name, isOpen, toggleChat }) => {
     cluster: 'eu',
     forceTLS: true,
     enabledTransports: ['ws', 'wss'],
+    authEndpoint: 'https://all-classes.com/broadcasting/auth', 
+    auth: {
+      headers: {
+        Authorization: `Bearer ${getToken()}`, 
+      },
+    }
+  
   });
   
 
@@ -67,14 +75,16 @@ const ChatComponent = ({ ChatId, Name, isOpen, toggleChat }) => {
 
   
   useEffect(() => {
-    const channel = echo.channel(`chat.${ChatId}`); 
+    const channel = echo.private(`chat.${ChatId}`); 
     
     channel.listen('MessageSent', (data) => {
+      console.log("data",data);
       setMessages((prevMessages) => [...prevMessages, data.content]);
     });
 
     return () => {
-      channel.stopListening('MessageSent'); 
+      echo.leave(`chat.${ChatId}`);
+      // channel.stopListening('MessageSent'); 
     };
   }, [ChatId]);
 

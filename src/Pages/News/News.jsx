@@ -18,6 +18,7 @@ const News = ()=>{
     const [selectedNews , setSelectedNews] = useState('');
     const [allNews , setAllNews] = useState([]);
     const [CommentKey , setCommentKey] = useState(1);
+    
     const news = [
         {
             id :1 , 
@@ -184,7 +185,7 @@ const News = ()=>{
                 </div>
 
                     <div className="NewsRow">
-                        {allNews?.map((row)=>(
+                        {allNews.map((row)=>(
                                 <NewsItem
                                     key={row.id}
                                     id={row.id}
@@ -193,7 +194,7 @@ const News = ()=>{
                                     likes={row.likes_count}
                                     date={row.created_at}
                                     isLiked={true}
-                                    image={row.media?.original_url}
+                                    image={row.media?row.media[0].original_url:null}
                                     OpenComments={handleOpenComments}
                                     handleEditClicked={()=>{navigate(`/editnews/${row.id}`)}}
                                     handleDeleteClicked={()=>{

@@ -47,6 +47,10 @@ const AddOffer = () => {
         let valid = true;
 
         // Validate inputs
+        if(!image){
+            setImageError('Image is required.');
+            valid = false;
+        }
         if (!category) {
             setCategoryError('Category is required.');
             valid = false;

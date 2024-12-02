@@ -69,10 +69,10 @@ const AddEvent = () => {
             valid = false;
         }
 
-        // if (!image) {
-        //     setImageError('Event image is required.');
-        //     valid = false;
-        // }
+        if (!image) {
+            setImageError('Event image is required.');
+            valid = false;
+        }
 
         if (valid) {
             try {

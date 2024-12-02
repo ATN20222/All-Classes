@@ -12,6 +12,7 @@ const EditCharity = () => {
     const [charityName, setCharityName] = useState("");
     const [charityDetails, setCharityDetails] = useState("");
     const [address, setAddress] = useState("");
+    const [currentImage, setCurrentImage] = useState(null);
     const [phone, setPhone] = useState("");
     const [website, setWebsite] = useState("");
     const [email, setEmail] = useState("");
@@ -35,7 +36,10 @@ const EditCharity = () => {
             setWebsite(charityData.content.website);
             setEmail(charityData.content.email);
             setServices(charityData.content.services || [{ name: "", description: "" }]);
-            setImage(charityData.content.image);  
+            // setImage(charityData.content.image);
+            setCurrentImage(charityData.content.media[0]?.original_url); 
+
+            
         } catch (error) {
             toast.error("Failed to load charity details");
         }
@@ -65,7 +69,7 @@ const EditCharity = () => {
         setIsLoading(true);
         if (validateFields()) {
             try {
-                await CharityService.Update(id,  charityName, charityDetails, email, website, phone, address, services, image );
+                await CharityService.Edit(id,  charityName, charityDetails, email, website, phone, address, services, image );
                 toast.success('Charity edited successfully');
                 setTimeout(() => {
                     navigate('/charity');
@@ -92,6 +96,17 @@ const EditCharity = () => {
         setServices(updatedServices);
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     return (
         <div className="MainContent">
             <div className="Toaster">
@@ -117,8 +132,10 @@ const EditCharity = () => {
                         id="NewsImage" 
                         className="d-none" 
                         accept="image/png, image/jpeg"
-                        onChange={(e) => setImage(e.target.files[0])}
+                        onChange={handleImageChange}
                     />
+                    <img src={currentImage} width="100%" alt="News Preview" />
+
                     {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
                 </div>
 

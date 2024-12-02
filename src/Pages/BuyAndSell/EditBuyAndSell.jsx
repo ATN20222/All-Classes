@@ -29,11 +29,11 @@ const EditBuyAndSell = () => {
             setTitle(response.content.title);
             setPriceAfter(response.content.price_after);
             setPriceBefore(response.content.price_before);
-            setCurrentImage(response.content.media?.original_url);
+            setCurrentImage(response.content.media[response.content.media.length-1]?.original_url);
         } catch (error) {
             console.error(error);
         }
-    }
+    }   
 
 
     const handleEditSell = async (e) => {
@@ -68,7 +68,7 @@ const EditBuyAndSell = () => {
         if (valid) {
             setIsLoading(true);
             try {
-                
+                console.log(image);
                 const response = await BuyAndSellService.Edit(id,title, priceBefore, priceAfter, details, image);
                 toast.success('Item edited successfully');
                 setTimeout(() => {

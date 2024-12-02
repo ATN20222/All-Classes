@@ -12,6 +12,8 @@ const EditAbout = () => {
     const [caption, setCaption] = useState('');
     const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({});
+    const [currentImage, setCurrentImage] = useState(null);
+
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -22,6 +24,8 @@ const EditAbout = () => {
                 if (response) {
                     setTitle(response.content.title);
                     setCaption(response.content.description);
+                    setCurrentImage(response.content.media[0]?.original_url); 
+
                 }
             } catch (error) {
                 toast.error('Failed to fetch about details');
@@ -67,7 +71,17 @@ const EditAbout = () => {
             }
         }
     };
-
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     return (
         <div className="MainContent">
             <Toaster position="top-right" reverseOrder={false} />
@@ -92,8 +106,11 @@ const EditAbout = () => {
                             id="AboutImage"
                             className="d-none"
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange}
                         />
+
+                        <img src={currentImage} width="100%" alt="News Preview" />
+
                         {errors.image && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.image}</div>}
                     </div>
 

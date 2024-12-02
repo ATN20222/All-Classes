@@ -84,7 +84,7 @@ const Events = ()=>{
                                     caption={row.description}
                                     date={row.date}
                                     place={row.place}
-                                    image={row.media?.original_url}
+                                    image={row.media[0]?.original_url}
                                     title={row.title}
                                     time={row.time}
                                     handleEditClicked={()=>navigate(`/editevent/${row.id}`)}

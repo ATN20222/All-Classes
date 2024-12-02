@@ -13,6 +13,7 @@ const EditReward = () => {
     const [rewardDetails, setRewardDetails] = useState('');
     const [image, setImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [currentImage, setCurrentImage] = useState(null);
 
     const [titleError, setTitleError] = useState('');
     const [quantityError, setQuantityError] = useState('');
@@ -35,7 +36,8 @@ const EditReward = () => {
             setQuantity(response.content.quantity);
             setRedeemPoints(response.content.redeem_points);
             setRewardDetails(response.content.description);
-            setImage(response.content.media?.original_url);
+            setCurrentImage(response.content.media[0]?.original_url); 
+
         } catch (error) {
             toast.error('Failed to load reward details');
         } finally {
@@ -87,6 +89,17 @@ const EditReward = () => {
             }
         }
     };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <div className="MainContent">
@@ -105,7 +118,7 @@ const EditReward = () => {
                 </div>
 
                 <form onSubmit={handleUpdate}>
-                    <div className="AddNewsImageContainer">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
                         <label htmlFor="NewsImage">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
@@ -114,8 +127,10 @@ const EditReward = () => {
                             id="NewsImage" 
                             className="d-none" 
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange}
                         />
+                        <img src={currentImage} width="100%" alt="News Preview" />
+
                         {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
                     </div>
 

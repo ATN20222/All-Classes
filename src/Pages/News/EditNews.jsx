@@ -57,13 +57,15 @@ const EditNews = () => {
         try {
             const response = await NewsService.GetById(id);
             setCaption(response.content.caption);
-            setCurrentImage(response.content.media?.original_url?response.content.media.original_url:NewsImage); 
+            setCurrentImage(response.content.media[0]?.original_url); 
         } catch (error) {
             console.error(error);
         }
     }
 
-    const hansdleImageChange = (e) => {
+
+
+    const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setImage(file);

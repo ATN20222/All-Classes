@@ -93,7 +93,7 @@ const EditJob = () => {
             setJobType(response.content.type)
             setSalaryRange(response.content.salary_range);
             setJobDetails(response.content.description);
-            setCurrentImage(''); 
+            setCurrentImage(response.content.media[0]?.original_url); 
         } catch (error) {
             console.error(error);
         }

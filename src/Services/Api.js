@@ -15,6 +15,7 @@ const AuthService = {
         formData.append('password', password);
         const response = await axiosInstance.post(`/auth/login`, formData);
         console.log("resp",response);
+        localStorage.setItem('UId',response.data.user_id);
         setToken(response.data.token);
         // setDB(response.data.db);
         return response.data; 
@@ -305,7 +306,7 @@ const EventService = {
       throw new Error(error.response.data); 
     }
   },
-  Edit: async (id, title,date,time,place,description) =>{
+  Edit: async (id, title,date,time,place,description , img) =>{
     try {
       const formData = new FormData();
       formData.append('title', title);
@@ -313,6 +314,9 @@ const EventService = {
       formData.append('time', time);
       formData.append('place', place);
       formData.append('description', description);
+      if(img){
+        formData.append('media',img); 
+      }
       const response = await axiosInstance.post(`/events/${id}`,formData);
       return response.data; 
     } catch (error) {
@@ -457,7 +461,7 @@ const NewsService = {
       if(img){
         formData.append('media', img);
       }
-      const response = await axiosInstance.post(`/news/${id}`,formData);
+      const response = await axiosInstance.post(`/news/${id}/update`,formData);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -627,7 +631,7 @@ const BuyAndSellService = {
 
       if(img){
         formData.append('media', img);
-      }
+      } 
       
       const response = await axiosInstance.post(`/buysells/${id}`,formData);
       return response.data;   
@@ -762,11 +766,14 @@ const BrandsService = {
       throw new Error(error.response.data.message); 
     }
   },
-  Add: async (name , email) =>{
+  Add: async (name , email , img) =>{
     try {
       const formData = new FormData();
       formData.append('name', name);
       formData.append('email', email);
+      if(img){
+        formData.append('media',img);
+      }
       const response = await axiosInstance.post(`/brands`,formData);
       return response.data; 
     } catch (error) {
@@ -888,8 +895,10 @@ const CharityService = {
         website:website,
         phone:phone , 
         address:address,  
-        services:services 
+        services:services,
+        media:img
       }
+      
       const response = await axiosInstance.post(`/charities`,data);
       return response.data; 
     } catch (error) {
@@ -908,7 +917,10 @@ const CharityService = {
         address:address,  
         services:services 
       }
-      
+      if (img) {
+        data.media = img;
+      }
+        
       const response = await axiosInstance.post(`/charities/${id}`,data);
       return response.data; 
     } catch (error) {
