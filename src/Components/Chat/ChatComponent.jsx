@@ -96,7 +96,6 @@ const ChatComponent = ({ ChatId, Name, isOpen, toggleChat }) => {
     }
 }, [messages]);
 
-
   return (
     <div className={`chat-container ${isOpen ? "chat-open" : ""}`}>
       <div className="chat-header" onClick={toggleChat}>

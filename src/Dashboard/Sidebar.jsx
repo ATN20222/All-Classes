@@ -138,7 +138,7 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
             }}>
               <FontAwesomeIcon icon={faDoorOpen} /> Back to MIND
             </div>
-          </li>
+          </li> 
         }
 
         
