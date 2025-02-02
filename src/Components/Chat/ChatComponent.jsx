@@ -61,7 +61,7 @@ const ChatComponent = ({ ChatId, Name, isOpen, toggleChat }) => {
     const msg = message;
     setMessage('');
     try {
-        await ChatService.SendMessages(ChatId, msg);
+        await ChatService.SendMessages(ChatId, msg , 1);
         setMessage('');
     } catch (error) {
       setMessage(msg)

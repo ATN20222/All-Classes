@@ -194,7 +194,7 @@ const News = ()=>{
                                     likes={row.likes_count}
                                     date={row.created_at}
                                     isLiked={true}
-                                    image={row.media?row.media[0].original_url:null}
+                                    image={row.media.length>0?row.media[0].original_url:null}
                                     OpenComments={handleOpenComments}
                                     handleEditClicked={()=>{navigate(`/editnews/${row.id}`)}}
                                     handleDeleteClicked={()=>{

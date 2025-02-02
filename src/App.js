@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import './Responsive.css';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Login from './Pages/Auth/Login';
 import Register from './Pages/Auth/Register';
 import ForgetPassword from './Pages/Auth/ForgetPassword';
@@ -59,7 +59,18 @@ import Questions from './Pages/Questions/Questions';
 function App() {
   const [direction, setDirection] = useState('ltr');
   const { management } = useContext(ManagementContext);
-
+  useEffect(()=>{
+    var x  = 123;
+    console.log('key');
+    sha256(x).then(data=>console.log(data));
+  },[]);
+  async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);                    
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
   return (
     <div className='App'>
       <Routes>
@@ -88,7 +99,7 @@ function App() {
               <Route path='/member/:id' element={<MemberDetails />} /> 
             </>
           }
-          {management.includes('admins')&&
+          {!management.includes('admins')&&
             <>
               <Route path='/admins' element={<Admins />} /> 
             </>

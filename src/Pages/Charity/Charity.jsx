@@ -96,11 +96,11 @@ const Charity = ()=>{
                         Charity
                     </div>
                     <div className="RightSideHeader">
-                        <div className="PageSearch">
+                        {/* <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>
@@ -111,9 +111,9 @@ const Charity = ()=>{
                                     id={row.id}
                                     name={row.name}
                                     brand_info={row.description}
-                                    brand_image={row.media? row.media[0].original_url:null}
+                                    brand_image={row.media.length>0? row.media[0].original_url:null}
                                     title={"Services"}
-                                    image={row.media? row.media[0].original_url:null}
+                                    image={row.media.length>0? row.media[0].original_url:null}
                                     services={row.services}
                                     address={row.address}
                                     email={row.email}

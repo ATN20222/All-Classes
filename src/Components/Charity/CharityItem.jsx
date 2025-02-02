@@ -38,7 +38,7 @@ CharityItem = ({ id, services, image, title,brand_image,brand_info,name,address 
                 
 
             </div>
-            <div className="OfferBrandInfo">
+            <div className="OfferBrandInfo mt-3">
                 <span>{brand_info}</span>
             </div>
 
@@ -66,7 +66,7 @@ CharityItem = ({ id, services, image, title,brand_image,brand_info,name,address 
                 </div> */}
                 <ul>
                 {services.map((serv)=>(
-                    <li>{serv.name} <br />{serv.description}</li>
+                    <li>{serv.title} <br />{serv.description}</li>
                 ))}
                 </ul>
                 <span></span>

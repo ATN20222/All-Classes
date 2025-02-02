@@ -153,7 +153,7 @@ const AddJob = () => {
                     <div className="AddField">
                         <label>
                             <input
-                                type="text"
+                                type="number"
                                 placeholder="Salary range"
                                 className="AddField"
                                 value={salaryRange}

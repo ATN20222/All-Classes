@@ -603,12 +603,12 @@ const BuyAndSellService = {
       throw new Error(error.response.data.message); 
     }
   },
-  Add: async (title,price_before , price_after,description ,img) =>{
+  Add: async (title,price , discount,description ,img) =>{
     try {
       const formData = new FormData();
       formData.append('title', title);
-      formData.append('price_before', price_before);
-      formData.append('price_after', price_after);
+      formData.append('price', price);
+      formData.append('discount', discount);
       formData.append('description', description);
 
       if(img){
@@ -621,12 +621,12 @@ const BuyAndSellService = {
       throw new Error(error.response.data); 
     }
   },
-  Edit: async (id,title,price_before , price_after,description ,img) =>{
+  Edit: async (id,title,price , discount,description ,img) =>{
     try {
       const formData = new FormData();
-      formData.append('title', title);
-      formData.append('price_before', price_before);
-      formData.append('price_after', price_after);
+      formData.append('title', title);  
+      formData.append('discount', discount);
+      formData.append('price', price);
       formData.append('description', description);
 
       if(img){
@@ -1213,11 +1213,12 @@ const ChatService = {
       throw new Error(error.response.data); 
     }
   },
-  SendMessages: async (chat_id , message) => {
+  SendMessages: async (chat_id , message,  user_id) => {
     try {
       const formData = new FormData();
       formData.append('chat_id', chat_id);
       formData.append('message', message);
+      formData.append('user_id', user_id);
       const response = await axiosInstance.post(`/chats`,formData);
       return response.data;
     } catch (error) {

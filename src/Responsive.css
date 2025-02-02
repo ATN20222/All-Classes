@@ -5,6 +5,16 @@
     .TwoPartsText h1{
         font-size: 30px !important;
     }
+    .SideMenuBtn{
+        display: block !important;
+    }
+    .sidebar{
+        position: absolute;
+        height: 100%;
+        left: -500px;
+        transition: all 0.5s ease-in-out;
+        z-index: 999;
+    }
 }
 @media (max-width:768px) {
     .AllClassesLogo{
@@ -16,6 +26,7 @@
     .CashierTableContainer{
         overflow-x: scroll;
     }
+    
     
 }
 @media (max-width:668px) {

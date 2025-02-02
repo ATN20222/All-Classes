@@ -19,7 +19,7 @@ const EditCharity = () => {
     const [image, setImage] = useState(null);
     const [imageError, setImageError] = useState('');
     const [errors, setErrors] = useState({});
-    const [services, setServices] = useState([{ name: "", description: "" }]);
+    const [services, setServices] = useState([{ title: "", description: "" }]);
     const [isLoading , setIsLoading] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
@@ -35,9 +35,9 @@ const EditCharity = () => {
             setPhone(charityData.content.phone);
             setWebsite(charityData.content.website);
             setEmail(charityData.content.email);
-            setServices(charityData.content.services || [{ name: "", description: "" }]);
+            setServices(charityData.content.services || [{ title: "", description: "" }]);
             // setImage(charityData.content.image);
-            setCurrentImage(charityData.content.media[0]?.original_url); 
+            setCurrentImage(charityData.content.media.length>0?charityData.content.media[0]?.original_url:''); 
 
             
         } catch (error) {
@@ -56,7 +56,7 @@ const EditCharity = () => {
         if (!/\S+@\S+\.\S+/.test(email)) validationErrors.emailError = "Email format is invalid.";
 
         services.forEach((service, index) => {
-            if (!service.name) validationErrors[`serviceTitleError${index}`] = `Service title ${index + 1} is required.`;
+            if (!service.title) validationErrors[`serviceTitleError${index}`] = `Service title ${index + 1} is required.`;
             if (!service.description) validationErrors[`serviceDescriptionError${index}`] = `Service description ${index + 1} is required.`;
         });
 
@@ -83,7 +83,7 @@ const EditCharity = () => {
     };
 
     const addService = () => {
-        setServices([...services, { name: "", description: "" }]);
+        setServices([...services, { title: "", description: "" }]);
     };
 
     const handleServiceChange = (index, field, value) => {
@@ -213,8 +213,8 @@ const EditCharity = () => {
                                     type="text"
                                     placeholder="Title"
                                     className="AddField"
-                                    value={service.name}
-                                    onChange={(e) => handleServiceChange(index, "name", e.target.value)}
+                                    value={service.title}
+                                    onChange={(e) => handleServiceChange(index, "title", e.target.value)}
                                 />
                                 {errors[`serviceTitleError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceTitleError${index}`]}</div>}
                             </div>
@@ -246,7 +246,7 @@ const EditCharity = () => {
                     <button onClick={handleSubmit}>Save</button>
                 </div>
                 <div className="AllClassesBtn RejectBtn">
-                    <button>Cancel</button>
+                    <button onClick={()=>navigate('/charity')}>Cancel</button>
                 </div>
 
 

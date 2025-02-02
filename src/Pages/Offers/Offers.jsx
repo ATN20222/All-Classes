@@ -101,7 +101,7 @@ const Offers = () => {
                         <OffersItem
                             key={row.id}
                             id={row.id}
-                            brand_name={row.brands.name}
+                            brand_name={row.brand?.name}
                             brand_info={row.brand_info}
                             brand_rating={row.brand_rating}
                             brand_image={row.brand_image ? row.brand_image : BrandImage}

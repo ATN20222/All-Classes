@@ -8,8 +8,8 @@ import { BuyAndSellService } from "../../Services/Api";
 
 const AddBuyAndSell = () => {
     const [title, setTitle] = useState('');
-    const [priceBefore, setPriceBefore] = useState('');
-    const [priceAfter, setPriceAfter] = useState('');
+    const [price, setPrice] = useState('');
+    const [discount, setDiscount] = useState(0);
     const [details, setDetails] = useState('');
     const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({});
@@ -28,14 +28,14 @@ const AddBuyAndSell = () => {
             setErrors((prev) => ({ ...prev, title: 'Sell title is required.' }));
             valid = false;
         }
-        if (!priceBefore) {
-            setErrors((prev) => ({ ...prev, priceBefore: 'Price before is required.' }));
+        if (!price) {
+            setErrors((prev) => ({ ...prev, price: 'Price is required.' }));
             valid = false;
         }
-        if (!priceAfter) {
-            setErrors((prev) => ({ ...prev, priceAfter: 'Price after is required.' }));
-            valid = false;
-        }
+        // if (!discount) {
+        //     setErrors((prev) => ({ ...prev, discount: 'Discount is required.' }));
+        //     valid = false;
+        // }
         if (!details) {
             setErrors((prev) => ({ ...prev, details: 'Details are required.' }));
             valid = false;
@@ -49,7 +49,7 @@ const AddBuyAndSell = () => {
             setIsLoading(true);
             try {
                 
-                const response = await BuyAndSellService.Add(title, priceBefore, priceAfter, details, image);
+                const response = await BuyAndSellService.Add(title, price, discount, details, image);
                 toast.success('Item added successfully');
                 setTimeout(() => {
                     navigate('/buyandsell');
@@ -108,26 +108,26 @@ const AddBuyAndSell = () => {
                         <label>
                             <input
                                 type="number"
-                                placeholder="Price before"
+                                placeholder="Price"
                                 className="AddField"
-                                value={priceBefore}
-                                onChange={(e) => setPriceBefore(e.target.value)}
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
                             />
                         </label>
-                        {errors.priceBefore && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.priceBefore}</div>}
+                        {errors.price && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.price}</div>}
                     </div>
 
                     <div className="AddField">
                         <label>
                             <input
                                 type="number"
-                                placeholder="Price after"
+                                placeholder="Discount"
                                 className="AddField"
-                                value={priceAfter}
-                                onChange={(e) => setPriceAfter(e.target.value)}
+                                value={discount}
+                                onChange={(e) => setDiscount(e.target.value)}
                             />
                         </label>
-                        {errors.priceAfter && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.priceAfter}</div>}
+                        {errors.discount && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.discount}</div>}
                     </div>
 
                     <div className="AddField">

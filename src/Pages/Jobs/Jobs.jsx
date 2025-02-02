@@ -102,7 +102,7 @@ const Jobs = ()=>{
                                     job_details={row.description}
                                     job_title={row.title}
                                     job_type={row.type}
-                                    puplisher_image={row.user?.member?.media[0].original_url}
+                                    puplisher_image={row.user?.member?.media.length>0?row.user?.member?.media[0].original_url:null}
                                     puplisher_name={row.user?.name}
                                     puplish_date={row.created_at}
                                     salary_range={row.salary_range}

@@ -2,8 +2,8 @@ import { faComment, faHeart, faStar } from "@fortawesome/free-regular-svg-icons"
 import { faEllipsisV, faHeart as heart, faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-
-const BuyAndSellItem = ({Uid,price_after,price_before,buy_details,buy_title,image,puplisher_image,puplish_date,puplisher_name,id , handleEditClicked ,handleDeleteClicked }) => {
+import avatar from '../../Assets/Images/Avatar.svg'
+const BuyAndSellItem = ({Uid,price,discount,buy_details,buy_title,image,puplisher_image,puplish_date,puplisher_name,id , handleEditClicked ,handleDeleteClicked }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -46,7 +46,7 @@ const BuyAndSellItem = ({Uid,price_after,price_before,buy_details,buy_title,imag
             <div className="EventTitle">
                 <div className="CommenterImage JobPuplisherData">
                     <div className="Avatar">
-                        <img src={puplisher_image} width="100%" alt="" />
+                        <img src={puplisher_image?puplisher_image:avatar} width="100%" alt="" />
                     </div>
                     <div className="JobNameAndDate">
                         <h6>{puplisher_name}</h6>
@@ -79,11 +79,11 @@ const BuyAndSellItem = ({Uid,price_after,price_before,buy_details,buy_title,imag
                 </div>
                 <div className="BuyPrice">
                     <div className="Price">
-                        {price_before+'EGP'}
-                        <div className="buyLine"></div>
+                        {discount+'% off'}
+                        {/* <div className="buyLine"></div> */}
                     </div>
                     <div className="TotalPrice">
-                        {price_after+'EGP'}
+                        {price+'EGP'}
                     </div>
                 </div>
             </div>

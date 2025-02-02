@@ -8,6 +8,10 @@
     overflow: hidden;
     border-radius: 20px;
     box-shadow: 0px 1px 4px 0px #00000040;
+    display: flex;
+}
+.NewsImageContainer img{
+    object-fit: contain;
 }
 .AfterNewsImage {
     display: flex;
