@@ -104,7 +104,7 @@ const AuthService = {
 //throw new Error('Failed to get roles'); 
         }
     },
-}
+};
 const HomeServices = {
   ListCommunity: async ()=>{
     try {
@@ -115,7 +115,7 @@ const HomeServices = {
       throw new Error(error.response.data.message); 
     }
   },
-}
+};
 const MindHomeServices = {
   ListCommunity: async ()=>{
     try {
@@ -126,7 +126,7 @@ const MindHomeServices = {
       throw new Error(error.response.data.message); 
     }
   },
-}
+};
 const AboutServices = {
   Add: async (title, description,image )=>{
     try {
@@ -191,8 +191,7 @@ const AboutServices = {
     }
   },
 
-}
-
+};
 const PolicyServices = {
   AddPrivacy: async (title, description )=>{
     try {
@@ -263,8 +262,7 @@ const PolicyServices = {
 //throw new Error('Failed to delete'); 
     }
   },
-}
-
+};
 const EventService = {
   List: async () =>{
     try {
@@ -335,9 +333,7 @@ const EventService = {
     }
   },
 
-}
-
-
+};
 const QuestionsService = {
   List: async () =>{
     try {
@@ -393,9 +389,7 @@ const QuestionsService = {
     }
   },
 
-}
-
-
+};
 const PointsService = {
   ListPoints: async () =>{
     try {
@@ -417,8 +411,7 @@ const PointsService = {
     }
   },
 
-}
-
+};
 const NewsService = {
   List: async () =>{
     try {
@@ -478,14 +471,25 @@ const NewsService = {
       throw new Error(error.response.data.message); 
     }
   },
+  DeleteComment: async (id) =>{
+    try {
+
+      const response = await axiosInstance.delete(`/comments/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
 
   AddComment:async (news_id,comment) =>{
     try {
       const formData = new FormData();
       formData.append('comment', comment);
       formData.append('news_id', news_id);
+      formData.append('model_type', 'news');
       
-      const response = await axiosInstance.post(`/news/comment`,formData);
+      const response = await axiosInstance.post(`/comments`,formData);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -498,7 +502,7 @@ const NewsService = {
       formData.append('comment_id', comment_id);
       formData.append('reply', reply);
       
-      const response = await axiosInstance.post(`/news/comment/reply`,formData);
+      const response = await axiosInstance.post(`/comment/reply`,formData);
       return response.data; 
     } catch (error) {
       console.log(error)
@@ -510,14 +514,13 @@ const NewsService = {
     try {
       
       const response = await axiosInstance.get(`news/like/${id}`);
-      return response.data; 
+      return response.data;   
     } catch (error) {
       console.log(error)
       throw new Error(error.response.data); 
     }
   },
-}
-
+};
 const JobsService = {
   List: async () =>{
     try {
@@ -590,8 +593,86 @@ const JobsService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
+};
+const RoomsService = {
+  List: async () =>{
+    try {
+      const response = await axiosInstance.get(`/rooms`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/rooms/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+      const response = await axiosInstance.delete(`/rooms/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+};
+const RoomPostsService = {
+  List: async (room_id) =>{
+    try {
+      const response = await axiosInstance.get(`/posts?room_id=${room_id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  GetById: async (id) =>{
+    try {
+      const response = await axiosInstance.get(`/posts/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  Delete: async (id) =>{
+    try {
+      const response = await axiosInstance.delete(`/posts/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+  DeleteComment: async (id) =>{
+    try {
+      const response = await axiosInstance.delete(`/comments/${id}`);
+      return response.data; 
+    } catch (error) {
+      console.log(error)
+      throw new Error(error.response.data.message); 
+    }
+  },
+};
+const NotificationService = {
+  List: async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/notifications?user_id=${localStorage.getItem('UId')}`
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  },
+};
 const BuyAndSellService = {
   List: async () =>{
     try {
@@ -660,8 +741,7 @@ const BuyAndSellService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
+};
 const AdminsService = {
   List: async () =>{
     try {
@@ -713,7 +793,7 @@ const AdminsService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
+};
 const MembersService = {
   List: async () =>{
     try {
@@ -743,8 +823,7 @@ const MembersService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
+};
 const BrandsService = {
   List: async () =>{
     try {
@@ -802,7 +881,7 @@ const BrandsService = {
     }
   },
 
-}
+};
 const OffersService = {
   List: async (type) =>{
     try {
@@ -873,9 +952,7 @@ const OffersService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
-
+};
 const CharityService = {
   List: async () =>{
     try {
@@ -947,9 +1024,7 @@ const CharityService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
-
+};
 const ApplicationsService = {
   List: async () =>{
     try {
@@ -995,8 +1070,7 @@ const ApplicationsService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
+};
 const CashierService = {
   List: async () =>{
     try {
@@ -1052,8 +1126,7 @@ const CashierService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
+};
 const RewardsService = {
   List: async (type) =>{
     try {
@@ -1119,8 +1192,7 @@ const RewardsService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
+};
 const SubscriptionService = {
   List: async () =>{
     try {
@@ -1184,9 +1256,7 @@ const SubscriptionService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
-
+};
 const ChatService = {
   List: async () =>{
     try {
@@ -1255,10 +1325,12 @@ const ChatService = {
       throw new Error(error.response.data.message); 
     }
   },
-}
-
+};
 
 export { 
+  NotificationService,
+  RoomPostsService,
+  RoomsService,
   AuthService,
   EventService,
   NewsService,
@@ -1280,5 +1352,5 @@ export {
   PolicyServices,
   MindHomeServices,
   ChatService
-};
+};      
 

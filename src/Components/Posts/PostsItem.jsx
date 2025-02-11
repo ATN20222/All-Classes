@@ -2,8 +2,9 @@ import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisV, faHeart as heart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import avatar from '../../Assets/Images/Avatar.svg'
 
-const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDeleteClicked, handleEditClicked, handlelikeClick , OpenComments  }) => {
+const PostsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDeleteClicked, userImage,name , OpenComments  }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const toggleMenu = () => {
@@ -16,9 +17,23 @@ const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDe
                 <div className="SettingsBtn" onClick={toggleMenu}>
                     <FontAwesomeIcon icon={faEllipsisV} />
                 </div>
+                <div className="EventTitle">
+                <div className="CommenterImage JobPuplisherData">
+                    <div className="Avatar">
+                        <img src={userImage?userImage:avatar} width="100%" alt="" />
+                    </div>
+                    <div className="JobNameAndDate">
+                        <h6>{name}</h6>
+                        <span>{date}</span>
+                    </div>
+                </div>
+                <div className="NewsCaptionContainer">
+                <span>{caption}</span>
+            </div>
+            </div>
                 {showMenu && (
                     <div className="SettingsMenu">
-                        <div className="MenuItem" onClick={handleEditClicked}>Edit</div>
+                        {/* <div className="MenuItem" onClick={handleEditClicked}>Edit</div> */}
                         <div className="MenuItem" onClick={handleDeleteClicked}>Delete</div>
                     </div>
                 )}
@@ -26,9 +41,10 @@ const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDe
             <div className="NewsImageContainer">
                 <img src={image} width="100%" alt="" />
             </div>
+            
             <div className="AfterNewsImage">
                 <div className="NewsLikesComments">
-                    <div className={`LikesIconContainer ${isLiked ? 'isLiked' : ''}`} onClick={()=>handlelikeClick(id)}>
+                    <div className={`LikesIconContainer ${isLiked ? 'isLiked' : ''}`}>
                         <FontAwesomeIcon icon={isLiked ? heart : faHeart} />
                         <span>{likes}</span>
                     </div>
@@ -37,15 +53,11 @@ const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDe
                         <span>{comments.length}</span>
                     </div>
                 </div>
-                <div className="NewsDate">
-                    <span>{date}</span>
-                </div>
+                
             </div>
-            <div className="NewsCaptionContainer">
-                <span>{caption}</span>
-            </div>
+            
         </div>
     );
 };
 
-export default NewsItem;
+export default PostsItem;

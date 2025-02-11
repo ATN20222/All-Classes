@@ -7,24 +7,27 @@
     /* border-bottom: 1px solid #ddd; */
     margin-top: 10px;
     margin-bottom: 10px;
-    padding-left: 30px; 
-    padding-right: 30px; 
-  }
-  
-  .header-actions button {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.header-actions button {
     margin-left: 10px;
     padding: 5px 10px;
     cursor: pointer;
-  }
-.HeaderSearchBar{
-    position: relative;
-
 }
-.HeaderSearchBar input::placeholder{
+
+.HeaderSearchBar {
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+}   
+
+.HeaderSearchBar input::placeholder {
     color: var(--secondary-color);
 }
 
-.HeaderSearchBar input{
+.HeaderSearchBar input {
     border: none;
     outline: none;
     /* padding: 16px 20px 16px 20px; */
@@ -38,39 +41,121 @@
     color: var(--secondary-color);
     padding-left: 20px;
     padding-right: 40px;
-    
 }
-.HeaderSearchBar svg{
+
+.HeaderSearchBar svg {
     position: absolute;
     right: 10px;
     top: 6px;
     color: var(--secondary-color);
 }
-.SearchIcon{
+
+.SearchIcon {
     cursor: pointer;
 }
-.header-actions{
+
+.header-actions {
     display: flex;
 }
-.header-actions .Notifications{
+
+.header-actions .Notifications {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
     color: var(--primary-color);
 }
-.header-actions .Profile{
+
+.header-actions .Profile {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
     color: var(--primary-color);
 }
-.SideMenuBtn{
+
+.SideMenuBtn {
     display: none;
     margin-left: 10px;
     margin-right: 10px;
     color: var(--primary-color);
     cursor: pointer;
 }
-.ActiveSideMenu{
+
+.ActiveSideMenu {
     left: 0 !important;
+}
+
+.Notifications {
+    position: absolute;
+    width: 280px;
+    height: 400px;
+    overflow-y: scroll;
+    background-color: white;
+    z-index: 999;
+    border-radius: 25px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    right: 30px;
+}
+
+.Notifications::-webkit-scrollbar {
+    width: 1px;
+    /* Scrollbar width */
+}
+
+.Notifications::-webkit-scrollbar-thumb {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+}
+
+.Notifications::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.NotificationItem {
+    padding: 10px !important;
+    margin: 10px;
+    background-color: #eee;
+    border-radius: 25px;
+    text-align: start;
+}
+
+.NotificationText {
+    padding: 10px;
+    padding-top: 0px;
+    font-size: 15px;
+}
+
+.NotificationItemTitleAndTime {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.NotificationItemTitle {
+    margin: 5px;
+    margin-right: 10px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.NotificationItemTime {
+    font-size: 12px;
+    padding: 10px;
+}
+
+.NotificationCount {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-pink);
+    color: white;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

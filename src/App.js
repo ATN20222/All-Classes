@@ -55,6 +55,8 @@ import HomeMind from './Pages/Home/HomeMind';
 import { AuthProvider } from './Context/AuthContext';
 import PrivateRoute from './Context/PrivateRoute';
 import Questions from './Pages/Questions/Questions';
+import ChatRooms from './Pages/ChatRooms/ChatRooms';
+import Posts from './Pages/Posts/Posts';
 
 function App() {
   const [direction, setDirection] = useState('ltr');
@@ -102,6 +104,12 @@ function App() {
           {!management.includes('admins')&&
             <>
               <Route path='/admins' element={<Admins />} /> 
+            </>
+          }
+          {!management.includes('chat-rooms')&&
+            <>
+              <Route path='/chatrooms' element={<ChatRooms />} /> 
+              <Route path='/chatrooms/:id' element={<Posts />} /> 
             </>
           }
           {management.includes('news')&&

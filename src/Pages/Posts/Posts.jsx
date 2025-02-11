@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PlusIcon from '../../Assets/Images/CirclePlus.svg'
-import NewsImage from '../../Assets/Images/NewsImage.png'
-import CommentImage from '../../Assets/Images/CommentImage.jpeg'
-import NewsItem from "../../Components/News/NewsItem";
-import './News.css'
-import { Link, useNavigate } from "react-router-dom";
-import Comments from "../../Components/News/Comments";
-import { NewsService } from "../../Services/Api";
+import { useNavigate, useParams } from "react-router-dom";
+import { RoomPostsService, RoomsService } from "../../Services/Api";
 import toast, { Toaster } from "react-hot-toast";
 import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
-const News = ()=>{
+import PostsItem from "../../Components/Posts/PostsItem";
+import PostsComments from "../../Components/Posts/PostsComments";
+const Posts = ()=>{
     const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
     const [NewsIdToDelete, setNewsIdToDelete] = useState('');
     const [commentToDelete , setCommentToDelete] = useState('');
@@ -19,6 +15,9 @@ const News = ()=>{
     const [allNews , setAllNews] = useState([]);
     const [CommentKey , setCommentKey] = useState(1);
     
+
+    const {id} = useParams(); 
+
     const handleOpenComments = (newsId)=>{
         console.log(newsId);
         setSelectedComments(allNews.find(n=>n.id===newsId).comments);
@@ -26,38 +25,16 @@ const News = ()=>{
         setIsCommentsOpend(true);
         console.log(allNews.find(n=>n.id===newsId).comments);
     }
-    const handleAddComment = async (newsId , comment)=>{
-
-        try {
-            const response = await NewsService.AddComment(newsId , comment);
-            GetNewsById(newsId);
-        } catch (error) {
-            toast.error("Failed to comment");
-        }finally{
-            setCommentKey(CommentKey+1);
-        }
-    }
-    const handleReplyComment = async (newsId , replyData)=>{
-        
-        try {
-            const response = await NewsService.ReplyComment(replyData.replyTo , replyData.text);
-            console.log(response);
-            GetNewsById(newsId);
-        } catch (error) {
-            toast.error("Failed to comment");
-        }finally{
-            setCommentKey(CommentKey+1);
-        }
-    }
+    
 
     useEffect(()=>{
         getData();
     },[]);
     async function getData() {
         try {
-            const response = await NewsService.List();
+            const response = await RoomsService.GetById(id);
             console.log(response);
-            setAllNews(response.content);
+            setAllNews(response.content.posts);
         } catch (error) {
             console.error(error);
         }
@@ -65,7 +42,7 @@ const News = ()=>{
 
     async function GetNewsById(id) {
         try {
-            const response = await NewsService.GetById(id);
+            const response = await RoomPostsService.GetById(id);
             const updatedItems = allNews.map((item) =>
                 item.id === id ? response.content : item
             );
@@ -82,36 +59,24 @@ const News = ()=>{
             handleConfirmDeleteComment(id);
             return;
         }
+        
         try {
                 
-            const response = await NewsService.Delete(id);
-            toast.success('News deleted successfully');
+            const response = await RoomPostsService.Delete(id);
+            toast.success('Post deleted successfully');
             getData();
         } catch (error) {
-            toast.error('Failed to delete news');
+            toast.error('Failed to delete post');
             
         }finally{
             setNewsIdToDelete('');
         }
     }
-    const handleLikeNews = async (id)=>{
-        try {
-                
-            const response = await NewsService.LikeNews(id);
-            // toast.success('successfully');
-            // getData();
-            GetNewsById(id);
-        } catch (error) {
-            toast.error('an error occurred');
-            
-        }
-    }
-
     const handleConfirmDeleteComment = async (id)=>{
         
         try {
                 
-            const response = await NewsService.DeleteComment(id);
+            const response = await RoomPostsService.DeleteComment(id);
             toast.success('Comment deleted successfully');
             getData();
         } catch (error) {
@@ -128,7 +93,6 @@ const News = ()=>{
         setIsDeleteOverlayOpen(true);
     }
 
-    const navigate = useNavigate();
     return(
         <div className="MainContent News">
             <DeleteModalComponent
@@ -137,16 +101,15 @@ const News = ()=>{
                 onClose={() => setIsDeleteOverlayOpen(false)}
                 onDelete={handleDelete}
             />
-            <Comments
+            <PostsComments
                 key={CommentKey}
                 isOpen={isCommentsOpend}
                 onClose={()=>setIsCommentsOpend(false)}
-                onAddComment={handleAddComment}
                 comments={selectedComments}
                 newsId={selectedNews}
-                onReplyComment={handleReplyComment}
                 onDeleteComment={handleDeleteComment}
             />
+
             <div className="Toaster">
                 <Toaster
                     position="top-right"
@@ -156,34 +119,27 @@ const News = ()=>{
             <div className="container">
                 <div className="PageHeader">
                     <div className="PageTitle PageTitleSecondary">
-                        <Link className="AddIconContainer nav-link" 
-                            to='/addnews'
-                        > 
-                            <img src={PlusIcon} width="20px" height="20px" className="m-1" alt="" />
-                        </Link>
-                        News
+                        Posts
                     </div>
                 </div>
 
                     <div className="NewsRow">
                         {allNews.map((row)=>(
-                                <NewsItem
+                                <PostsItem
                                     key={row.id}
                                     id={row.id}
-                                    caption={row.caption}
-                                    comments={row.comments}
+                                    name={row.user?.name}
+                                    userImage={row.user?.media?.length>0?row.user?.media[0].original_url:null}
+                                    caption={row.content}
+                                    comments={row?.comments?row.comments:[]}
                                     likes={row.likes_count}
                                     date={row.created_at}
-                                    isLiked={row.likes.some(c => c.user_id == localStorage.getItem("UId"))}
-                                    image={row.media.length>0?row.media[0].original_url:null}
+                                    image={row?.media?.length>0?row.media[0].original_url:null}
                                     OpenComments={handleOpenComments}
-                                    handleEditClicked={()=>{navigate(`/editnews/${row.id}`)}}
                                     handleDeleteClicked={()=>{
                                         setNewsIdToDelete(row.id);
                                         setIsDeleteOverlayOpen(true);
                                     }}
-
-                                    handlelikeClick={handleLikeNews}
                                 />
                         ))}
                     </div>
@@ -191,4 +147,4 @@ const News = ()=>{
         </div>
     );
 }
-export default News;
+export default Posts;

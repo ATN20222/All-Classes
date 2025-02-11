@@ -2,7 +2,7 @@ import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
 import userImage from '../../Assets/Images/Avatar.svg'
-const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComment }) => {
+const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComment ,onDeleteComment }) => {
     const [newComment, setNewComment] = useState("");
     const [replyingTo, setReplyingTo] = useState(null); 
     const [isReplying, setIsReplying] = useState(false);
@@ -50,8 +50,8 @@ const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComm
                 <div className="CommentsContainer" onClick={stopPropagation}>
                     <div className="CommentsHeader">
                         <span>Comments</span>
+                    <div className="CommentsHr mt-3"></div>
                     </div>
-                    <div className="CommentsHr"></div>
                     <div className="AllComments">
                         {comments.map((comment) => (
                             <>
@@ -70,6 +70,9 @@ const Comments = ({ newsId, comments, isOpen, onClose, onAddComment, onReplyComm
                                         {/* <span className="CommentLike">Like</span> */}
                                         <span className="CommentReply" onClick={() => handleIsReply(comment)}>
                                             Reply
+                                        </span>
+                                        <span className="CommentReply" onClick={() => onDeleteComment(comment.id)}>
+                                            Delete
                                         </span>
                                         <span className="CommentTime">{comment.created_at}</span>
                                     </div>

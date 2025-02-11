@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.css";
 import avatarImage from '../Assets/Images/Avatar.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase, faDoorOpen, faFileContract, faGifts, faHome, faInfo, faMoneyBillTransfer, faSearch, faShield, faShieldHalved, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import faTimes for close icon
+import { faBriefcase, faComments, faDoorOpen, faFileContract, faGifts, faHome, faInfo, faMoneyBillTransfer, faSearch, faShield, faShieldHalved, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import faTimes for close icon
 import { Link, useNavigate } from "react-router-dom";
 import { faCalendarDays, faNewspaper } from "@fortawesome/free-regular-svg-icons";
 import { ManagementContext } from "../Context/ManagementContext";
@@ -125,6 +125,13 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
           <li>
             <Link to='about' className="nav-link">
               <FontAwesomeIcon icon={faInfo} /> About
+            </Link>
+          </li>
+        }
+        {!management.includes('chat-rooms')&&
+          <li>
+            <Link to='chatrooms' className="nav-link">
+              <FontAwesomeIcon icon={faComments} /> Chat Rooms
             </Link>
           </li>
         }

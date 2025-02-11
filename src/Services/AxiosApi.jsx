@@ -39,6 +39,14 @@ export const setDB = (db_name) => {
 export const getDB = () => {
     return cookie.get('db_name');
 };
+export const setFCM = (fcm) => {
+    cookie.set('fcm', fcm, { path: '/' });
+};
+// Get NurseryId
+export const  getFCM = () => {
+    return cookie.get('fcm');
+};
+
 
 // Instance From Axios
 const axiosInstance = axios.create({
@@ -49,6 +57,8 @@ const axiosInstance = axios.create({
     "Database-App":getDB(),
     "Content-Type":'multipart/form-data',
     "Accept":'application/json',
+    'Device-Token': getFCM(),
+
     }
 });
 
