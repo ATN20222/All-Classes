@@ -97,8 +97,8 @@ const EditAbout = () => {
                 </div>
 
                 <form onSubmit={handleEditAbout}>
-                    <div className="AddNewsImageContainer">
-                        <label htmlFor="AboutImage">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
+                        <label htmlFor="AboutImage" className="absolute">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
                         <input

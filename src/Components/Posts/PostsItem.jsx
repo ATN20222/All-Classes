@@ -1,7 +1,7 @@
 import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisV, faHeart as heart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import avatar from '../../Assets/Images/Avatar.svg'
 
 const PostsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDeleteClicked, userImage,name , OpenComments  }) => {
@@ -11,6 +11,22 @@ const PostsItem = ({ id, image, caption, likes, isLiked, comments, date, handleD
         setShowMenu(!showMenu);
     };
 
+    const menuRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setShowMenu(false);
+        }
+    };
+    useEffect(() => {
+        if (showMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showMenu]);
     return (
         <div className="NewsItem">
             <div className="NewsSettings">
@@ -32,7 +48,7 @@ const PostsItem = ({ id, image, caption, likes, isLiked, comments, date, handleD
             </div>
             </div>
                 {showMenu && (
-                    <div className="SettingsMenu">
+                    <div className="SettingsMenu" ref={menuRef}>
                         {/* <div className="MenuItem" onClick={handleEditClicked}>Edit</div> */}
                         <div className="MenuItem" onClick={handleDeleteClicked}>Delete</div>
                     </div>

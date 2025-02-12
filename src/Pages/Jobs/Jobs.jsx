@@ -90,12 +90,12 @@ const Jobs = ()=>{
                         </div> */}
                     </div>
                 </div>
-
                     <div className="NewsRow">
                         {jobs.map((row)=>(
                                 <JobItem
                                     key={row.id}
                                     id={row.id}
+                                    Uid={row.user?.id}
                                     Location={row.location}
                                     experience={row.user_experience}
                                     image={row.media? row.media[0]?.original_url:null}

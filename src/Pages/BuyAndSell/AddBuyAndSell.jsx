@@ -14,6 +14,8 @@ const AddBuyAndSell = () => {
     const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [currentImage, setCurrentImage] = useState('');
+
     const navigate = useNavigate();
 
     const handleAddSell = async (e) => {
@@ -61,6 +63,18 @@ const AddBuyAndSell = () => {
             }
         }
     };
+    
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <div className="MainContent">
@@ -77,8 +91,8 @@ const AddBuyAndSell = () => {
                 </div>
 
                 <form onSubmit={handleAddSell}>
-                    <div className="AddNewsImageContainer">
-                        <label htmlFor="SellImage">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
+                        <label htmlFor="SellImage" className="absolute">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
                         <input
@@ -86,8 +100,12 @@ const AddBuyAndSell = () => {
                             id="SellImage"
                             className="d-none"
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange}
                         />
+                        {currentImage&&
+                        
+                        <img src={currentImage} width="100%" alt="News Preview" />
+                        }
                         {errors.image && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.image}</div>}
                     </div>
 
@@ -117,7 +135,7 @@ const AddBuyAndSell = () => {
                         {errors.price && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.price}</div>}
                     </div>
 
-                    <div className="AddField">
+                    {/* <div className="AddField">
                         <label>
                             <input
                                 type="number"
@@ -128,7 +146,7 @@ const AddBuyAndSell = () => {
                             />
                         </label>
                         {errors.discount && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.discount}</div>}
-                    </div>
+                    </div> */}
 
                     <div className="AddField">
                         <textarea

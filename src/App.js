@@ -101,7 +101,7 @@ function App() {
               <Route path='/member/:id' element={<MemberDetails />} /> 
             </>
           }
-          {!management.includes('admins')&&
+          {management.includes('admins')&&
             <>
               <Route path='/admins' element={<Admins />} /> 
             </>
@@ -166,7 +166,7 @@ function App() {
 
             </>
           }
-          {management.includes('questions')&&
+          {!management.includes('questions')&&
             <>
               <Route path='/questions' element={<Questions />} /> 
             </>

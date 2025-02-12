@@ -27,8 +27,8 @@ const EditBuyAndSell = () => {
             const response = await BuyAndSellService.GetById(id);
             setDetails(response.content.description);
             setTitle(response.content.title);
-            setPriceAfter(response.content.price_after);
-            setPriceBefore(response.content.price_before);
+            setPriceAfter(response.content.price);
+            // setPriceBefore(response.content.price_before);
             setCurrentImage(response.content.media[response.content.media.length-1]?.original_url);
         } catch (error) {
             console.error(error);
@@ -48,12 +48,12 @@ const EditBuyAndSell = () => {
             setErrors((prev) => ({ ...prev, title: 'Sell title is required.' }));
             valid = false;
         }
-        if (!priceBefore) {
-            setErrors((prev) => ({ ...prev, priceBefore: 'Price before is required.' }));
-            valid = false;
-        }
+        // if (!priceBefore) {
+        //     setErrors((prev) => ({ ...prev, priceBefore: 'Price before is required.' }));
+        //     valid = false;
+        // }
         if (!priceAfter) {
-            setErrors((prev) => ({ ...prev, priceAfter: 'Price after is required.' }));
+            setErrors((prev) => ({ ...prev, priceAfter: 'Price is required.' }));
             valid = false;
         }
         if (!details) {
@@ -69,7 +69,7 @@ const EditBuyAndSell = () => {
             setIsLoading(true);
             try {
                 console.log(image);
-                const response = await BuyAndSellService.Edit(id,title, priceBefore, priceAfter, details, image);
+                const response = await BuyAndSellService.Edit(id,title,  priceAfter,priceBefore, details, image);
                 toast.success('Item edited successfully');
                 setTimeout(() => {
                     navigate('/buyandsell');
@@ -137,7 +137,7 @@ const EditBuyAndSell = () => {
                         {errors.title && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.title}</div>}
                     </div>
 
-                    <div className="AddField">
+                    {/* <div className="AddField">
                         <label>
                             <input
                                 type="number"
@@ -148,13 +148,13 @@ const EditBuyAndSell = () => {
                             />
                         </label>
                         {errors.priceBefore && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.priceBefore}</div>}
-                    </div>
+                    </div> */}
 
                     <div className="AddField">
                         <label>
                             <input
                                 type="number"
-                                placeholder="Price after"
+                                placeholder="Price"
                                 className="AddField"
                                 value={priceAfter}
                                 onChange={(e) => setPriceAfter(e.target.value)}

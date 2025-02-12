@@ -12,6 +12,8 @@ const AddAbout = () => {
     const [image, setImage] = useState(null);
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [currentImage, setCurrentImage] = useState('');
+
     const navigate = useNavigate();
 
     const handleAddAbout = async (e) => {
@@ -50,6 +52,19 @@ const AddAbout = () => {
             }
         }
     };
+    
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     return (
         <div className="MainContent">
@@ -66,8 +81,8 @@ const AddAbout = () => {
                 </div>
 
                 <form onSubmit={handleAddAbout}>
-                    <div className="AddNewsImageContainer">
-                        <label htmlFor="AboutImage">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
+                        <label htmlFor="AboutImage" className="absolute">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
                         <input
@@ -75,8 +90,13 @@ const AddAbout = () => {
                             id="AboutImage"
                             className="d-none"
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
-                        />
+                            onChange={handleImageChange}
+                            />
+                            {currentImage&&
+                            
+                            <img src={currentImage} width="100%" alt="News Preview" />
+                            }                        
+                        
                         {errors.image && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.image}</div>}
                     </div>
 

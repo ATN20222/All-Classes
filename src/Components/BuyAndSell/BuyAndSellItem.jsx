@@ -1,7 +1,7 @@
 import { faComment, faHeart, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisV, faHeart as heart, faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import avatar from '../../Assets/Images/Avatar.svg'
 const BuyAndSellItem = ({Uid,price,discount,buy_details,buy_title,image,puplisher_image,puplish_date,puplisher_name,id , handleEditClicked ,handleDeleteClicked }) => {
     const [showMenu, setShowMenu] = useState(false);
@@ -28,6 +28,24 @@ const BuyAndSellItem = ({Uid,price,discount,buy_details,buy_title,image,puplishe
         return stars;
     };
 
+
+    const menuRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setShowMenu(false);
+        }
+    };
+    useEffect(() => {
+        if (showMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showMenu]);
+
     return (
         <div className="NewsItem">
             <div className="NewsSettings JobSettings">
@@ -35,7 +53,7 @@ const BuyAndSellItem = ({Uid,price,discount,buy_details,buy_title,image,puplishe
                     <FontAwesomeIcon icon={faEllipsisV}  className="text-dark"/>
                 </div>
                 {showMenu && (
-                    <div className="SettingsMenu">
+                    <div className="SettingsMenu" ref={menuRef}>
                         {Uid==localStorage.getItem('UId')&&
                             <div className="MenuItem" onClick={handleEditClicked}>Edit</div>
                         }
@@ -78,10 +96,9 @@ const BuyAndSellItem = ({Uid,price,discount,buy_details,buy_title,image,puplishe
                     }
                 </div>
                 <div className="BuyPrice">
-                    <div className="Price">
+                    {/* <div className="Price">
                         {discount+'% off'}
-                        {/* <div className="buyLine"></div> */}
-                    </div>
+                    </div> */}
                     <div className="TotalPrice">
                         {price+'EGP'}
                     </div>

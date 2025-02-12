@@ -138,17 +138,16 @@ const Admins = ()=>{
                         </div>
                         Admins
                     </div>
-                    <div className="RightSideHeader">
+                    {/* <div className="RightSideHeader">
                         <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch}/>
                             
                         </div>
                         <div className="FilterAdmins">
-                            {/* <FontAwesomeIcon icon={faFilter}/> */}
                             <img src={FilterIcon} alt="" />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 
                 <div className="TableContainer container">

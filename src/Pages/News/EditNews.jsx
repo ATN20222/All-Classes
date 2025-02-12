@@ -98,7 +98,7 @@ const EditNews = () => {
                         <label htmlFor="NewsImage">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
-                        <input 
+                        <input  
                             type="file" 
                             id="NewsImage" 
                             className="d-none" 

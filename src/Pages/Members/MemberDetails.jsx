@@ -20,7 +20,7 @@ const MemberDetails = ()=>{
     return(
         <div className="MainContent">
             <div className="container">
-                <ProfileHeader Name={member.first_name+" "+member.last_name} />
+                <ProfileHeader Name={member?.first_name+" "+member?.last_name} />
                 <div className="container">
                 <div className="row">
                     <div className="col-lg-12">
@@ -30,7 +30,7 @@ const MemberDetails = ()=>{
                             </span>
                         </div>
                         <div className="TableRecord ApplicationDetailsItem">
-                            {member.location}
+                            {member?.location}
                         </div>
                     </div>
 
@@ -52,7 +52,7 @@ const MemberDetails = ()=>{
                             </span>
                         </div>
                         <div className="TableRecord ApplicationDetailsItem">
-                            {member.date_of_birth}                
+                            {member?.date_of_birth}                
                         </div>
                     </div>
 
@@ -63,7 +63,7 @@ const MemberDetails = ()=>{
                             </span>
                         </div>
                         <div className="TableRecord ApplicationDetailsItem">
-                        {member.mobile_number}                
+                        {member?.mobile_number}                
                         </div>
                     </div>
 
@@ -74,7 +74,7 @@ const MemberDetails = ()=>{
                             </span>
                         </div>
                         <div className="TableRecord ApplicationDetailsItem">
-                        {member.id}
+                        {member?.id}
                         </div>
                     </div>
 

@@ -19,6 +19,7 @@ const AddReward = () => {
     const [redeemPointsError, setRedeemPointsError] = useState('');
     const [rewardDetailsError, setRewardDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
+    const [currentImage, setCurrentImage] = useState('');
 
     const navigate = useNavigate();
 
@@ -66,6 +67,19 @@ const AddReward = () => {
             }
         }
     };
+    
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result); 
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     return (
         <div className="MainContent">
@@ -84,8 +98,8 @@ const AddReward = () => {
                 </div>
 
                 <form onSubmit={handleSave}>
-                    <div className="AddNewsImageContainer">
-                        <label htmlFor="NewsImage">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
+                        <label htmlFor="NewsImage" className="absolute">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
                         <input 
@@ -93,8 +107,12 @@ const AddReward = () => {
                             id="NewsImage" 
                             className="d-none" 
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange}
                         />
+                        {currentImage&&
+                        
+                        <img src={currentImage} width="100%" alt="News Preview" />
+                        }
                         {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
                     </div>
 
