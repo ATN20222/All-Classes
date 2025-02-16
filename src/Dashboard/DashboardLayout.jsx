@@ -4,6 +4,7 @@ import Header from "./Header";
 import './Dashboard.css';
 import { Outlet } from 'react-router-dom'; // Import Outlet
 import { getDB } from "../Services/AxiosApi";
+import SideBarMind from "./SideBarMind";
 
 const DashboardLayout = () => {
   const [isSidebarActive, setIsSidebarActive] = useState(false);
@@ -15,12 +16,14 @@ const DashboardLayout = () => {
 
   return (
     <div className={`dashboard ${isSidebarActive ? 'ActiveSideMenu' : ''}`}>
-      <Sidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
-      {/* {getDB()!=='mind' &&
+      {getDB()!=='mind' ?
       
+      <SideBarMind isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
+      :
       <Sidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
-      
-      } */}
+
+
+      }
       <div className="dashboard-main">
         <Header toggleSidebar={toggleSidebar} />
         <div className="content-area">
