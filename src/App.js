@@ -86,7 +86,7 @@ function App() {
         
         <Route element={<PrivateRoute><DashboardLayout /></PrivateRoute>}>
           {/* <Route path='/' element={<Home />} /> */}
-          <Route path='/homeMIND' element={<HomeMind />} /> 
+          {/* <Route path='/homeMIND' element={<HomeMind />} />  */}
           <Route path='/home' element={<Home />} /> 
           <Route path='/test' element={<Test />} /> 
           {management.includes('forms')&&
@@ -106,7 +106,7 @@ function App() {
               <Route path='/admins' element={<Admins />} /> 
             </>
           }
-          {!management.includes('chat-rooms')&&
+          {management.includes('chat-rooms')&&
             <>
               <Route path='/chatrooms' element={<ChatRooms />} /> 
               <Route path='/chatrooms/:id' element={<Posts />} /> 
@@ -166,14 +166,18 @@ function App() {
 
             </>
           }
-          {!management.includes('questions')&&
+          {management.includes('questions')&&
             <>
               <Route path='/questions' element={<Questions />} /> 
             </>
           }
+          {management.includes('chats')&&
+            <>
+              <Route path='/chats' element={<Chats />} /> 
+            </>
+          }
           
-          <Route path='/chats' element={<Chats />} /> 
-
+{/* 
           <Route path='/communities' element={<Communities />} /> 
           <Route path='/community/:id' element={<Community />} /> 
           <Route path='/pointsystem' element={<PointSystem />} /> 
@@ -191,11 +195,9 @@ function App() {
           <Route path='/addcharity' element={<AddCharity />} /> 
           <Route path='/editcharity/:id' element={<EditCharity />} /> 
           
-          <Route path='/subscription' element={<Subscription />} /> 
+          <Route path='/subscription' element={<Subscription />} />  */}
           
         </Route>
-
-
       </Routes>
     </div>
   );
