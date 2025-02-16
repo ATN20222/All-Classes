@@ -24,6 +24,8 @@ const EditAdminModal = ({ id , isOpen, onClose, onEditAdmin }) => {
     "chat-rooms",
   ]);   
   
+  // management start mind
+
   const [selectedManagements, setSelectedManagements] = useState([]);
 
   const [errors, setErrors] = useState({});
