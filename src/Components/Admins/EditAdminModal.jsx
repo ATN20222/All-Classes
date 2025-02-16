@@ -22,7 +22,10 @@ const EditAdminModal = ({ id , isOpen, onClose, onEditAdmin }) => {
     "questions",
     "chats",
     "chat-rooms",
+
   ]);   
+
+  
   
   // management start mind
 
