@@ -67,7 +67,7 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
   return (
     <div className={`sidebar ${isActive ? 'ActiveSideMenu' : ''}`}>
       {/* {console.log(management)} */}
-      
+
       <div className="CloseSidebarBtn" onClick={toggleSidebar}>
         <FontAwesomeIcon icon={faTimes} />
       </div>
@@ -141,7 +141,7 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
               <FontAwesomeIcon icon={faComments} /> Chat Rooms
             </Link>
           </li>
-        }   
+        }
         {management.includes('terms-and-conditions') &&
           <li>
             <Link to='termsandconditions' className="nav-link">
@@ -156,7 +156,7 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
             </Link>
           </li>
         }
-        
+
         {management.includes('questions') &&
           <li>
             <Link to='questions' className="nav-link">
@@ -164,7 +164,7 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
             </Link>
           </li>
         }
-        
+
         {management.includes('privacy-policy') &&
           <li>
             <Link to='privacypolicy' className="nav-link">
@@ -179,17 +179,17 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
             </Link>
           </li>
         }
-        
+
 
         {
           <li>
-            <div className="nav-link" onClick={() => {logOut()
-              // RollBackToken();
-              // setDB('mind');
-              // navigate('homemind')
-              
+            <div className="nav-link" onClick={() => {
+              RollBackToken();
+              setDB('mind');
+              window.location.href = 'homemind';
+
             }}>
-              <FontAwesomeIcon icon={faDoorOpen} /> Logout
+              <FontAwesomeIcon icon={faDoorOpen} /> Back to MIND
             </div>
           </li>
         }

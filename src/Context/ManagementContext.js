@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { AuthService } from "../Services/Api";
-export const ManagementContext = createContext();
+export const ManagementCon  text = createContext();
 export const ManagementProvider = ({ children }) => {
   const [management, setManagement] = useState([]);
 

@@ -61,18 +61,7 @@ import Posts from './Pages/Posts/Posts';
 function App() {
   const [direction, setDirection] = useState('ltr');
   const { management } = useContext(ManagementContext);
-  useEffect(()=>{
-    var x  = 123;
-    console.log('key');
-    sha256(x).then(data=>console.log(data));
-  },[]);
-  async function sha256(message) {
-    const msgBuffer = new TextEncoder().encode(message);                    
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
+
   return (
     <div className='App'>
       <Routes>
@@ -87,6 +76,7 @@ function App() {
         <Route element={<PrivateRoute><DashboardLayout /></PrivateRoute>}>
           {/* <Route path='/' element={<Home />} /> */}
           <Route path='/homeMIND' element={<HomeMind />} /> 
+          <Route path='/' element={<HomeMind />} /> 
           <Route path='/home' element={<Home />} /> 
           <Route path='/test' element={<Test />} /> 
           {management.includes('forms')&&

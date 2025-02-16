@@ -9,7 +9,8 @@ import { AuthService } from "../Services/Api";
 import { RollBackToken, setDB } from "../Services/AxiosApi";
 
 const SideBarMind = ({ isActive, toggleSidebar }) => {
-    const { management } = useContext(ManagementContext);
+    // const { management } = useContext(ManagementContext);
+
     const navigate = useNavigate();
     const [userData, setUserData] = useState('');
 
@@ -52,58 +53,48 @@ const SideBarMind = ({ isActive, toggleSidebar }) => {
                 </div>
             </div>
             <ul className="mt-3">
-                {!management.includes('cashier') &&
-                    <li>
-                        <Link to='cashier' className="nav-link">
-                            <FontAwesomeIcon icon={faCashRegister} /> Cashier
-                        </Link>
-                    </li>
-                }
-                {!management.includes('brands') &&
-                    <li>
-                        <Link to='brands' className="nav-link">
-                            <FontAwesomeIcon icon={faTags} /> Brands
-                        </Link>
-                    </li>
-                }
-                {!management.includes('charity') &&
-                    <li>
-                        <Link to='charity' className="nav-link">
+                <li>
+                    <Link to='Homemind' className="nav-link">
+                        <FontAwesomeIcon icon={faHome} /> Home
+                    </Link>
+                </li>
+
+                <li>
+                    <Link to='brands' className="nav-link">
+                        <FontAwesomeIcon icon={faTags} /> Brands
+                    </Link>
+                </li>
+
+                <li>
+                    <Link to='charity' className="nav-link">
                         <FontAwesomeIcon icon={faHandHoldingHeart} /> Charity
                     </Link>
-                    </li>
-                }
-            {!management.includes('community') &&
+                </li>
+
                 <li>
-                    <Link to='community' className="nav-link">
+                    <Link to='communities' className="nav-link">
                         <FontAwesomeIcon icon={faUsers} /> Community
                     </Link>
                 </li>
-            }
-            {!management.includes('offers') &&
+
                 <li>
                     <Link to='offers' className="nav-link">
                         <FontAwesomeIcon icon={faGift} /> Offers
                     </Link>
                 </li>
-            }
-            {!management.includes('subscription') &&
+
                 <li>
                     <Link to='subscription' className="nav-link">
                         <FontAwesomeIcon icon={faReceipt} /> Subscription
                     </Link>
                 </li>
-            }
-            <li>
-                <div className="nav-link" onClick={() => {
-                    RollBackToken();
-                    setDB('mind');
-                    navigate('homemind');
-                }}>
-                    <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-                </div>
-            </li>
-        </ul>
+
+                <li>
+                    <div className="nav-link" onClick={logOut}>
+                        <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                    </div>
+                </li>
+            </ul>
         </div >
     );
 };
