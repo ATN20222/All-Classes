@@ -18,6 +18,9 @@ const AddAdminModal = ({  isOpen, onClose, onAddAdmin }) => {
     "privacy-policy",
     "about",
     "rewards",
+    "questions",
+    "chats",
+    "chat-rooms",
   ]); 
   const [selectedManagements, setSelectedManagements] = useState([]);
   const handleManagementChange = (management) => {

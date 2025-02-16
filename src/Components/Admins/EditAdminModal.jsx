@@ -18,8 +18,13 @@ const EditAdminModal = ({ id , isOpen, onClose, onEditAdmin }) => {
     "terms-and-conditions",
     "privacy-policy",
     "about",
-    "rewards"
-  ]);   const [selectedManagements, setSelectedManagements] = useState([]); // The selected managements array
+    "rewards",
+    "questions",
+    "chats",
+    "chat-rooms",
+  ]);   
+  
+  const [selectedManagements, setSelectedManagements] = useState([]);
 
   const [errors, setErrors] = useState({});
     useEffect(() => {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Sidebar.css";
 import avatarImage from '../Assets/Images/AllClassesIco-01.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase, faComments, faDoorOpen, faFileContract, faGifts, faHome, faInfo, faMoneyBillTransfer, faSearch, faShield, faShieldHalved, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import faTimes for close icon
+import { faBriefcase, faComment, faComments, faDoorOpen, faFileContract, faGifts, faHome, faInfo, faMoneyBillTransfer, faQuestion, faSearch, faShield, faShieldHalved, faTimes } from "@fortawesome/free-solid-svg-icons"; // Import faTimes for close icon
 import { Link, useNavigate } from "react-router-dom";
 import { faCalendarDays, faNewspaper } from "@fortawesome/free-regular-svg-icons";
 import { ManagementContext } from "../Context/ManagementContext";
@@ -135,7 +135,7 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
             </Link>
           </li>
         }
-        {!management.includes('chat-rooms') &&
+        {management.includes('chat-rooms') &&
           <li>
             <Link to='chatrooms' className="nav-link">
               <FontAwesomeIcon icon={faComments} /> Chat Rooms
@@ -149,6 +149,22 @@ const Sidebar = ({ isActive, toggleSidebar }) => {
             </Link>
           </li>
         }
+        {management.includes('chats') &&
+          <li>
+            <Link to='chats' className="nav-link">
+              <FontAwesomeIcon icon={faComment} /> Chats
+            </Link>
+          </li>
+        }
+        
+        {management.includes('questions') &&
+          <li>
+            <Link to='questions' className="nav-link">
+              <FontAwesomeIcon icon={faQuestion} /> Questions
+            </Link>
+          </li>
+        }
+        
         {management.includes('privacy-policy') &&
           <li>
             <Link to='privacypolicy' className="nav-link">
