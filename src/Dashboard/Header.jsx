@@ -8,6 +8,7 @@ import { onMessageListener, requestNotificationPermission } from "../Services/Fi
 import { faBell as Bell } from "@fortawesome/free-solid-svg-icons";
 import Notifications from "./Notifications";
 import { Link } from "react-router-dom";
+import { getDB } from "../Services/AxiosApi";
 
 const Header = ({ toggleSidebar }) => {
   const [count, setCount] = useState(0);
@@ -18,21 +19,42 @@ const Header = ({ toggleSidebar }) => {
   const dropdownRef = useRef(null);
   const bellRef = useRef(null);
   const searchRef = useRef(null);
-  const searchItems = [
-    "news",
-    "events",
-    "buy-and-sell",
-    "jobs",
-    "forms",
-    "admins",
-    "members",
-    "terms-and-conditions",
-    "privacy-policy",
-    "about",
-    "rewards",
-    'chat-rooms',
-    'chats',
-  ]
+
+  const [searchItems, setSearchItems] = useState([]);
+  useEffect(() => {
+    const fetchDB = async () => {
+      const dbValue = await getDB(); // Ensure getDB() fetches the updated value dynamically
+  
+      if (dbValue !== "mind") {
+        setSearchItems([
+          "news",
+          "events",
+          "buy-and-sell",
+          "jobs",
+          "forms",
+          "admins",
+          "members",
+          "terms-and-conditions",
+          "privacy-policy",
+          "about",
+          "rewards",
+          "chat-rooms",
+          "chats",
+        ]);
+      } else {
+        setSearchItems([
+          "Brands",
+          "charity",
+          "Offers",
+          "communities",
+          "subscription",
+        ]);
+      }
+    };
+    fetchDB();
+  }, [getDB]);
+  
+  
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {

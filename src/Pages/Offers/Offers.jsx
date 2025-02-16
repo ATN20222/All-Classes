@@ -77,10 +77,10 @@ const Offers = () => {
                         Offers
                     </div>
                     <div className="RightSideHeader">
-                        <div className="PageSearch">
+                        {/* <div className="PageSearch">
                             <input type="text" placeholder="Search" />
                             <FontAwesomeIcon icon={faSearch} />
-                        </div>
+                        </div> */}
                         {/* <div className="FilterAdmins">
                             <img src={FilterIcon} alt="" />
                         </div> */}
@@ -104,7 +104,7 @@ const Offers = () => {
                             brand_name={row.brand?.name}
                             brand_info={row.brand_info}
                             brand_rating={row.brand_rating}
-                            brand_image={row.brand_image ? row.brand_image : BrandImage}
+                            brand_image={row.brand?.media.length>0 ? row.brand?.media[0].original_url : BrandImage}
                             discount={row.discount}
                             title={row.title}
                             image={row.media? row.media[0]?.original_url :null}

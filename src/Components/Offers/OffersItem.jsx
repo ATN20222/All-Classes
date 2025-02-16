@@ -50,7 +50,7 @@ OffersItem = ({ id, details, image, title, discount,brand_image,brand_rating,bra
                     <div className="BrandOfferAvatr">
                         <img src={brand_image} width="100%" alt="" />
                     </div>
-                    <span>{brand_name}</span>
+                    <span className="p-2">{brand_name}</span>
                 </div>
                 <div className="NewsDate BrandOfferRating">
                     <span>

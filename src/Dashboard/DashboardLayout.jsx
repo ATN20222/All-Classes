@@ -16,13 +16,10 @@ const DashboardLayout = () => {
 
   return (
     <div className={`dashboard ${isSidebarActive ? 'ActiveSideMenu' : ''}`}>
-      {getDB()!=='mind' ?
-      
+      {getDB()==='mind' ?
       <SideBarMind isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
       :
       <Sidebar isActive={isSidebarActive} toggleSidebar={toggleSidebar} />
-
-
       }
       <div className="dashboard-main">
         <Header toggleSidebar={toggleSidebar} />

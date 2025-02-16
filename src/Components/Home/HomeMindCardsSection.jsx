@@ -1,7 +1,7 @@
 import React from "react";
 import HomeCard from "./HomeCard";
 import HomeCardMind from "./HomeCardMind";
-const HomeMindCardsSection = ({Communities , Admins})=>{
+const HomeMindCardsSection = ({Communities , Offers})=>{
     return(
         <section className="HomeCardsSection">
             <div className="container">
@@ -14,9 +14,9 @@ const HomeMindCardsSection = ({Communities , Admins})=>{
                     />
                     <HomeCardMind 
                         isAdmins={true}
-                        title={"Admins"}
-                        number={Admins}
-                        link={'admins'}
+                        title={"Offers"}
+                        number={Offers}
+                        link={'Offers'}
                     />
                     
                 </div>

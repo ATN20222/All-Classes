@@ -107,7 +107,7 @@ const HomeMind = () => {
                         Home
                     </div>
                 </div>
-                <HomeMindCardsSection Admins={admins} Communities={communities}/>
+                <HomeMindCardsSection Offers={offersCounts.length} Communities={communities}/>
 
                 <div className="container">
                     <div className="row ChartsRow">

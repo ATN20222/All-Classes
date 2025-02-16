@@ -102,8 +102,8 @@ const Brands = ()=>{
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-lg-3 col-md-3 col-sm-4 col-4 BrandAvatarAndNameCol">
-                                            <div className="BrandAvatar">
-                                                <img src={logo} alt="" />
+                                            <div className="BrandAvatar Center">
+                                                <img src={row.media.length>0?row.media[0]?.original_url:logo} alt="" />
                                             </div>
                                             {row.name}
                                         </div>

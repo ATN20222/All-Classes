@@ -123,7 +123,7 @@ const EditCharity = () => {
                 </div>
 
                 {/* Form Fields */}
-                <div className="AddNewsImageContainer">
+                <div className="AddNewsImageContainer EditNewsImageContainer">
                     <label htmlFor="NewsImage">
                         <FontAwesomeIcon icon={faImage} />
                     </label>
@@ -134,7 +134,7 @@ const EditCharity = () => {
                         accept="image/png, image/jpeg"
                         onChange={handleImageChange}
                     />
-                    <img src={currentImage} width="100%" alt="News Preview" />
+                    <img src={currentImage} width="100%" className="absolute" alt="News Preview" />
 
                     {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
                 </div>

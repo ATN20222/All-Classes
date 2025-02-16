@@ -15,12 +15,6 @@ const Communities = ()=>{
             date:'20-2-2025',
             data_base:'community_1'
         },
-        {
-            id:2,
-            name:'a',
-            date:'20-2-2025',
-            data_base:'community_2'
-        },
         
     ]
 
@@ -33,7 +27,7 @@ const Communities = ()=>{
                 setDB(data.find(i=>i.id===id).data_base);
                 const response = await AuthService.Login(email , password);
                 setTimeout(() => {
-                    navigate('/home');
+                    window.location.href = '/home';
                 }, 2000);
                 toast.success(`Now your active as ${data.find(i=>i.id===id).name}`);
                 

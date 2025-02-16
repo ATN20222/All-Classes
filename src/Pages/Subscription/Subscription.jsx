@@ -205,10 +205,10 @@ const Subscription = () => {
         <div className="PageHeader">
           <div className="PageTitle PageTitleSecondary">Subscription</div>
           <div className="RightSideHeader">
-            <div className="PageSearch">
+            {/* <div className="PageSearch">
               <input type="text" placeholder="Search" />
               <FontAwesomeIcon icon={faSearch} />
-            </div>
+            </div> */}
           </div>
         </div>
 

@@ -53,7 +53,7 @@ const Login = () => {
             updateManagement(response.permssions); 
             
             // navigate('/home');
-            window.location.href='/home'
+            window.location.href='/homemind'
             
         } catch (err) {
             console.log(err)
