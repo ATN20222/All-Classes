@@ -143,17 +143,21 @@ const AddJob = () => {
                     </div>
 
                     <div className="AddField">
-                        <label>
-                            <input
-                                type="text"
-                                placeholder="Job type (remote, onsite, etc.)"
-                                className="AddField"
+                        <label htmlFor="category">
+                            <select
+                                className="form-select DropDown"
                                 value={jobType}
                                 onChange={(e) => setJobType(e.target.value)}
-                            />
+                            >
+                                <option value="">Select Job Type</option>
+                                <option value="On Site">On Site</option>
+                                <option value="Remote">Remote</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
                         </label>
                         {errors.jobType && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.jobType}</div>}
                     </div>
+
 
                     <div className="AddField">
                         <label>
