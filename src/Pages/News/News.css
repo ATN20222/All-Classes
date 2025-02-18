@@ -121,6 +121,9 @@
     font-weight: 400;
     color: white;
     padding: 10px;
+    position: sticky;
+    top: 0;
+    background: #113e71;
 
 }
 .CommentsHr{

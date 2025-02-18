@@ -262,9 +262,9 @@ const PolicyServices = {
     try {
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("description", description);
+      formData.append("details", description);
 
-      const response = await axiosInstance.post(`/policies`, formData);
+      const response = await axiosInstance.post(`/terms`, formData);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message);
@@ -273,7 +273,7 @@ const PolicyServices = {
   },
   ListTerms: async () => {
     try {
-      const response = await axiosInstance.get(`/policies`);
+      const response = await axiosInstance.get(`/terms`);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message);
@@ -282,7 +282,7 @@ const PolicyServices = {
   },
   DeleteTerms: async (id) => {
     try {
-      const response = await axiosInstance.delete(`/policies/${id}`);
+      const response = await axiosInstance.delete(`/terms/${id}`);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message);
@@ -291,9 +291,9 @@ const PolicyServices = {
   },
 };
 const EventService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/events`);
+      const response = await axiosInstance.get(`/events?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -440,9 +440,9 @@ const PointsService = {
   },
 };
 const NewsService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/news`);
+      const response = await axiosInstance.get(`/news?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -544,9 +544,9 @@ const NewsService = {
   },
 };
 const JobsService = {
-  List: async () => {
+  List: async (num) => {
     try {
-      const response = await axiosInstance.get(`/jobs`);
+      const response = await axiosInstance.get(`/jobs?page=${num}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -710,9 +710,9 @@ const NotificationService = {
   },
 };
 const BuyAndSellService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/buysells`);
+      const response = await axiosInstance.get(`/buysells?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -1187,9 +1187,9 @@ const CashierService = {
   },
 };
 const RewardsService = {
-  List: async (type) => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/rewards`);
+      const response = await axiosInstance.get(`/rewards?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);

@@ -73,7 +73,7 @@ const BuyAndSellItem = ({Uid,price,discount,buy_details,buy_title,image,puplishe
                 </div>
             </div>
             <div className="NewsImageContainer">
-                <img src={image} width="100%" alt="" />
+                <img src={image} width="100%"  alt="" />
             </div>
             {/* <div className="BuyRating">
                 <span>
