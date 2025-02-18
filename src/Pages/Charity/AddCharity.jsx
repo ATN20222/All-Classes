@@ -3,7 +3,7 @@ import BackIcon from '../../Assets/Images/BackIcon.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import toast, { Toaster } from "react-hot-toast";
 import { CharityService } from "../../Services/Api";
 
@@ -19,7 +19,12 @@ const AddCharity = () => {
 
     const [errors, setErrors] = useState({});
     const [services, setServices] = useState([{ title: "", description: "" }]);
-    const [isLoading , setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    const [currentImage, setCurrentImage] = useState('');
+
+
 
     const validateFields = () => {
         let validationErrors = {};
@@ -47,19 +52,19 @@ const AddCharity = () => {
         setIsLoading(true);
         e.preventDefault();
         if (validateFields()) {
-            console.log("Form submitted successfully!", { charityName, charityDetails, email,website, phone,address, services });
-            
+            console.log("Form submitted successfully!", { charityName, charityDetails, email, website, phone, address, services, image});
+
             try {
-                const response = await CharityService.Add( charityName, charityDetails, email,website, phone,address, services , image );
+                const response = await CharityService.Add(charityName, charityDetails, email, website, phone, address, services, image);
                 toast.success('Charity added successfully');
                 setTimeout(() => {
                     navigate('/charity');
                 }, 2000);
-                
+
             } catch (error) {
                 toast.error('Failed to add charity');
             } finally {
-                setIsLoading(false); 
+                setIsLoading(false);
             }
         }
     };
@@ -78,6 +83,24 @@ const AddCharity = () => {
         setServices(updatedServices);
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeService = (index) => {
+        if (services.length > 1) {
+            setServices(services.filter((_, i) => i !== index));
+        }
+    };
+
     return (
         <div className="MainContent">
             <div className="Toaster">
@@ -93,19 +116,23 @@ const AddCharity = () => {
                     </div>
                 </div>
 
-                <div className="AddNewsImageContainer">
-                        <label htmlFor="NewsImage">
-                            <FontAwesomeIcon icon={faImage} />
-                        </label>
-                        <input 
-                            type="file" 
-                            id="NewsImage" 
-                            className="d-none" 
-                            accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
-                        />
-                        {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
-                    </div>
+                <div className="AddNewsImageContainer EditNewsImageContainer">
+                    <label htmlFor="NewsImage" className="absolute">
+                        <FontAwesomeIcon icon={faImage} />
+                    </label>
+                    <input
+                        type="file"
+                        id="NewsImage"
+                        className="d-none"
+                        accept="image/png, image/jpeg"
+                        onChange={handleImageChange}
+                    />
+                    {currentImage &&
+
+                        <img src={currentImage} width="100%" alt="News Preview" />
+                    }
+                    {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
+                </div>
 
                 <div className="AddField">
                     <label htmlFor="">
@@ -184,41 +211,56 @@ const AddCharity = () => {
                 {/* Dynamic Charity Services */}
                 <div className="container CharityServicesContainer">
                     <h6>Services</h6>
+                    <div className="row mb-2 Center" >
                     {services.map((service, index) => (
-                        <div className="row mb-2" key={index}>
-                            <div className="AddField col-lg-6">
-                                <label htmlFor="">
-                                    <input
-                                        type="text"
-                                        placeholder="Title"
-                                        className="AddField"
-                                        value={service.title}
-                                        onChange={(e) => handleServiceChange(index, "title", e.target.value)}
-                                    />
-                                    {errors[`serviceTitleError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceTitleError${index}`]}</div>}
-                                </label>
-                            </div>
-                            <div className="AddField col-lg-6">
-                                <label htmlFor="">
-                                    <input
-                                        type="text"
-                                        placeholder="Description"
-                                        className="AddField"
-                                        value={service.description}
-                                        onChange={(e) => handleServiceChange(index, "description", e.target.value)}
-                                    />
-                                    {errors[`serviceDescriptionError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceDescriptionError${index}`]}</div>}
-                                </label>
-                            </div>
+                        <>
+                        
+                        <div  className="AddField col-lg-5">
+                            <label htmlFor="">
+                                <input
+                                    type="text"
+                                    placeholder="Title"
+                                    className="AddField"
+                                    value={service.title}
+                                    onChange={(e) => handleServiceChange(index, "title", e.target.value)}
+                                />
+                                {errors[`serviceTitleError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceTitleError${index}`]}</div>}
+                            </label>
                         </div>
+                        <div className="AddField col-lg-6">
+                            <label htmlFor="">
+                                <input
+                                    type="text"
+                                    placeholder="Description"
+                                    className="AddField"
+                                    value={service.description}
+                                    onChange={(e) => handleServiceChange(index, "description", e.target.value)}
+                                />
+                                {errors[`serviceDescriptionError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceDescriptionError${index}`]}</div>}
+                            </label>
+                        </div>
+                        {services.length > 1 && (
+                            <div className="col-lg-1 d-flex align-items-center justify-content-end">
+                                <button className="btn btn-danger" onClick={() => removeService(index)}>
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                            </div>
+                        
+                                
+                            )}
+                            </>
+                            
                     ))}
-                    <div className="row">
-                        <div className="col-lg-2 Center">
+                    <div className="col-lg-12 mt-2 d-flex align-items-center justify-content-end">
+                            
                             <button className="AddService" onClick={addService}>
                                 <FontAwesomeIcon icon={faPlus} /> Add Service
                             </button>
                         </div>
                     </div>
+                    
+                        
+                    
                 </div>
 
             </div>

@@ -1,7 +1,7 @@
 import { faComment, faHeart, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisV, faHeart as heart, faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const 
 CharityItem = ({ id, services, image, title,brand_image,brand_info,name,address ,email, website,number ,  handleDeleteClicked, handleEditClicked  }) => {
@@ -10,7 +10,23 @@ CharityItem = ({ id, services, image, title,brand_image,brand_info,name,address 
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
+    const menuRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setShowMenu(false);
+        }
+    };
 
+    useEffect(() => {
+        if (showMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showMenu]);
 
     return (
         <div className="NewsItem">
@@ -19,7 +35,7 @@ CharityItem = ({ id, services, image, title,brand_image,brand_info,name,address 
                     <FontAwesomeIcon icon={faEllipsisV} />
                 </div>
                 {showMenu && (
-                    <div className="SettingsMenu">
+                    <div className="SettingsMenu" ref={menuRef}>
                         <div className="MenuItem" onClick={handleEditClicked}>Edit</div>
                         <div className="MenuItem" onClick={handleDeleteClicked}>Delete</div>
                     </div>

@@ -29,7 +29,11 @@
     justify-content: center;
     align-items: center;
     color: white;
+    overflow: hidden;
     font-size: 30px;
+}
+.FormImageAvatar svg{
+    position: absolute;
 }
 .FormImageAvatarLabel{
     display: flex;

@@ -7,6 +7,7 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
   const [email, setEmail] = useState('');
   const [image, setImage] = useState(null);
   const [errors, setErrors] = useState({});
+  const [currentImage, setCurrentImage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,11 +50,7 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
     setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-    setErrors((prev) => ({ ...prev, image: '' }));
-  };
+
 
   if (!isOpen) return null;
 
@@ -63,6 +60,21 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
     setImage(null);
     setErrors({});
   };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setErrors((prev) => ({ ...prev, image: '' }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCurrentImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+
 
   return (
     <div className="overlay">
@@ -78,9 +90,14 @@ const AddBrandModal = ({ isOpen, onClose, onAddBrand }) => {
                 accept="image/*"
                 onChange={handleImageChange}
               />
-              <div className="FormImageAvatar">
-                <FontAwesomeIcon icon={faImage} />
+              <div className="FormImageAvatar relative">
+                <FontAwesomeIcon icon={faImage} className='absolute'/>
+                {currentImage &&
+                <img src={currentImage} className='' width="100%" alt="News Preview" />
+              }   
               </div>
+              
+
             </label>
             {errors.image && <div className="text-danger PopUpError mt-0">{errors.image}</div>}
 

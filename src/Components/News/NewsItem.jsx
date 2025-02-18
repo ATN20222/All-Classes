@@ -5,12 +5,12 @@ import React, { useState, useRef, useEffect } from "react";
 
 const NewsItem = ({ id, image, caption, likes, isLiked, comments, date, handleDeleteClicked, handleEditClicked, handlelikeClick , OpenComments }) => {
     const [showMenu, setShowMenu] = useState(false);
-    const menuRef = useRef(null);
-
+    
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
-
+    
+    const menuRef = useRef(null);
     const handleClickOutside = (event) => {
         if (menuRef.current && !menuRef.current.contains(event.target)) {
             setShowMenu(false);

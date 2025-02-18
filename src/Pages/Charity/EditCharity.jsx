@@ -3,7 +3,7 @@ import BackIcon from '../../Assets/Images/BackIcon.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import toast, { Toaster } from "react-hot-toast";
 import { CharityService } from "../../Services/Api";
 
@@ -35,7 +35,7 @@ const EditCharity = () => {
             setPhone(charityData.content.phone);
             setWebsite(charityData.content.website);
             setEmail(charityData.content.email);
-            setServices(charityData.content.services || [{ title: "", description: "" }]);
+            setServices(charityData.content.services || [{id:null, title: "", description: "" }]);
             // setImage(charityData.content.image);
             setCurrentImage(charityData.content.media.length>0?charityData.content.media[0]?.original_url:''); 
 
@@ -69,10 +69,14 @@ const EditCharity = () => {
         setIsLoading(true);
         if (validateFields()) {
             try {
-                await CharityService.Edit(id,  charityName, charityDetails, email, website, phone, address, services, image );
+                // console.log(services);
+                // setServices();
+                const serv = services.map(s=>({id:s.id?s.id:0, title: s.title, description: s.description }));
+                // console.log({id,  charityName, charityDetails, email, website, phone, address, serv, image });
+                await CharityService.Edit(id,  charityName, charityDetails, email, website, phone, address, serv, image );
                 toast.success('Charity edited successfully');
                 setTimeout(() => {
-                    navigate('/charity');
+                    // navigate('/charity');
                 }, 2000);
             } catch (error) {
                 toast.error('Failed to edit charity');
@@ -83,7 +87,7 @@ const EditCharity = () => {
     };
 
     const addService = () => {
-        setServices([...services, { title: "", description: "" }]);
+        setServices([...services, {id:null, title: "", description: "" }]);
     };
 
     const handleServiceChange = (index, field, value) => {
@@ -105,6 +109,12 @@ const EditCharity = () => {
                 setCurrentImage(reader.result); 
             };
             reader.readAsDataURL(file);
+        }
+    };
+
+    const removeService = (index) => {
+        if (services.length > 1) {
+            setServices(services.filter((_, i) => i !== index));
         }
     };
     return (
@@ -205,39 +215,58 @@ const EditCharity = () => {
 
                 {/* Charity Services */}
                 <div className="container CharityServicesContainer">
-                    <h6>Services</h6>
-                    {services.map((service, index) => (
-                        <div className="row mb-2" key={index}>
-                            <div className="AddField col-lg-6">
-                                <input
-                                    type="text"
-                                    placeholder="Title"
-                                    className="AddField"
-                                    value={service.title}
-                                    onChange={(e) => handleServiceChange(index, "title", e.target.value)}
-                                />
-                                {errors[`serviceTitleError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceTitleError${index}`]}</div>}
-                            </div>
-                            <div className="AddField col-lg-6">
-                                <input
-                                    type="text"
-                                    placeholder="Description"
-                                    className="AddField"
-                                    value={service.description}
-                                    onChange={(e) => handleServiceChange(index, "description", e.target.value)}
-                                />
-                                {errors[`serviceDescriptionError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceDescriptionError${index}`]}</div>}
-                            </div>
-                        </div>
-                    ))}
-                    <div className="row">
-                        <div className="col-lg-2 Center">
-                            <button className="AddService" onClick={addService}>
-                                <FontAwesomeIcon icon={faPlus} /> Add Service
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                                    <h6>Services</h6>
+                                    <div className="row mb-2 Center" >
+                                    {services.map((service, index) => (
+                                        <>
+                                        
+                                        <div  className="AddField col-lg-5">
+                                            <label htmlFor="">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Title"
+                                                    className="AddField"
+                                                    value={service.title}
+                                                    onChange={(e) => handleServiceChange(index, "title", e.target.value)}
+                                                />
+                                                {errors[`serviceTitleError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceTitleError${index}`]}</div>}
+                                            </label>
+                                        </div>
+                                        <div className="AddField col-lg-6">
+                                            <label htmlFor="">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Description"
+                                                    className="AddField"
+                                                    value={service.description}
+                                                    onChange={(e) => handleServiceChange(index, "description", e.target.value)}
+                                                />
+                                                {errors[`serviceDescriptionError${index}`] && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors[`serviceDescriptionError${index}`]}</div>}
+                                            </label>
+                                        </div>
+                                        {services.length > 1 && (
+                                            <div className="col-lg-1 d-flex align-items-center justify-content-end">
+                                                <button className="btn btn-danger" onClick={() => removeService(index)}>
+                                                    <FontAwesomeIcon icon={faTrash} />
+                                                </button>
+                                            </div>
+                                        
+                                                
+                                            )}
+                                            </>
+                                            
+                                    ))}
+                                    <div className="col-lg-12 mt-2 d-flex align-items-center justify-content-end">
+                                            
+                                            <button className="AddService" onClick={addService}>
+                                                <FontAwesomeIcon icon={faPlus} /> Add Service
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                        
+                                    
+                                </div>
 
             </div>
 

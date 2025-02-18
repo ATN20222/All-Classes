@@ -96,6 +96,7 @@ const AddNews = () => {
                         <img src={currentImage} width="100%" alt="News Preview" />
                         }
                         {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
+                    
                     </div>
 
                     <div className="AddNewsCaptionContainer">

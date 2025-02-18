@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast"; // Assuming you're using react
 import { BrandsService, OffersService } from "../../Services/Api";
 
 const AddOffer = () => {
-    const [brands , setBrands] = useState([]);
+    const [brands, setBrands] = useState([]);
     const cats = [
         'Fun',
         'Food',
@@ -22,7 +22,7 @@ const AddOffer = () => {
     const [discount, setDiscount] = useState('');
     const [offerDetails, setOfferDetails] = useState('');
     const [image, setImage] = useState(null);
-    
+    const [currentImage, setCurrentImage] = useState('');
     const [categoryError, setCategoryError] = useState('');
     const [brandError, setBrandError] = useState('');
     const [offerNameError, setOfferNameError] = useState('');
@@ -31,7 +31,7 @@ const AddOffer = () => {
     const [offerDetailsError, setOfferDetailsError] = useState('');
     const [imageError, setImageError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const navigate = useNavigate();
 
     const handleSave = async (e) => {
@@ -47,7 +47,7 @@ const AddOffer = () => {
         let valid = true;
 
         // Validate inputs
-        if(!image){
+        if (!image) {
             setImageError('Image is required.');
             valid = false;
         }
@@ -75,13 +75,13 @@ const AddOffer = () => {
         if (valid) {
             setIsLoading(true);
             try {
-                
-                const response = await OffersService.Add(offerName , brandInfo , category , discount  , offerDetails , brand , image);
+
+                const response = await OffersService.Add(offerName, brandInfo, category, discount, offerDetails, brand, image);
                 toast.success('Offer added successfully');
                 setTimeout(() => {
                     navigate('/offers');
                 }, 2000);
-                
+
             } catch (error) {
                 toast.error('Failed to add offer');
             } finally {
@@ -89,9 +89,9 @@ const AddOffer = () => {
             }
         }
     };
-    useEffect(()=>{
+    useEffect(() => {
         getBrands();
-    },[]);
+    }, []);
 
     async function getBrands() {
         try {
@@ -102,7 +102,21 @@ const AddOffer = () => {
         }
     }
 
-    
+
+
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setCurrentImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     return (
         <div className="MainContent">
@@ -121,31 +135,35 @@ const AddOffer = () => {
                 </div>
 
                 <form onSubmit={handleSave}>
-                    <div className="AddNewsImageContainer">
-                        <label htmlFor="NewsImage">
+                    <div className="AddNewsImageContainer EditNewsImageContainer">
+                        <label htmlFor="NewsImage" className="absolute">
                             <FontAwesomeIcon icon={faImage} />
                         </label>
-                        <input 
-                            type="file" 
-                            id="NewsImage" 
-                            className="d-none" 
+                        <input
+                            type="file"
+                            id="NewsImage"
+                            className="d-none"
                             accept="image/png, image/jpeg"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={handleImageChange}
                         />
+                        {currentImage &&
+
+                            <img src={currentImage} width="100%" alt="News Preview" />
+                        }
                         {imageError && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError mt-2 mb-2 text-start ServicesFieldError">{imageError}</div>}
                     </div>
 
                     <div className="AddField">
                         <label htmlFor="category">
-                            <select 
-                                className="form-select DropDown" 
+                            <select
+                                className="form-select DropDown"
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
                             >
-                                    <option value="">Category</option>
-                                {cats.map((cat)=>(
+                                <option value="">Category</option>
+                                {cats.map((cat) => (
                                     <option value={cat}>{cat}</option>
-                                    
+
                                 ))}
                             </select>
                         </label>
@@ -154,15 +172,15 @@ const AddOffer = () => {
 
                     <div className="AddField mb-3">
                         <label htmlFor="brand">
-                            <select 
-                                className="form-select DropDown" 
+                            <select
+                                className="form-select DropDown"
                                 value={brand}
                                 onChange={(e) => setBrand(e.target.value)}
                             >
                                 <option value="">Brand</option>
-                                {brands.map((brand)=>(
+                                {brands.map((brand) => (
                                     <option value={brand.id}>{brand.name}</option>
-                                
+
                                 ))}
                             </select>
                         </label>
@@ -171,9 +189,9 @@ const AddOffer = () => {
 
                     <div className="AddField mb-3">
                         <label htmlFor="brandInfo">
-                            <input 
-                                type="text" 
-                                placeholder="Brand info" 
+                            <input
+                                type="text"
+                                placeholder="Brand info"
                                 value={brandInfo}
                                 onChange={(e) => setBrandInfo(e.target.value)}
                             />
@@ -182,9 +200,9 @@ const AddOffer = () => {
 
                     <div className="AddField mb-3">
                         <label htmlFor="offerName">
-                            <input 
-                                type="text" 
-                                placeholder="Offer name (title)" 
+                            <input
+                                type="text"
+                                placeholder="Offer name (title)"
                                 value={offerName}
                                 onChange={(e) => setOfferName(e.target.value)}
                             />
@@ -194,9 +212,9 @@ const AddOffer = () => {
 
                     <div className="AddField mb-3">
                         <label htmlFor="priceBefore">
-                            <input 
-                                type="number" 
-                                placeholder="discount" 
+                            <input
+                                type="number"
+                                placeholder="discount"
                                 value={discount}
                                 onChange={(e) => setDiscount(e.target.value)}
                             />
@@ -205,8 +223,8 @@ const AddOffer = () => {
                     </div>
 
                     <div className="AddField">
-                        <textarea 
-                            placeholder="Write offer details" 
+                        <textarea
+                            placeholder="Write offer details"
                             value={offerDetails}
                             onChange={(e) => setOfferDetails(e.target.value)}
                         />
@@ -215,8 +233,8 @@ const AddOffer = () => {
 
                     <div className="col-lg-12 ApplicationButtons">
                         <div className="AllClassesBtn AcceptBtn">
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 disabled={isLoading}
                             >
                                 {isLoading ? 'Saving...' : 'Save'}

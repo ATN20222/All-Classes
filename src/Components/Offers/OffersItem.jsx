@@ -1,7 +1,7 @@
 import { faComment, faHeart, faStar } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisV, faHeart as heart, faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const 
 OffersItem = ({ id, details, image, title, discount,brand_image,brand_rating,brand_info,brand_name, code,  handleDeleteClicked, handleEditClicked  }) => {
@@ -27,7 +27,23 @@ OffersItem = ({ id, details, image, title, discount,brand_image,brand_rating,bra
 
         return stars;
     };
+    const menuRef = useRef(null);
+    const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setShowMenu(false);
+        }
+    };
 
+    useEffect(() => {
+        if (showMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showMenu]);
 
     return (
         <div className="NewsItem">
@@ -36,7 +52,7 @@ OffersItem = ({ id, details, image, title, discount,brand_image,brand_rating,bra
                     <FontAwesomeIcon icon={faEllipsisV} />
                 </div>
                 {showMenu && (
-                    <div className="SettingsMenu">
+                    <div className="SettingsMenu" ref={menuRef}>
                         <div className="MenuItem" onClick={handleEditClicked}>Edit</div>
                         <div className="MenuItem" onClick={handleDeleteClicked}>Delete</div>
                     </div>
@@ -61,7 +77,7 @@ OffersItem = ({ id, details, image, title, discount,brand_image,brand_rating,bra
 
             </div>
             <div className="OfferBrandInfo">
-                <span>{brand_info}</span>
+                <span className="p-2">{brand_info}</span>
             </div>
             
             <div className="NewsCaptionContainer OfferDetailsCard">

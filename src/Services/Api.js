@@ -1027,6 +1027,8 @@ const CharityService = {
         services: services,
         media: img,
       };
+      console.log(data);
+
 
       const response = await axiosInstance.post(`/charities`, data);
       return response.data;
@@ -1056,9 +1058,10 @@ const CharityService = {
         address: address,
         services: services,
       };
-      if (img) {
-        data.media = img;
-      }
+        // if (img) {
+        //   data.media = img;
+        // }
+        console.log(data);
 
       const response = await axiosInstance.post(`/charities/${id}`, data);
       return response.data;
