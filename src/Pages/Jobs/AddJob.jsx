@@ -61,8 +61,8 @@ const AddJob = () => {
             setIsLoading(true);
             try {
                 // Your API call here to save the job details
-                const response = await JobsService.Add(jobTitle,jobType,location,salaryRange,experience ,jobDetails , image);
-                    console.log(jobDetails)
+                const response = await JobsService.Add(jobTitle, jobType, location, salaryRange, experience, jobDetails, image);
+                console.log(jobDetails)
                 toast.success('Job added successfully');
                 setTimeout(() => {
                     navigate('/jobs');
@@ -88,7 +88,7 @@ const AddJob = () => {
             setImage(file);
             const reader = new FileReader();
             reader.onloadend = () => {
-                setCurrentImage(reader.result); 
+                setCurrentImage(reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -122,9 +122,9 @@ const AddJob = () => {
                             accept="image/png, image/jpeg"
                             onChange={handleImageChange}
                         />
-                        {currentImage&&
-                        
-                        <img src={currentImage} width="100%" alt="News Preview" />
+                        {currentImage &&
+
+                            <img src={currentImage} width="100%" alt="News Preview" />
                         }
                         {errors.image && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.image}</div>}
                     </div>
@@ -142,18 +142,24 @@ const AddJob = () => {
                         {errors.jobTitle && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.jobTitle}</div>}
                     </div>
 
+                
+
                     <div className="AddField">
-                        <label>
-                            <input
-                                type="text"
-                                placeholder="Job type (remote, onsite, etc.)"
-                                className="AddField"
+                        <label htmlFor="category">
+                            <select
+                                className="form-select DropDown"
                                 value={jobType}
                                 onChange={(e) => setJobType(e.target.value)}
-                            />
+                            >
+                                <option value="">Select Job Type</option>
+                                <option value="On Site">On Site</option>
+                                <option value="Remote">Remote</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
                         </label>
                         {errors.jobType && <div className="text-danger mt-2 mb-2 text-start ServicesFieldError">{errors.jobType}</div>}
                     </div>
+
 
                     <div className="AddField">
                         <label>
@@ -224,7 +230,7 @@ const AddJob = () => {
                             </div>
                         </div>
                     )}
-                </form> 
+                </form>
             </div>
         </div>
     );
