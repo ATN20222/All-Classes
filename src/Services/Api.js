@@ -724,7 +724,7 @@ const BuyAndSellService = {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("price", price);
-      formData.append("discount", 0);
+      // formData.append("discount", 0);
       formData.append("description", description);
 
       if (img) {
@@ -741,7 +741,7 @@ const BuyAndSellService = {
     try {
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("discount", 0);
+      // formData.append("discount", 0);
       formData.append("price", price);
       formData.append("description", description);
 
@@ -910,9 +910,9 @@ const BrandsService = {
   },
 };
 const OffersService = {
-  List: async (type) => {
+  List: async (type , page) => {
     try {
-      const response = await axiosInstance.get(`/offers/category/${type}`);
+      const response = await axiosInstance.get(`/offers/category/${type}?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -997,9 +997,9 @@ const OffersService = {
   },
 };
 const CharityService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/charities`);
+      const response = await axiosInstance.get(`/charities?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
