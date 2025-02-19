@@ -1,61 +1,92 @@
-import React, { useEffect, useState } from "react";
-import './Offers.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBan, faFilter, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
-import NewsImage from '../../Assets/Images/NewsImage.png';
-import BrandImage from '../../Assets/Images/BrandImage.png';
-import FilterIcon from '../../Assets/Images/Filter.svg';
-import PlusIcon from '../../Assets/Images/CirclePlus.svg';
-import CategoryIcon from '../../Assets/Images/CategoryIcon.svg';
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import "./Offers.css";
 import { Link, useNavigate } from "react-router-dom";
-import NewsItem from "../../Components/News/NewsItem";
 import OffersItem from "../../Components/Offers/OffersItem";
 import toast, { Toaster } from "react-hot-toast";
 import { OffersService } from "../../Services/Api";
 import DeleteModalComponent from "../../Components/DeleteModalComponent/DeleteModalComponent";
 import CategoryMenu from "../../Components/Offers/CategoryMenu";
+import PlusIcon from "../../Assets/Images/CirclePlus.svg";
+import CategoryIcon from '../../Assets/Images/CategoryIcon.svg';
 
 const Offers = () => {
     const [offers, setOffers] = useState([]);
-    const [category, setCategory] = useState('all');
+    const [category, setCategory] = useState("all");
     const [isDeleteOverlayOpen, setIsDeleteOverlayOpen] = useState(false);
-    const [offerIdToDelete, setOfferIdToDelete] = useState([]);
-    const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false); 
-
-    useEffect(() => {
-        getData();
-    }, [category]); 
-
-    async function getData() {
-        try {
-            const response = await OffersService.List(category);
-            setOffers(response.content);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    const [offerIdToDelete, setOfferIdToDelete] = useState("");
+    const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
+    const [pagination, setPagination] = useState({});
+    const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const mainContentRef = useRef(null);
     const navigate = useNavigate();
 
-    const handleDelete = async (id) => {
+    const getData = async (page = 1) => {
+        if (loading || (page > 1 && !pagination?.next_page_url)) return;
+        setLoading(true);
         try {
-            const response = await OffersService.Delete(id);
-            toast.success('Offer deleted successfully');
-            getData();
+            const response = await OffersService.List(category, page);
+            if (response?.content) {
+                setOffers(prevOffers => page === 1 ? response.content : [...prevOffers, ...response.content]);
+                setPagination(response.pagination);
+            }
         } catch (error) {
-            toast.error('Failed to delete offer');
+            console.error(error);
         } finally {
-            setOfferIdToDelete('');
+            setLoading(false);
         }
-    }
-
+    };
     const handleChangeCategory = (cat) => {
         setCategory(cat); // This will trigger useEffect to call `getData()`
         setIsCategoryMenuOpen(false); // Close the category menu after selecting
     }
 
+    useEffect(() => {
+        setOffers([]);
+        setCurrentPage(1);
+        getData(1);
+    }, [category]);
+    
+
+    useEffect(() => {
+        if (currentPage > 1) {
+            getData(currentPage);
+        }
+    }, [currentPage]);
+
+    const handleScroll = useCallback(() => {
+        if (!mainContentRef.current) return;
+        const { scrollTop, scrollHeight, clientHeight } = mainContentRef.current;
+        if (scrollHeight - scrollTop <= clientHeight + 100 && !loading && pagination?.next_page_url) {
+            setCurrentPage(prevPage => prevPage + 1);
+        }
+    }, [loading, pagination?.next_page_url]);
+
+    useEffect(() => {
+        if (mainContentRef.current) {
+            mainContentRef.current.addEventListener("scroll", handleScroll);
+        }
+        return () => {
+            if (mainContentRef.current) {
+                mainContentRef.current.removeEventListener("scroll", handleScroll);
+            }
+        };
+    }, [handleScroll]);
+
+    const handleDelete = async (id) => {
+        try {
+            await OffersService.Delete(id);
+            toast.success("Offer deleted successfully");
+            getData(1);
+        } catch (error) {
+            toast.error("Failed to delete offer");
+        } finally {
+            setOfferIdToDelete("");
+        }
+    };
+
     return (
-        <div className="MainContent Applications">
+        <div className="MainContent Applications" ref={mainContentRef}>
             <DeleteModalComponent
                 id={offerIdToDelete}
                 isOpen={isDeleteOverlayOpen}
@@ -63,10 +94,7 @@ const Offers = () => {
                 onDelete={handleDelete}
             />
             <div className="Toaster">
-                <Toaster
-                    position="top-right"
-                    reverseOrder={false}
-                />
+                <Toaster position="top-right" reverseOrder={false} />
             </div>
             <div className="container">
                 <div className="PageHeader">
@@ -77,10 +105,7 @@ const Offers = () => {
                         Offers
                     </div>
                     <div className="RightSideHeader">
-                        {/* <div className="PageSearch">
-                            <input type="text" placeholder="Search" />
-                            <FontAwesomeIcon icon={faSearch} />
-                        </div> */}
+                        
                         {/* <div className="FilterAdmins">
                             <img src={FilterIcon} alt="" />
                         </div> */}
@@ -104,31 +129,33 @@ const Offers = () => {
                             brand_name={row.brand?.name}
                             brand_info={row.brand_info}
                             brand_rating={row.brand_rating}
-                            brand_image={row.brand?.media.length>0 ? row.brand?.media[0].original_url : BrandImage}
+                            brand_image={row.brand?.media?.length > 0 ? row.brand.media[0].original_url : "../../Assets/Images/BrandImage.png"}
                             discount={row.discount}
                             title={row.title}
-                            image={row.media? row.media[0]?.original_url :null}
+                            image={row.media ? row.media[0]?.original_url : null}
                             details={row.description}
                             handleDeleteClicked={() => {
                                 setOfferIdToDelete(row.id);
                                 setIsDeleteOverlayOpen(true);
                             }}
-                            handleEditClicked={()=>{
-                                navigate(`/editoffer/${row.id}`)
-                            }}
-                            code = {row.qr_code}
+                            handleEditClicked={() => navigate(`/editoffer/${row.id}`)}
+                            code={row.qr_code}
                         />
                     ))}
-                    {offers.length===0&&
-                        <div className="NoData">
-                            <FontAwesomeIcon icon={faBan}/>
-                            <p>No data found</p>
-                        </div>
-                    }
                 </div>
+                {loading && (
+                    <div className="col-lg-12 Center mt-5 mb-5">
+                        <div className="loader">
+                            <div className="circle"></div>
+                            <div className="circle"></div>
+                            <div className="circle"></div>
+                            <div className="circle"></div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
-}
+};
 
 export default Offers;

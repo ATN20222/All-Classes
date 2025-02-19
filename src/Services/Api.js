@@ -6,6 +6,8 @@ const baseURL = "https://all-classes.com/api";
 const axiosReg = axios.create({
   baseURL: baseURL,
 });
+setDB('mind');
+
 const AuthService = {
   Login: async (email, password) => {
     try {
@@ -49,7 +51,7 @@ const AuthService = {
       const formData = new FormData();
       formData.append("email", email);
       const response = await axiosInstance.post(
-        `/auth/forgot-password`,
+        `/auth/password/forget`,
         formData
       );
       deleteToken();
@@ -61,7 +63,7 @@ const AuthService = {
   },
   ResetPassword: async (token, email, password, password_confirmation) => {
     try {
-      const response = await axiosInstance.post(`/auth/reset-password`, null, {
+      const response = await axiosInstance.post(`/auth/password/reset`, null, {
         params: {
           token: token,
           email: email,
@@ -73,6 +75,20 @@ const AuthService = {
     } catch (error) {
       throw new Error(error.response.data.message);
       //throw new Error('Failed to reset password');
+    }
+  },
+  VerifyOTP: async (otp, email) => {
+    try {
+      const formData = new FormData();
+      formData.append("otp", otp);
+      formData.append("email", email);
+      const response = await axiosInstance.post(`/auth/otp/check`, formData);
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error.response.data.message);
+      //throw new Error(error.response.data.message);
     }
   },
   RegisterApi: async (
@@ -262,9 +278,9 @@ const PolicyServices = {
     try {
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("description", description);
+      formData.append("details", description);
 
-      const response = await axiosInstance.post(`/policies`, formData);
+      const response = await axiosInstance.post(`/terms`, formData);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message);
@@ -273,7 +289,7 @@ const PolicyServices = {
   },
   ListTerms: async () => {
     try {
-      const response = await axiosInstance.get(`/policies`);
+      const response = await axiosInstance.get(`/terms`);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message);
@@ -282,7 +298,7 @@ const PolicyServices = {
   },
   DeleteTerms: async (id) => {
     try {
-      const response = await axiosInstance.delete(`/policies/${id}`);
+      const response = await axiosInstance.delete(`/terms/${id}`);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message);
@@ -291,9 +307,9 @@ const PolicyServices = {
   },
 };
 const EventService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/events`);
+      const response = await axiosInstance.get(`/events?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -440,9 +456,9 @@ const PointsService = {
   },
 };
 const NewsService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/news`);
+      const response = await axiosInstance.get(`/news?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -544,9 +560,9 @@ const NewsService = {
   },
 };
 const JobsService = {
-  List: async () => {
+  List: async (num) => {
     try {
-      const response = await axiosInstance.get(`/jobs`);
+      const response = await axiosInstance.get(`/jobs?page=${num}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -710,9 +726,9 @@ const NotificationService = {
   },
 };
 const BuyAndSellService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/buysells`);
+      const response = await axiosInstance.get(`/buysells?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -724,7 +740,7 @@ const BuyAndSellService = {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("price", price);
-      formData.append("discount", 0);
+      // formData.append("discount", 0);
       formData.append("description", description);
 
       if (img) {
@@ -741,7 +757,7 @@ const BuyAndSellService = {
     try {
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("discount", 0);
+      // formData.append("discount", 0);
       formData.append("price", price);
       formData.append("description", description);
 
@@ -910,9 +926,9 @@ const BrandsService = {
   },
 };
 const OffersService = {
-  List: async (type) => {
+  List: async (type , page) => {
     try {
-      const response = await axiosInstance.get(`/offers/category/${type}`);
+      const response = await axiosInstance.get(`/offers/category/${type}?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -997,9 +1013,9 @@ const OffersService = {
   },
 };
 const CharityService = {
-  List: async () => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/charities`);
+      const response = await axiosInstance.get(`/charities?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -1027,8 +1043,6 @@ const CharityService = {
         services: services,
         media: img,
       };
-      console.log(data);
-
 
       const response = await axiosInstance.post(`/charities`, data);
       return response.data;
@@ -1058,10 +1072,9 @@ const CharityService = {
         address: address,
         services: services,
       };
-        // if (img) {
-        //   data.media = img;
-        // }
-        console.log(data);
+      if (img) {
+        data.media = img;
+      }
 
       const response = await axiosInstance.post(`/charities/${id}`, data);
       return response.data;
@@ -1190,9 +1203,9 @@ const CashierService = {
   },
 };
 const RewardsService = {
-  List: async (type) => {
+  List: async (page) => {
     try {
-      const response = await axiosInstance.get(`/rewards`);
+      const response = await axiosInstance.get(`/rewards?page=${page}`);
       return response.data;
     } catch (error) {
       console.log(error);

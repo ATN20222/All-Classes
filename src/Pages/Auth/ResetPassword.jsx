@@ -4,63 +4,68 @@ import Logo from '../../Assets/Images/AllClassesLogo.svg';
 import './Auth.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthService } from "../../Services/Api";
+import toast, { Toaster } from "react-hot-toast";
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    const [passwordError, setPasswordError] = useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const token = searchParams.get('token');
+    const email = searchParams.get('email');
 
     const validatePassword = () => {
-        // Regular expression for password strength
         const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
         if (!password) {
-            setPasswordError('Password is required.');
+            setError('Password is required.');
             return false;
         } else if (!passwordRegex.test(password)) {
-            setPasswordError(
-                'Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.'
-            );
+            setError('Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.');
             return false;
-        } else {
-            setPasswordError('');
-            return true;
         }
+        return true;
     };
 
     const validateConfirmPassword = () => {
         if (!confirmPassword) {
-            setConfirmPasswordError('Confirm password is required.');
+            setError('Confirm password is required.');
             return false;
         } else if (password !== confirmPassword) {
-            setConfirmPasswordError('Passwords do not match.');
+            setError('Passwords do not match.');
             return false;
-        } else {
-            setConfirmPasswordError('');
-            return true;
         }
+        return true;
     };
 
-    const handleResetPassword = (e) => {
+    const handleResetPassword = async (e) => {
         e.preventDefault();
+        setError('');
+        setSuccess('');
 
-        const isPasswordValid = validatePassword();
-        const isConfirmPasswordValid = validateConfirmPassword();
+        if (!validatePassword() || !validateConfirmPassword()) {
+            return;
+        }
 
-        if (isPasswordValid && isConfirmPasswordValid) {
-            // Call API or handle the reset password logic
-            console.log('Password reset successfully');
-            alert('Password reset successfully');
+        try {
+            const userData = await AuthService.ResetPassword(token, email, password, confirmPassword);
+            toast.success('Password reseted successfully');
+            setTimeout(() => {
+                navigate('/login');
+            }, 3000);
+        } catch (error) {
+            toast.error(`${error}`);
         }
     };
-
     return (
         <div className="Login">
+            <Toaster position="top-right" reverseOrder={false} />
             <div className="AuthLayout">
                 <div className="row">
                     <div className="col-lg-6 col-md-6 col-sm-6 LeftAuthCol">
@@ -78,6 +83,7 @@ const ResetPassword = () => {
                                 <span>No worries, we’ll send you reset instructions.</span>
                             </div>
                         </div>
+
                         <form className="RightAuthForm" onSubmit={handleResetPassword}>
                             <div className="AuthInputCol">
                                 <label htmlFor="Password">
@@ -95,7 +101,7 @@ const ResetPassword = () => {
                                         className="password-toggle-icon"
                                     />
                                 </label>
-                                {passwordError && <div className="text-danger mt-2 mb-2 text-start">{passwordError}</div>}
+
                             </div>
                             <div className="AuthInputCol">
                                 <label htmlFor="ConfirmPassword">
@@ -113,10 +119,12 @@ const ResetPassword = () => {
                                         className="password-toggle-icon"
                                     />
                                 </label>
-                                {confirmPasswordError && (
-                                    <div className="text-danger mt-2 mb-2 text-start">{confirmPasswordError}</div>
-                                )}
+
                             </div>
+                            {error && (
+                                <div className="text-danger mt-2 mb-2 text-start">{error}</div>
+                            )}
+
                             <div className="AllClassesBtn mt-5">
                                 <button type="submit">Reset password</button>
                             </div>
