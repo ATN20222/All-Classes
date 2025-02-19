@@ -116,7 +116,7 @@ const Login = () => {
                                     {passwordError && <div className="text-danger mt-2 mb-2 text-start">{passwordError}</div>}
                                 </div>
                                 <div className="ForgetPasswordLink">
-                                    <Link className="nav-link">Forget password?</Link>
+                                    <Link to='/forgetpassword' className="nav-link">Forget password?</Link>
                                 </div>
                                 <div className="AllClassesBtn">
                                     <button type="submit">Login</button>
