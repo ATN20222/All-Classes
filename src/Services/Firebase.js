@@ -7,10 +7,10 @@ import { setFCM } from "./AxiosApi";
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCC4APmZVN5DjWIiydewwXASBXTAWQwXTU",
-    authDomain: "infancia-8d82a.firebaseapp.com",
-    databaseURL: "https://infancia-8d82a-default-rtdb.firebaseio.com",
-    projectId: "infancia-8d82a",
-    storageBucket: "infancia-8d82a.firebasestorage.app",
+    authDomain: "all-classes-497cb.firebaseapp.com",
+    databaseURL: "https://all-classes-497cb.firebaseio.com",
+    projectId: "all-classes-497cb",
+    storageBucket: "all-classes-497cb.appspot.com",
     messagingSenderId: "1084716750056",
     appId: "1:1084716750056:web:0b6875fe30db7755e0e55d",
     measurementId: "G-Y186M58YFT"
@@ -47,5 +47,3 @@ export const onMessageListener = () =>
             resolve(payload);
         });
     });
-
-    

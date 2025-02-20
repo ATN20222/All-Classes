@@ -6,6 +6,8 @@ const baseURL = "https://all-classes.com/api";
 const axiosReg = axios.create({
   baseURL: baseURL,
 });
+setDB('community_1');
+
 const AuthService = {
   Login: async (email, password) => {
     try {
@@ -49,7 +51,7 @@ const AuthService = {
       const formData = new FormData();
       formData.append("email", email);
       const response = await axiosInstance.post(
-        `/auth/forgot-password`,
+        `/auth/password/forget`,
         formData
       );
       deleteToken();
@@ -61,7 +63,7 @@ const AuthService = {
   },
   ResetPassword: async (token, email, password, password_confirmation) => {
     try {
-      const response = await axiosInstance.post(`/auth/reset-password`, null, {
+      const response = await axiosInstance.post(`/auth/password/reset`, null, {
         params: {
           token: token,
           email: email,
@@ -73,6 +75,20 @@ const AuthService = {
     } catch (error) {
       throw new Error(error.response.data.message);
       //throw new Error('Failed to reset password');
+    }
+  },
+  VerifyOTP: async (otp, email) => {
+    try {
+      const formData = new FormData();
+      formData.append("otp", otp);
+      formData.append("email", email);
+      const response = await axiosInstance.post(`/auth/otp/check`, formData);
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error.response.data.message);
+      //throw new Error(error.response.data.message);
     }
   },
   RegisterApi: async (
