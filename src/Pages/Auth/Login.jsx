@@ -47,7 +47,6 @@ const Login = () => {
         if (!valid) return;
 
         try {
-            setDB('mind');
             const response = await AuthService.Login(email, password);
             localStorage.setItem('email' , email);   
             updateManagement(response.permssions); 
