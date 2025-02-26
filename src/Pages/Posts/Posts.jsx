@@ -129,7 +129,7 @@ const Posts = ()=>{
                                     key={row.id}
                                     id={row.id}
                                     name={row.user?.name}
-                                    userImage={row.user?.media?.length>0?row.user?.media[0].original_url:null}
+                                    userImage={row.user?.member?.media?.length>0?row.user?.member?.media[0].original_url:null}
                                     caption={row.content}
                                     comments={row?.comments?row.comments:[]}
                                     likes={row.likes_count}

@@ -6,7 +6,7 @@ const baseURL = "https://all-classes.com/api";
 const axiosReg = axios.create({
   baseURL: baseURL,
 });
-setDB('mind');
+setDB('community_1');
 
 const AuthService = {
   Login: async (email, password) => {

@@ -4,15 +4,14 @@ importScripts('https://www.gstatic.com/firebasejs/9.20.0/firebase-messaging-comp
 
 // Your Firebase configuration (use the same config as your app).
 const firebaseConfig = {
-    apiKey: "AIzaSyCC4APmZVN5DjWIiydewwXASBXTAWQwXTU",
+    apiKey: "AIzaSyCuOTbxvFca1wSVTBh3tpuyRujGgd4JAsI",
     authDomain: "all-classes-497cb.firebaseapp.com",
-    databaseURL: "https://all-classes-497cb.firebaseio.com",
     projectId: "all-classes-497cb",
-    storageBucket: "all-classes-497cb.appspot.com",
-    messagingSenderId: "1084716750056",
-    appId: "1:1084716750056:web:0b6875fe30db7755e0e55d",
-    measurementId: "G-Y186M58YFT"
-};
+    storageBucket: "all-classes-497cb.firebasestorage.app",
+    messagingSenderId: "356000361810",
+    appId: "1:356000361810:web:e61caf9234726144d95e8b",
+    measurementId: "G-H08FW0YDLC"
+};  
 // Initialize Firebase app in the Service Worker.
 firebase.initializeApp(firebaseConfig);
 

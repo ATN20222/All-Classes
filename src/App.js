@@ -96,7 +96,7 @@ function App() {
               <Route path='/admins' element={<Admins />} /> 
             </>
           }
-          {!management.includes('chat-rooms')&&
+          {management.includes('chat-rooms')&&
             <>
               <Route path='/chatrooms' element={<ChatRooms />} /> 
               <Route path='/chatrooms/:id' element={<Posts />} /> 
